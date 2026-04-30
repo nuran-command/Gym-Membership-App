@@ -4,7 +4,10 @@ go 1.25.5
 
 replace gym-membership/proto => ../proto
 
-require google.golang.org/grpc v1.80.0
+require (
+	google.golang.org/grpc v1.80.0
+	gym-membership/proto v0.0.0-00010101000000-000000000000
+)
 
 require (
 	golang.org/x/net v0.49.0 // indirect
