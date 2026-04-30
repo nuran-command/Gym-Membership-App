@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package telemetry;
+option go_package = "./telemetry";
+
+service TelemetryService {
+  rpc RecordAccess(RecordAccessRequest) returns (TelemetryResponse);
+  rpc GetUsageStats(GetUsageRequest) returns (UsageStats);
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+  rpc LogEvent(LogEventRequest) returns (TelemetryResponse);
+}
+
+message RecordAccessRequest {}
+message GetUsageRequest {}
+message UsageStats {}
+message HeartbeatRequest {}
+message HeartbeatResponse {}
+message LogEventRequest {}
+message TelemetryResponse {}
