@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package membership;
+
+option go_package = "./membership";
+
+service MembershipService {
+  rpc CreateMembership(CreateMembershipRequest) returns (Membership);
+  rpc GetMembership(GetMembershipRequest) returns (Membership);
+  rpc CancelMembership(CancelMembershipRequest) returns (Membership);
+  rpc ValidateAccess(ValidateAccessRequest) returns (ValidateAccessResponse);
+}
+
+message Membership {
+  string id = 1;
+  string user_id = 2;
+  string asset_id = 3;
+  string status = 4;
+  string start_date = 5;
+  string end_date = 6;
+}
+
+message CreateMembershipRequest {
+  string user_id = 1;
+  string asset_id = 2;
+  string start_date = 3;
+  string end_date = 4;
+}
+
+message GetMembershipRequest {
+  string id = 1;
+}
+
+message CancelMembershipRequest {
+  string id = 1;
+}
+
+message ValidateAccessRequest {
+  string user_id = 1;
+  string asset_id = 2;
+}
+
+message ValidateAccessResponse {
+  bool has_access = 1;
+}

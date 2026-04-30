@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  asset-service:
+    build:
+      context: .
+      dockerfile: asset-service/Dockerfile
+    ports:
+      - "50051:50051"
+    environment:
+      - PORT=50051
+
+  membership-service:
+    build:
+      context: .
+      dockerfile: membership-service/Dockerfile
+    ports:
+      - "50052:50052"
+    environment:
+      - PORT=50052
+      - ASSET_SERVICE_ADDR=asset-service:50051
+    depends_on:
+      - asset-service
+
+  telemetry-service:
+    build:
+      context: .
+      dockerfile: telemetry-service/Dockerfile
+    ports:
+      - "50053:50053"
+    environment:
+      - PORT=50053

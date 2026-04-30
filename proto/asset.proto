@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package asset;
+
+option go_package = "./asset";
+
+service AssetService {
+  rpc GetAsset(GetAssetRequest) returns (Asset);
+  rpc ListAvailableAssets(ListRequest) returns (AssetList);
+  rpc UpdateAssetStatus(UpdateStatusRequest) returns (Asset);
+  rpc CheckAvailability(CheckRequest) returns (AvailabilityResponse);
+}
+
+message Asset {
+  string id = 1;
+  string name = 2;
+  string type = 3;
+  string status = 4;
+}
+
+message GetAssetRequest {
+  string id = 1;
+}
+
+message ListRequest {
+  string type = 1;
+}
+
+message AssetList {
+  repeated Asset assets = 1;
+}
+
+message UpdateStatusRequest {
+  string id = 1;
+  string status = 2;
+}
+
+message CheckRequest {
+  string id = 1;
+  string start_time = 2;
+  string end_time = 3;
+}
+
+message AvailabilityResponse {
+  bool available = 1;
+}
