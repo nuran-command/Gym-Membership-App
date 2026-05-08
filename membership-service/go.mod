@@ -1,6 +1,6 @@
 module github.com/your-username/gym-membership-app/membership-service
 
-go 1.24
+go 1.25.0
 
 replace gym-membership/proto => ../proto
 
