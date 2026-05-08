@@ -30,3 +30,12 @@ services:
       - "50053:50053"
     environment:
       - PORT=50053
+      - NATS_URL=nats://nats:4222
+    depends_on:
+      - nats
+
+  nats:
+    image: nats:latest
+    ports:
+      - "4222:4222"
+      - "8222:8222"
