@@ -4,15 +4,57 @@ package membership;
 option go_package = "./membership";
 
 service MembershipService {
-  rpc CreateMembership(CreateMembershipRequest) returns (Membership);
-  rpc GetMembership(GetMembershipRequest) returns (Membership);
-  rpc CancelMembership(CancelMembershipRequest) returns (Membership);
-  rpc ValidateAccess(ValidateAccessRequest) returns (ValidateAccessResponse);
+  rpc CreateBooking(CreateBookingRequest) returns (Booking);
+  rpc CancelBooking(CancelBookingRequest) returns (Booking);
+  rpc GetUserCredits(GetUserCreditsRequest) returns (CreditsResponse);
+  rpc DeductCredits(DeductCreditsRequest) returns (CreditsResponse);
+  rpc GetUserBookings(GetUserBookingsRequest) returns (BookingList);
+  rpc AddCredits(AddCreditsRequest) returns (CreditsResponse);
 }
 
-message Membership {}
-message CreateMembershipRequest {}
-message GetMembershipRequest {}
-message CancelMembershipRequest {}
-message ValidateAccessRequest {}
-message ValidateAccessResponse {}
+message Booking {
+  string id = 1;
+  string user_id = 2;
+  string asset_id = 3;
+  string start_time = 4;
+  string end_time = 5;
+  string status = 6;
+}
+
+message CreateBookingRequest {
+  string user_id = 1;
+  string asset_id = 2;
+  string start_time = 3;
+  string end_time = 4;
+}
+
+message CancelBookingRequest {
+  string booking_id = 1;
+}
+
+message GetUserCreditsRequest {
+  string user_id = 1;
+}
+
+message DeductCreditsRequest {
+  string user_id = 1;
+  int32 amount = 2;
+}
+
+message AddCreditsRequest {
+  string user_id = 1;
+  int32 amount = 2;
+}
+
+message CreditsResponse {
+  string user_id = 1;
+  int32 balance = 2;
+}
+
+message GetUserBookingsRequest {
+  string user_id = 1;
+}
+
+message BookingList {
+  repeated Booking bookings = 1;
+}
