@@ -57,6 +57,5 @@ func (r *inMemoryAssetRepo) CheckAvailability(id string, startTime, endTime stri
 	if !ok {
 		return false, errors.New("asset not found")
 	}
-	// For demo purposes, we'll say it's available if status is "available"
 	return asset.Status == "available", nil
 }
