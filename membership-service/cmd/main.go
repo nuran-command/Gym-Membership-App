@@ -5,18 +5,21 @@ import (
 	"net"
 	"os"
 
-	"gym-membership/proto/asset"
-	"gym-membership/proto/membership"
+	"github.com/ilnur/gym-membership-app/proto/asset"
+	"github.com/ilnur/gym-membership-app/proto/membership"
 
-	"github.com/your-username/gym-membership-app/membership-service/internal/delivery/grpc"
-	"github.com/your-username/gym-membership-app/membership-service/internal/repository"
-	"github.com/your-username/gym-membership-app/membership-service/internal/usecase"
+	"github.com/ilnur/gym-membership-app/membership-service/internal/delivery/grpc"
+	"github.com/ilnur/gym-membership-app/membership-service/internal/repository/postgres"
+	"github.com/ilnur/gym-membership-app/membership-service/internal/usecase"
+
 	googlegrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
-	repo := repository.NewMemoryRepo()
+	userRepo := postgres.NewUserRepo()
+	bookingRepo := postgres.NewBookingRepo()
+	creditRepo := postgres.NewCreditRepo()
 
 	assetAddr := os.Getenv("ASSET_SERVICE_ADDR")
 	if assetAddr == "" {
@@ -29,7 +32,7 @@ func main() {
 	defer assetConn.Close()
 	assetClient := asset.NewAssetServiceClient(assetConn)
 
-	uc := usecase.NewMembershipUseCase(repo, repo, repo, assetClient)
+	useCase := usecase.NewMembershipUseCase(userRepo, bookingRepo, creditRepo, assetClient)
 
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
@@ -37,7 +40,7 @@ func main() {
 	}
 
 	s := googlegrpc.NewServer()
-	membership.RegisterMembershipServiceServer(s, grpc.NewMembershipHandler(uc))
+	membership.RegisterMembershipServiceServer(s, grpc.NewMembershipHandler(useCase))
 
 	log.Printf("Membership Service listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	"gym-membership/proto/telemetry"
+	"github.com/ilnur/gym-membership-app/proto/telemetry"
 
 	"google.golang.org/grpc"
 )

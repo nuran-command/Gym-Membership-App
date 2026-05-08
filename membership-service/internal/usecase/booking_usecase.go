@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/your-username/gym-membership-app/membership-service/internal/domain"
-	"gym-membership/proto/asset"
+	"github.com/ilnur/gym-membership-app/membership-service/internal/domain"
+	"github.com/ilnur/gym-membership-app/proto/asset"
 )
 
 type membershipUseCase struct {

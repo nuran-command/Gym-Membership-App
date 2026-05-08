@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"gym-membership/asset-service/internal/domain"
+	"github.com/ilnur/gym-membership-app/asset-service/internal/domain"
 )
 
 type assetUsecase struct {

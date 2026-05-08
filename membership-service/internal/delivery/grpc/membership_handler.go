@@ -3,8 +3,8 @@ package grpc
 import (
 	"context"
 
-	"github.com/your-username/gym-membership-app/membership-service/internal/domain"
-	"gym-membership/proto/membership"
+	"github.com/ilnur/gym-membership-app/membership-service/internal/domain"
+	"github.com/ilnur/gym-membership-app/proto/membership"
 )
 
 type MembershipHandler struct {

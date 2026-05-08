@@ -2,8 +2,8 @@ package grpc
 
 import (
 	"context"
-	"gym-membership/asset-service/internal/domain"
-	pb "gym-membership/proto/asset"
+	"github.com/ilnur/gym-membership-app/asset-service/internal/domain"
+	pb "github.com/ilnur/gym-membership-app/proto/asset"
 )
 
 type AssetHandler struct {

@@ -5,10 +5,10 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
-	delivery "gym-membership/asset-service/internal/delivery/grpc"
-	"gym-membership/asset-service/internal/repository"
-	"gym-membership/asset-service/internal/usecase"
-	pb "gym-membership/proto/asset"
+	delivery "github.com/ilnur/gym-membership-app/asset-service/internal/delivery/grpc"
+	"github.com/ilnur/gym-membership-app/asset-service/internal/repository"
+	"github.com/ilnur/gym-membership-app/asset-service/internal/usecase"
+	pb "github.com/ilnur/gym-membership-app/proto/asset"
 )
 
 func main() {

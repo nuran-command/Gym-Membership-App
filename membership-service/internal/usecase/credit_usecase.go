@@ -3,7 +3,7 @@ package usecase
 import (
 	"context"
 
-	"github.com/your-username/gym-membership-app/membership-service/internal/domain"
+	"github.com/ilnur/gym-membership-app/membership-service/internal/domain"
 )
 
 type creditUseCase struct {

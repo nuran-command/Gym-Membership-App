@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/your-username/gym-membership-app/membership-service/internal/domain"
+	"github.com/ilnur/gym-membership-app/membership-service/internal/domain"
 )
 
 type bookingRepo struct{}
@@ -26,5 +26,5 @@ func (r *bookingRepo) UpdateStatus(ctx context.Context, bookingID string, status
 }
 
 func (r *bookingRepo) GetByID(ctx context.Context, bookingID string) (*domain.Booking, error) {
-	return errors.New("not implemented")
+	return nil, errors.New("not implemented")
 }

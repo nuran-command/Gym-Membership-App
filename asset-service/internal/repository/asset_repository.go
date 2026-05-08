@@ -2,7 +2,7 @@ package repository
 
 import (
 	"errors"
-	"gym-membership/asset-service/internal/domain"
+	"github.com/ilnur/gym-membership-app/asset-service/internal/domain"
 	"sync"
 )
 
