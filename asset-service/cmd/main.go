@@ -7,9 +7,11 @@ import (
 	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/nats-io/nats.go"
 	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
-	delivery "gym-membership/asset-service/internal/delivery/grpc"
+	delivery_grpc "gym-membership/asset-service/internal/delivery/grpc"
+	delivery_nats "gym-membership/asset-service/internal/delivery/nats"
 	"gym-membership/asset-service/internal/repository"
 	"gym-membership/asset-service/internal/usecase"
 	pb "gym-membership/proto/asset"
@@ -36,19 +38,36 @@ func main() {
 		Addr: redisAddr,
 	})
 
+	// Initialize NATS (Phase 3)
+	natsURL := os.Getenv("NATS_URL")
+	if natsURL == "" {
+		natsURL = nats.DefaultURL
+	}
+	nc, err := nats.Connect(natsURL)
+	if err != nil {
+		log.Fatalf("Unable to connect to NATS: %v", err)
+	}
+	defer nc.Close()
+
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
 	repo := repository.NewPostgresAssetRepository(pool)
-	uc := usecase.NewAssetUsecase(repo, rdb)
-	handler := delivery.NewAssetHandler(uc)
+	uc := usecase.NewAssetUsecase(repo, rdb, nc)
+	handler := delivery_grpc.NewAssetHandler(uc)
+
+	// Start NATS Subscriber (Phase 3)
+	subscriber := delivery_nats.NewAssetSubscriber(nc, uc)
+	if err := subscriber.Start(); err != nil {
+		log.Fatalf("failed to start NATS subscriber: %v", err)
+	}
 
 	s := grpc.NewServer()
 	pb.RegisterAssetServiceServer(s, handler)
 
-	log.Printf("Asset Service (Phase 2) listening on :50051")
+	log.Printf("Asset Service (Phase 3) listening on :50051")
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

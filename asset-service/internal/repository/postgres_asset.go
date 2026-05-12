@@ -119,3 +119,46 @@ func (r *postgresAssetRepo) CheckAvailability(id string, startTime, endTime stri
 	
 	return status == "available", nil
 }
+func (r *postgresAssetRepo) UpdateHealth(id string, healthDelta int) (*domain.Asset, error) {
+	ctx := context.Background()
+	
+	tx, err := r.pool.Begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback(ctx)
+
+	querySelect := `SELECT id, name, type, status, health_score, location, created_at, last_maintained_at 
+                   FROM assets WHERE id = $1 FOR UPDATE`
+	
+	var a domain.Asset
+	err = tx.QueryRow(ctx, querySelect, id).Scan(
+		&a.ID, &a.Name, &a.Type, &a.Status, &a.HealthScore, &a.Location, &a.CreatedAt, &a.LastMaintainedAt,
+	)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, fmt.Errorf("asset not found")
+		}
+		return nil, err
+	}
+
+	newHealth := a.HealthScore + healthDelta
+	if newHealth < 0 {
+		newHealth = 0
+	}
+	if newHealth > 100 {
+		newHealth = 100
+	}
+
+	queryUpdate := `UPDATE assets SET health_score = $1 WHERE id = $2 RETURNING health_score`
+	err = tx.QueryRow(ctx, queryUpdate, newHealth, id).Scan(&a.HealthScore)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := tx.Commit(ctx); err != nil {
+		return nil, err
+	}
+
+	return &a, nil
+}
