@@ -41,9 +41,11 @@ func (u *assetUsecase) UpdateAssetStatus(id string, status string) (*domain.Asse
 	}
 
 	// Phase 2: Invalidate cache on status update
-	ctx := context.Background()
-	cacheKey := fmt.Sprintf("availability:%s", id)
-	u.redis.Del(ctx, cacheKey)
+	if u.redis != nil {
+		ctx := context.Background()
+		cacheKey := fmt.Sprintf("availability:%s", id)
+		u.redis.Del(ctx, cacheKey)
+	}
 
 	return asset, nil
 }
@@ -53,9 +55,11 @@ func (u *assetUsecase) CheckAvailability(id string, startTime, endTime string) (
 	cacheKey := fmt.Sprintf("availability:%s", id)
 
 	// Phase 2: Cache check result for 10 seconds
-	val, err := u.redis.Get(ctx, cacheKey).Result()
-	if err == nil {
-		return val == "true", nil
+	if u.redis != nil {
+		val, err := u.redis.Get(ctx, cacheKey).Result()
+		if err == nil {
+			return val == "true", nil
+		}
 	}
 
 	available, err := u.repo.CheckAvailability(id, startTime, endTime)
@@ -64,7 +68,9 @@ func (u *assetUsecase) CheckAvailability(id string, startTime, endTime string) (
 	}
 
 	// Set cache with 10s TTL
-	u.redis.Set(ctx, cacheKey, fmt.Sprintf("%v", available), 10*time.Second)
+	if u.redis != nil {
+		u.redis.Set(ctx, cacheKey, fmt.Sprintf("%v", available), 10*time.Second)
+	}
 
 	return available, nil
 }
@@ -97,13 +103,15 @@ func (u *assetUsecase) HandleBookingReturned(assetID string, durationHours float
 		newStatus = "maintenance"
 
 		// Publish maintenance event
-		event := map[string]interface{}{
-			"asset_id":     assetID,
-			"health_score": asset.HealthScore,
-			"timestamp":    time.Now().Format(time.RFC3339),
+		if u.nats != nil {
+			event := map[string]interface{}{
+				"asset_id":     assetID,
+				"health_score": asset.HealthScore,
+				"timestamp":    time.Now().Format(time.RFC3339),
+			}
+			data, _ := json.Marshal(event)
+			u.nats.Publish("asset.needs_maintenance", data)
 		}
-		data, _ := json.Marshal(event)
-		u.nats.Publish("asset.needs_maintenance", data)
 	}
 
 	_, err = u.UpdateAssetStatus(assetID, newStatus)
