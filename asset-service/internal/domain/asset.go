@@ -1,10 +1,16 @@
 package domain
 
+import "time"
+
 type Asset struct {
-	ID     string
-	Name   string
-	Type   string
-	Status string
+	ID               string
+	Name             string
+	Type             string
+	Status           string
+	HealthScore      int
+	Location         string
+	CreatedAt        time.Time
+	LastMaintainedAt time.Time
 }
 
 type AssetRepository interface {
