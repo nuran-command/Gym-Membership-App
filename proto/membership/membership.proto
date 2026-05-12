@@ -6,6 +6,7 @@ option go_package = "./membership";
 service MembershipService {
   rpc CreateBooking(CreateBookingRequest) returns (Booking);
   rpc CancelBooking(CancelBookingRequest) returns (Booking);
+  rpc ReturnBooking(ReturnBookingRequest) returns (Booking);
   rpc GetUserCredits(GetUserCreditsRequest) returns (CreditsResponse);
   rpc DeductCredits(DeductCreditsRequest) returns (CreditsResponse);
   rpc GetUserBookings(GetUserBookingsRequest) returns (BookingList);
@@ -29,6 +30,10 @@ message CreateBookingRequest {
 }
 
 message CancelBookingRequest {
+  string booking_id = 1;
+}
+
+message ReturnBookingRequest {
   string booking_id = 1;
 }
 
