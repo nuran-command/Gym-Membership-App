@@ -27,6 +27,7 @@ type Asset struct {
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
 	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	HealthScore   int32                  `protobuf:"varint,5,opt,name=health_score,json=healthScore,proto3" json:"health_score,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -87,6 +88,13 @@ func (x *Asset) GetStatus() string {
 		return x.Status
 	}
 	return ""
+}
+
+func (x *Asset) GetHealthScore() int32 {
+	if x != nil {
+		return x.HealthScore
+	}
+	return 0
 }
 
 type GetAssetRequest struct {
@@ -377,16 +385,61 @@ func (x *AvailabilityResponse) GetAvailable() bool {
 	return false
 }
 
+type HealthResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	HealthScore   int32                  `protobuf:"varint,1,opt,name=health_score,json=healthScore,proto3" json:"health_score,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HealthResponse) Reset() {
+	*x = HealthResponse{}
+	mi := &file_asset_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HealthResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HealthResponse) ProtoMessage() {}
+
+func (x *HealthResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HealthResponse.ProtoReflect.Descriptor instead.
+func (*HealthResponse) Descriptor() ([]byte, []int) {
+	return file_asset_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *HealthResponse) GetHealthScore() int32 {
+	if x != nil {
+		return x.HealthScore
+	}
+	return 0
+}
+
 var File_asset_proto protoreflect.FileDescriptor
 
 const file_asset_proto_rawDesc = "" +
 	"\n" +
-	"\vasset.proto\x12\x05asset\"W\n" +
+	"\vasset.proto\x12\x05asset\"z\n" +
 	"\x05Asset\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
 	"\x04type\x18\x03 \x01(\tR\x04type\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\"!\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\x12!\n" +
+	"\fhealth_score\x18\x05 \x01(\x05R\vhealthScore\"!\n" +
 	"\x0fGetAssetRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"!\n" +
 	"\vListRequest\x12\x12\n" +
@@ -402,12 +455,15 @@ const file_asset_proto_rawDesc = "" +
 	"start_time\x18\x02 \x01(\tR\tstartTime\x12\x19\n" +
 	"\bend_time\x18\x03 \x01(\tR\aendTime\"4\n" +
 	"\x14AvailabilityResponse\x12\x1c\n" +
-	"\tavailable\x18\x01 \x01(\bR\tavailable2\x83\x02\n" +
+	"\tavailable\x18\x01 \x01(\bR\tavailable\"3\n" +
+	"\x0eHealthResponse\x12!\n" +
+	"\fhealth_score\x18\x01 \x01(\x05R\vhealthScore2\xc4\x02\n" +
 	"\fAssetService\x120\n" +
 	"\bGetAsset\x12\x16.asset.GetAssetRequest\x1a\f.asset.Asset\x12;\n" +
 	"\x13ListAvailableAssets\x12\x12.asset.ListRequest\x1a\x10.asset.AssetList\x12=\n" +
 	"\x11UpdateAssetStatus\x12\x1a.asset.UpdateStatusRequest\x1a\f.asset.Asset\x12E\n" +
-	"\x11CheckAvailability\x12\x13.asset.CheckRequest\x1a\x1b.asset.AvailabilityResponseB\tZ\a./assetb\x06proto3"
+	"\x11CheckAvailability\x12\x13.asset.CheckRequest\x1a\x1b.asset.AvailabilityResponse\x12?\n" +
+	"\x0eGetHealthScore\x12\x16.asset.GetAssetRequest\x1a\x15.asset.HealthResponseB\tZ\a./assetb\x06proto3"
 
 var (
 	file_asset_proto_rawDescOnce sync.Once
@@ -421,7 +477,7 @@ func file_asset_proto_rawDescGZIP() []byte {
 	return file_asset_proto_rawDescData
 }
 
-var file_asset_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_asset_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_asset_proto_goTypes = []any{
 	(*Asset)(nil),                // 0: asset.Asset
 	(*GetAssetRequest)(nil),      // 1: asset.GetAssetRequest
@@ -430,6 +486,7 @@ var file_asset_proto_goTypes = []any{
 	(*UpdateStatusRequest)(nil),  // 4: asset.UpdateStatusRequest
 	(*CheckRequest)(nil),         // 5: asset.CheckRequest
 	(*AvailabilityResponse)(nil), // 6: asset.AvailabilityResponse
+	(*HealthResponse)(nil),       // 7: asset.HealthResponse
 }
 var file_asset_proto_depIdxs = []int32{
 	0, // 0: asset.AssetList.assets:type_name -> asset.Asset
@@ -437,12 +494,14 @@ var file_asset_proto_depIdxs = []int32{
 	2, // 2: asset.AssetService.ListAvailableAssets:input_type -> asset.ListRequest
 	4, // 3: asset.AssetService.UpdateAssetStatus:input_type -> asset.UpdateStatusRequest
 	5, // 4: asset.AssetService.CheckAvailability:input_type -> asset.CheckRequest
-	0, // 5: asset.AssetService.GetAsset:output_type -> asset.Asset
-	3, // 6: asset.AssetService.ListAvailableAssets:output_type -> asset.AssetList
-	0, // 7: asset.AssetService.UpdateAssetStatus:output_type -> asset.Asset
-	6, // 8: asset.AssetService.CheckAvailability:output_type -> asset.AvailabilityResponse
-	5, // [5:9] is the sub-list for method output_type
-	1, // [1:5] is the sub-list for method input_type
+	1, // 5: asset.AssetService.GetHealthScore:input_type -> asset.GetAssetRequest
+	0, // 6: asset.AssetService.GetAsset:output_type -> asset.Asset
+	3, // 7: asset.AssetService.ListAvailableAssets:output_type -> asset.AssetList
+	0, // 8: asset.AssetService.UpdateAssetStatus:output_type -> asset.Asset
+	6, // 9: asset.AssetService.CheckAvailability:output_type -> asset.AvailabilityResponse
+	7, // 10: asset.AssetService.GetHealthScore:output_type -> asset.HealthResponse
+	6, // [6:11] is the sub-list for method output_type
+	1, // [1:6] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -459,7 +518,7 @@ func file_asset_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_asset_proto_rawDesc), len(file_asset_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

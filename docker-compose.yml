@@ -30,3 +30,15 @@ services:
       - "50053:50053"
     environment:
       - PORT=50053
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - ASSET_SERVICE_ADDR=asset-service:50051
+    depends_on:
+      - asset-service

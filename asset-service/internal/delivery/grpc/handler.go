@@ -23,10 +23,11 @@ func (h *AssetHandler) GetAsset(ctx context.Context, req *pb.GetAssetRequest) (*
 		return nil, err
 	}
 	return &pb.Asset{
-		Id:     asset.ID,
-		Name:   asset.Name,
-		Type:   asset.Type,
-		Status: asset.Status,
+		Id:          asset.ID,
+		Name:        asset.Name,
+		Type:        asset.Type,
+		Status:      asset.Status,
+		HealthScore: int32(asset.HealthScore),
 	}, nil
 }
 
@@ -38,10 +39,11 @@ func (h *AssetHandler) ListAvailableAssets(ctx context.Context, req *pb.ListRequ
 	var pbAssets []*pb.Asset
 	for _, a := range assets {
 		pbAssets = append(pbAssets, &pb.Asset{
-			Id:     a.ID,
-			Name:   a.Name,
-			Type:   a.Type,
-			Status: a.Status,
+			Id:          a.ID,
+			Name:        a.Name,
+			Type:        a.Type,
+			Status:      a.Status,
+			HealthScore: int32(a.HealthScore),
 		})
 	}
 	return &pb.AssetList{Assets: pbAssets}, nil
@@ -53,10 +55,11 @@ func (h *AssetHandler) UpdateAssetStatus(ctx context.Context, req *pb.UpdateStat
 		return nil, err
 	}
 	return &pb.Asset{
-		Id:     asset.ID,
-		Name:   asset.Name,
-		Type:   asset.Type,
-		Status: asset.Status,
+		Id:          asset.ID,
+		Name:        asset.Name,
+		Type:        asset.Type,
+		Status:      asset.Status,
+		HealthScore: int32(asset.HealthScore),
 	}, nil
 }
 
@@ -66,4 +69,14 @@ func (h *AssetHandler) CheckAvailability(ctx context.Context, req *pb.CheckReque
 		return nil, err
 	}
 	return &pb.AvailabilityResponse{Available: available}, nil
+}
+
+func (h *AssetHandler) GetHealthScore(ctx context.Context, req *pb.GetAssetRequest) (*pb.HealthResponse, error) {
+	asset, err := h.usecase.GetAsset(req.Id)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.HealthResponse{
+		HealthScore: int32(asset.HealthScore),
+	}, nil
 }

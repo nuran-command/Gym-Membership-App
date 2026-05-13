@@ -23,6 +23,7 @@ const (
 	AssetService_ListAvailableAssets_FullMethodName = "/asset.AssetService/ListAvailableAssets"
 	AssetService_UpdateAssetStatus_FullMethodName   = "/asset.AssetService/UpdateAssetStatus"
 	AssetService_CheckAvailability_FullMethodName   = "/asset.AssetService/CheckAvailability"
+	AssetService_GetHealthScore_FullMethodName      = "/asset.AssetService/GetHealthScore"
 )
 
 // AssetServiceClient is the client API for AssetService service.
@@ -33,6 +34,7 @@ type AssetServiceClient interface {
 	ListAvailableAssets(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*AssetList, error)
 	UpdateAssetStatus(ctx context.Context, in *UpdateStatusRequest, opts ...grpc.CallOption) (*Asset, error)
 	CheckAvailability(ctx context.Context, in *CheckRequest, opts ...grpc.CallOption) (*AvailabilityResponse, error)
+	GetHealthScore(ctx context.Context, in *GetAssetRequest, opts ...grpc.CallOption) (*HealthResponse, error)
 }
 
 type assetServiceClient struct {
@@ -83,6 +85,16 @@ func (c *assetServiceClient) CheckAvailability(ctx context.Context, in *CheckReq
 	return out, nil
 }
 
+func (c *assetServiceClient) GetHealthScore(ctx context.Context, in *GetAssetRequest, opts ...grpc.CallOption) (*HealthResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HealthResponse)
+	err := c.cc.Invoke(ctx, AssetService_GetHealthScore_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AssetServiceServer is the server API for AssetService service.
 // All implementations must embed UnimplementedAssetServiceServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type AssetServiceServer interface {
 	ListAvailableAssets(context.Context, *ListRequest) (*AssetList, error)
 	UpdateAssetStatus(context.Context, *UpdateStatusRequest) (*Asset, error)
 	CheckAvailability(context.Context, *CheckRequest) (*AvailabilityResponse, error)
+	GetHealthScore(context.Context, *GetAssetRequest) (*HealthResponse, error)
 	mustEmbedUnimplementedAssetServiceServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedAssetServiceServer) UpdateAssetStatus(context.Context, *Updat
 }
 func (UnimplementedAssetServiceServer) CheckAvailability(context.Context, *CheckRequest) (*AvailabilityResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CheckAvailability not implemented")
+}
+func (UnimplementedAssetServiceServer) GetHealthScore(context.Context, *GetAssetRequest) (*HealthResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetHealthScore not implemented")
 }
 func (UnimplementedAssetServiceServer) mustEmbedUnimplementedAssetServiceServer() {}
 func (UnimplementedAssetServiceServer) testEmbeddedByValue()                      {}
@@ -206,6 +222,24 @@ func _AssetService_CheckAvailability_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssetService_GetHealthScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).GetHealthScore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_GetHealthScore_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).GetHealthScore(ctx, req.(*GetAssetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AssetService_ServiceDesc is the grpc.ServiceDesc for AssetService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var AssetService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CheckAvailability",
 			Handler:    _AssetService_CheckAvailability_Handler,
+		},
+		{
+			MethodName: "GetHealthScore",
+			Handler:    _AssetService_GetHealthScore_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
