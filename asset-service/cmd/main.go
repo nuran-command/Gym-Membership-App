@@ -8,13 +8,16 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/nats-io/nats.go"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
 	delivery_grpc "gym-membership/asset-service/internal/delivery/grpc"
 	delivery_nats "gym-membership/asset-service/internal/delivery/nats"
+	"gym-membership/asset-service/internal/observability"
 	"gym-membership/asset-service/internal/repository"
 	"gym-membership/asset-service/internal/usecase"
 	pb "gym-membership/proto/asset"
+	"net/http"
 )
 
 func main() {
@@ -48,6 +51,23 @@ func main() {
 		log.Fatalf("Unable to connect to NATS: %v", err)
 	}
 	defer nc.Close()
+
+	// Phase 6: Initialize Observability
+	observability.InitLogger()
+	tp, err := observability.InitTracer()
+	if err != nil {
+		log.Fatalf("failed to initialize tracer: %v", err)
+	}
+	defer tp.Shutdown(context.Background())
+
+	// Start Prometheus Metrics Server
+	go func() {
+		http.Handle("/metrics", promhttp.Handler())
+		log.Printf("Prometheus metrics server starting on :9090")
+		if err := http.ListenAndServe(":9090", nil); err != nil {
+			log.Fatalf("failed to start metrics server: %v", err)
+		}
+	}()
 
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
