@@ -5,8 +5,8 @@ WORKDIR /app
 # Copy proto module
 COPY proto/ /proto/
 
-# Copy telemetry-service module
-COPY telemetry-service/ /app/
+# Copy asset-service module
+COPY asset-service/ /app/
 
 # Update go.mod to use local proto
 RUN go mod edit -replace gym-membership/proto=/proto
@@ -17,5 +17,5 @@ RUN go build -o main cmd/main.go
 FROM alpine:latest
 WORKDIR /root/
 COPY --from=builder /app/main .
-EXPOSE 50053
+EXPOSE 50051
 CMD ["./main"]

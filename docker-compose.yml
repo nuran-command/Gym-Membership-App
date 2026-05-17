@@ -1,6 +1,46 @@
 version: '3.8'
 
 services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: gym-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=membership
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: gym-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  nats:
+    image: nats:2.10-alpine
+    container_name: gym-nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "4222"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   asset-service:
     build:
       context: .
@@ -19,8 +59,19 @@ services:
     environment:
       - PORT=50052
       - ASSET_SERVICE_ADDR=asset-service:50051
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/membership?sslmode=disable
+      - REDIS_URL=redis:6379
+      - NATS_URL=nats://nats:4222
+      - OTEL_EXPORTER_OTLP_ENDPOINT=jaeger:4317
     depends_on:
-      - asset-service
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+      asset-service:
+        condition: service_started
 
   telemetry-service:
     build:
@@ -40,8 +91,10 @@ services:
     environment:
       - PORT=8080
       - ASSET_SERVICE_ADDR=asset-service:50051
+      - MEMBERSHIP_SERVICE_ADDR=membership-service:50052
     depends_on:
       - asset-service
+      - membership-service
 
   prometheus:
     image: prom/prometheus:latest
@@ -58,3 +111,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
+
+volumes:
+  pgdata:
