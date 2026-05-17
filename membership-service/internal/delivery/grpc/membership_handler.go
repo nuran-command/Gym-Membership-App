@@ -28,8 +28,8 @@ func (h *MembershipHandler) CreateBooking(ctx context.Context, req *membership.C
 		Id:        booking.ID,
 		UserId:    booking.UserID,
 		AssetId:   booking.AssetID,
-		StartTime: booking.StartTime.String(),
-		EndTime:   booking.EndTime.String(),
+		StartTime: booking.StartTime.Format("2006-01-02 15:04:05"),
+		EndTime:   booking.EndTime.Format("2006-01-02 15:04:05"),
 		Status:    booking.Status,
 	}, nil
 }
@@ -40,6 +40,14 @@ func (h *MembershipHandler) CancelBooking(ctx context.Context, req *membership.C
 		return nil, err
 	}
 	return &membership.Booking{Id: req.BookingId, Status: "Cancelled"}, nil
+}
+
+func (h *MembershipHandler) ReturnBooking(ctx context.Context, req *membership.ReturnBookingRequest) (*membership.Booking, error) {
+	err := h.useCase.ReturnBooking(ctx, req.BookingId)
+	if err != nil {
+		return nil, err
+	}
+	return &membership.Booking{Id: req.BookingId, Status: "Returned"}, nil
 }
 
 func (h *MembershipHandler) GetUserCredits(ctx context.Context, req *membership.GetUserCreditsRequest) (*membership.CreditsResponse, error) {
@@ -80,8 +88,8 @@ func (h *MembershipHandler) GetUserBookings(ctx context.Context, req *membership
 			Id:        b.ID,
 			UserId:    b.UserID,
 			AssetId:   b.AssetID,
-			StartTime: b.StartTime.String(),
-			EndTime:   b.EndTime.String(),
+			StartTime: b.StartTime.Format("2006-01-02 15:04:05"),
+			EndTime:   b.EndTime.Format("2006-01-02 15:04:05"),
 			Status:    b.Status,
 		})
 	}
