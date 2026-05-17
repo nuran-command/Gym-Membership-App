@@ -104,3 +104,23 @@ func (h *TelemetryHandler) GetAssetUsageHistory(ctx context.Context, req *teleme
 		Sessions: responseSessions,
 	}, nil
 }
+
+func (h *TelemetryHandler) GetSystemUsageStats(ctx context.Context, req *telemetry.GetSystemUsageStatsRequest) (*telemetry.SystemUsageStatsResponse, error) {
+	stats, err := h.uc.GetSystemUsageStats(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var responseStats []*telemetry.AssetUsageStats
+	for _, stat := range stats {
+		responseStats = append(responseStats, &telemetry.AssetUsageStats{
+			AssetId:            stat.AssetID,
+			TotalSessions:      int32(stat.TotalSessions),
+			AvgDurationMinutes: int32(stat.AvgDurationMinutes),
+		})
+	}
+
+	return &telemetry.SystemUsageStatsResponse{
+		AssetStats: responseStats,
+	}, nil
+}

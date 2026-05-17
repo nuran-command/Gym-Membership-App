@@ -76,3 +76,7 @@ func (u *TelemetryUsecase) GetUsageStats(ctx context.Context, userID string) (in
 func (u *TelemetryUsecase) GetAssetUsageHistory(ctx context.Context, assetID string) ([]*domain.UsageSession, error) {
 	return u.repo.ListByAssetID(ctx, assetID)
 }
+
+func (u *TelemetryUsecase) GetSystemUsageStats(ctx context.Context) ([]*domain.AssetUsageStats, error) {
+	return u.repo.GetSystemUsageStats(ctx)
+}

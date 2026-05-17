@@ -12,3 +12,9 @@ type UsageSession struct {
 	DurationMinutes int        `json:"duration_minutes"`
 	EmailSent       bool       `json:"email_sent"`
 }
+
+type AssetUsageStats struct {
+	AssetID            string `json:"asset_id"`
+	TotalSessions      int    `json:"total_sessions"`
+	AvgDurationMinutes int    `json:"avg_duration_minutes"`
+}

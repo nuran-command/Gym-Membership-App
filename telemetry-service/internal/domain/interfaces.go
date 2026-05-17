@@ -9,6 +9,7 @@ type UsageSessionRepo interface {
 	ListByUserID(ctx context.Context, userID string) ([]*UsageSession, error)
 	ListByAssetID(ctx context.Context, assetID string) ([]*UsageSession, error)
 	GetStatsByUserID(ctx context.Context, userID string) (int, int, error)
+	GetSystemUsageStats(ctx context.Context) ([]*AssetUsageStats, error)
 }
 
 type EmailSender interface {

@@ -23,6 +23,7 @@ const (
 	TelemetryService_ListUserSessions_FullMethodName     = "/telemetry.TelemetryService/ListUserSessions"
 	TelemetryService_GetUsageStats_FullMethodName        = "/telemetry.TelemetryService/GetUsageStats"
 	TelemetryService_GetAssetUsageHistory_FullMethodName = "/telemetry.TelemetryService/GetAssetUsageHistory"
+	TelemetryService_GetSystemUsageStats_FullMethodName  = "/telemetry.TelemetryService/GetSystemUsageStats"
 )
 
 // TelemetryServiceClient is the client API for TelemetryService service.
@@ -33,6 +34,7 @@ type TelemetryServiceClient interface {
 	ListUserSessions(ctx context.Context, in *ListUserSessionsRequest, opts ...grpc.CallOption) (*ListUserSessionsResponse, error)
 	GetUsageStats(ctx context.Context, in *GetUsageStatsRequest, opts ...grpc.CallOption) (*UsageStatsResponse, error)
 	GetAssetUsageHistory(ctx context.Context, in *GetAssetUsageHistoryRequest, opts ...grpc.CallOption) (*GetAssetUsageHistoryResponse, error)
+	GetSystemUsageStats(ctx context.Context, in *GetSystemUsageStatsRequest, opts ...grpc.CallOption) (*SystemUsageStatsResponse, error)
 }
 
 type telemetryServiceClient struct {
@@ -83,6 +85,16 @@ func (c *telemetryServiceClient) GetAssetUsageHistory(ctx context.Context, in *G
 	return out, nil
 }
 
+func (c *telemetryServiceClient) GetSystemUsageStats(ctx context.Context, in *GetSystemUsageStatsRequest, opts ...grpc.CallOption) (*SystemUsageStatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemUsageStatsResponse)
+	err := c.cc.Invoke(ctx, TelemetryService_GetSystemUsageStats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TelemetryServiceServer is the server API for TelemetryService service.
 // All implementations must embed UnimplementedTelemetryServiceServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type TelemetryServiceServer interface {
 	ListUserSessions(context.Context, *ListUserSessionsRequest) (*ListUserSessionsResponse, error)
 	GetUsageStats(context.Context, *GetUsageStatsRequest) (*UsageStatsResponse, error)
 	GetAssetUsageHistory(context.Context, *GetAssetUsageHistoryRequest) (*GetAssetUsageHistoryResponse, error)
+	GetSystemUsageStats(context.Context, *GetSystemUsageStatsRequest) (*SystemUsageStatsResponse, error)
 	mustEmbedUnimplementedTelemetryServiceServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedTelemetryServiceServer) GetUsageStats(context.Context, *GetUs
 }
 func (UnimplementedTelemetryServiceServer) GetAssetUsageHistory(context.Context, *GetAssetUsageHistoryRequest) (*GetAssetUsageHistoryResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetAssetUsageHistory not implemented")
+}
+func (UnimplementedTelemetryServiceServer) GetSystemUsageStats(context.Context, *GetSystemUsageStatsRequest) (*SystemUsageStatsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetSystemUsageStats not implemented")
 }
 func (UnimplementedTelemetryServiceServer) mustEmbedUnimplementedTelemetryServiceServer() {}
 func (UnimplementedTelemetryServiceServer) testEmbeddedByValue()                          {}
@@ -206,6 +222,24 @@ func _TelemetryService_GetAssetUsageHistory_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TelemetryService_GetSystemUsageStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSystemUsageStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TelemetryServiceServer).GetSystemUsageStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TelemetryService_GetSystemUsageStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TelemetryServiceServer).GetSystemUsageStats(ctx, req.(*GetSystemUsageStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TelemetryService_ServiceDesc is the grpc.ServiceDesc for TelemetryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var TelemetryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAssetUsageHistory",
 			Handler:    _TelemetryService_GetAssetUsageHistory_Handler,
+		},
+		{
+			MethodName: "GetSystemUsageStats",
+			Handler:    _TelemetryService_GetSystemUsageStats_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

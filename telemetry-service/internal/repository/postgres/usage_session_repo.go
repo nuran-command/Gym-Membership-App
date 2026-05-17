@@ -167,3 +167,30 @@ func (r *UsageSessionRepo) GetStatsByUserID(ctx context.Context, userID string) 
 	}
 	return totalSessions, totalDuration, nil
 }
+
+func (r *UsageSessionRepo) GetSystemUsageStats(ctx context.Context) ([]*domain.AssetUsageStats, error) {
+	query := `
+		SELECT asset_id, COUNT(id) as total_sessions, COALESCE(AVG(duration_minutes), 0) as avg_duration
+		FROM usage_sessions
+		WHERE ended_at IS NOT NULL
+		GROUP BY asset_id
+		ORDER BY total_sessions DESC
+	`
+	rows, err := r.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var stats []*domain.AssetUsageStats
+	for rows.Next() {
+		stat := &domain.AssetUsageStats{}
+		var avg float64
+		if err := rows.Scan(&stat.AssetID, &stat.TotalSessions, &avg); err != nil {
+			return nil, err
+		}
+		stat.AvgDurationMinutes = int(avg)
+		stats = append(stats, stat)
+	}
+	return stats, rows.Err()
+}
