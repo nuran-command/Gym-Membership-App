@@ -79,3 +79,91 @@ func (r *UsageSessionRepo) GetByBookingID(ctx context.Context, bookingID string)
 	}
 	return session, nil
 }
+
+func (r *UsageSessionRepo) ListByUserID(ctx context.Context, userID string) ([]*domain.UsageSession, error) {
+	query := `
+		SELECT id, booking_id, user_id, asset_id, started_at, ended_at, duration_minutes, email_sent
+		FROM usage_sessions
+		WHERE user_id = $1
+		ORDER BY started_at DESC
+	`
+	rows, err := r.db.QueryContext(ctx, query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var sessions []*domain.UsageSession
+	for rows.Next() {
+		session := &domain.UsageSession{}
+		var endedAt sql.NullTime
+		if err := rows.Scan(
+			&session.ID,
+			&session.BookingID,
+			&session.UserID,
+			&session.AssetID,
+			&session.StartedAt,
+			&endedAt,
+			&session.DurationMinutes,
+			&session.EmailSent,
+		); err != nil {
+			return nil, err
+		}
+		if endedAt.Valid {
+			session.EndedAt = &endedAt.Time
+		}
+		sessions = append(sessions, session)
+	}
+	return sessions, rows.Err()
+}
+
+func (r *UsageSessionRepo) ListByAssetID(ctx context.Context, assetID string) ([]*domain.UsageSession, error) {
+	query := `
+		SELECT id, booking_id, user_id, asset_id, started_at, ended_at, duration_minutes, email_sent
+		FROM usage_sessions
+		WHERE asset_id = $1
+		ORDER BY started_at DESC
+	`
+	rows, err := r.db.QueryContext(ctx, query, assetID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var sessions []*domain.UsageSession
+	for rows.Next() {
+		session := &domain.UsageSession{}
+		var endedAt sql.NullTime
+		if err := rows.Scan(
+			&session.ID,
+			&session.BookingID,
+			&session.UserID,
+			&session.AssetID,
+			&session.StartedAt,
+			&endedAt,
+			&session.DurationMinutes,
+			&session.EmailSent,
+		); err != nil {
+			return nil, err
+		}
+		if endedAt.Valid {
+			session.EndedAt = &endedAt.Time
+		}
+		sessions = append(sessions, session)
+	}
+	return sessions, rows.Err()
+}
+
+func (r *UsageSessionRepo) GetStatsByUserID(ctx context.Context, userID string) (int, int, error) {
+	query := `
+		SELECT COUNT(id), COALESCE(SUM(duration_minutes), 0)
+		FROM usage_sessions
+		WHERE user_id = $1 AND ended_at IS NOT NULL
+	`
+	var totalSessions, totalDuration int
+	err := r.db.QueryRowContext(ctx, query, userID).Scan(&totalSessions, &totalDuration)
+	if err != nil {
+		return 0, 0, err
+	}
+	return totalSessions, totalDuration, nil
+}

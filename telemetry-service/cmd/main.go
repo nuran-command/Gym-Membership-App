@@ -7,16 +7,20 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 
 	_ "github.com/lib/pq"
 	"github.com/nats-io/nats.go"
 	"google.golang.org/grpc"
+	"gym-membership/telemetry-service/internal/delivery/email"
+	telemetryGrpc "gym-membership/telemetry-service/internal/delivery/grpc"
 	"gym-membership/telemetry-service/internal/delivery/subscriber"
 	"gym-membership/telemetry-service/internal/repository/postgres"
 	"gym-membership/telemetry-service/internal/usecase"
-	// telemetry "gym-membership/telemetry-service/proto" // Uncomment after generation
+	telemetry "gym-membership/telemetry-service/proto"
 )
+
 
 func main() {
 	// NATS connection
@@ -48,10 +52,20 @@ func main() {
 		log.Fatalf("Failed to ping DB: %v", err)
 	}
 
+	// Initialize Email Sender
+	smtpHost := os.Getenv("SMTP_HOST")
+	smtpPort, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
+	smtpUser := os.Getenv("SMTP_USER")
+	smtpPass := os.Getenv("SMTP_PASS")
+	var emailSender *email.SMTPEmailSender
+	if smtpHost != "" && smtpUser != "" {
+		emailSender = email.NewSMTPEmailSender(smtpHost, smtpPort, smtpUser, smtpPass)
+	}
+
 	// Initialize layers
 	repo := postgres.NewUsageSessionRepo(db)
-	// Mock EmailSender for now
-	uc := usecase.NewTelemetryUsecase(repo, nil)
+	uc := usecase.NewTelemetryUsecase(repo, emailSender)
+
 
 	// Start NATS subscriber in a goroutine
 	go func() {
@@ -74,9 +88,11 @@ func main() {
 		}
 
 		s := grpc.NewServer()
-		// telemetry.RegisterTelemetryServiceServer(s, &grpcHandler{}) // Register after implementation
+		grpcHandler := telemetryGrpc.NewTelemetryHandler(uc)
+		telemetry.RegisterTelemetryServiceServer(s, grpcHandler)
 
 		fmt.Printf("gRPC server listening at %v\n", lis.Addr())
+
 		if err := s.Serve(lis); err != nil {
 			log.Fatalf("failed to serve: %v", err)
 		}

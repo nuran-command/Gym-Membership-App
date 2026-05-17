@@ -60,3 +60,19 @@ func (u *TelemetryUsecase) HandleBookingReturned(ctx context.Context, userID, as
 
 	return nil
 }
+
+func (u *TelemetryUsecase) GetUsageSession(ctx context.Context, bookingID string) (*domain.UsageSession, error) {
+	return u.repo.GetByBookingID(ctx, bookingID)
+}
+
+func (u *TelemetryUsecase) ListUserSessions(ctx context.Context, userID string) ([]*domain.UsageSession, error) {
+	return u.repo.ListByUserID(ctx, userID)
+}
+
+func (u *TelemetryUsecase) GetUsageStats(ctx context.Context, userID string) (int, int, error) {
+	return u.repo.GetStatsByUserID(ctx, userID)
+}
+
+func (u *TelemetryUsecase) GetAssetUsageHistory(ctx context.Context, assetID string) ([]*domain.UsageSession, error) {
+	return u.repo.ListByAssetID(ctx, assetID)
+}

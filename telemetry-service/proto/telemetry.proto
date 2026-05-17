@@ -6,15 +6,38 @@ option go_package = "gym-membership/telemetry-service/proto;telemetry";
 
 service TelemetryService {
     rpc GetUsageSession(GetUsageSessionRequest) returns (UsageSessionResponse);
+    rpc ListUserSessions(ListUserSessionsRequest) returns (ListUserSessionsResponse);
     rpc GetUsageStats(GetUsageStatsRequest) returns (UsageStatsResponse);
+    rpc GetAssetUsageHistory(GetAssetUsageHistoryRequest) returns (GetAssetUsageHistoryResponse);
 }
 
 message GetUsageSessionRequest {
     string booking_id = 1;
 }
 
+message ListUserSessionsRequest {
+    string user_id = 1;
+}
+
+message ListUserSessionsResponse {
+    repeated UsageSessionResponse sessions = 1;
+}
+
 message GetUsageStatsRequest {
     string user_id = 1;
+}
+
+message UsageStatsResponse {
+    int32 total_sessions = 1;
+    int32 total_duration_minutes = 2;
+}
+
+message GetAssetUsageHistoryRequest {
+    string asset_id = 1;
+}
+
+message GetAssetUsageHistoryResponse {
+    repeated UsageSessionResponse sessions = 1;
 }
 
 message UsageSessionResponse {
@@ -24,9 +47,4 @@ message UsageSessionResponse {
     string started_at = 4;
     string ended_at = 5;
     int32 duration_minutes = 6;
-}
-
-message UsageStatsResponse {
-    int32 total_sessions = 1;
-    int32 total_duration_minutes = 2;
 }
