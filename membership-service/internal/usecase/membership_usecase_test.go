@@ -123,6 +123,14 @@ func (m *MockAssetClient) CheckAvailability(ctx context.Context, in *asset.Check
 	return args.Get(0).(*asset.AvailabilityResponse), args.Error(1)
 }
 
+func (m *MockAssetClient) GetHealthScore(ctx context.Context, in *asset.GetAssetRequest, opts ...googlegrpc.CallOption) (*asset.HealthResponse, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.HealthResponse), args.Error(1)
+}
+
 // --- Test Cases ---
 
 func TestCreateBooking_InsufficientCredits(t *testing.T) {

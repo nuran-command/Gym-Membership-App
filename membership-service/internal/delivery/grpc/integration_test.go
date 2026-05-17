@@ -47,6 +47,14 @@ func (m *MockAssetServiceClient) UpdateAssetStatus(ctx context.Context, in *asse
 	return args.Get(0).(*asset.Asset), args.Error(1)
 }
 
+func (m *MockAssetServiceClient) GetHealthScore(ctx context.Context, in *asset.GetAssetRequest, opts ...googlegrpc.CallOption) (*asset.HealthResponse, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.HealthResponse), args.Error(1)
+}
+
 type MockMessagePublisher struct {
 	mock.Mock
 }
