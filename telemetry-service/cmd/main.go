@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net"
@@ -8,10 +9,11 @@ import (
 	"os/signal"
 	"syscall"
 
+	_ "github.com/lib/pq"
 	"github.com/nats-io/nats.go"
 	"google.golang.org/grpc"
 	"gym-membership/telemetry-service/internal/delivery/subscriber"
-	"gym-membership/telemetry-service/internal/repository"
+	"gym-membership/telemetry-service/internal/repository/postgres"
 	"gym-membership/telemetry-service/internal/usecase"
 	// telemetry "gym-membership/telemetry-service/proto" // Uncomment after generation
 )
@@ -31,8 +33,23 @@ func main() {
 
 	fmt.Printf("Connected to NATS at %s\n", natsURL)
 
+	// Initialize DB
+	dbURL := os.Getenv("DATABASE_URL")
+	if dbURL == "" {
+		dbURL = "postgres://postgres:postgres@localhost:5432/telemetry?sslmode=disable"
+	}
+	db, err := sql.Open("postgres", dbURL)
+	if err != nil {
+		log.Fatalf("Failed to open DB: %v", err)
+	}
+	defer db.Close()
+
+	if err := db.Ping(); err != nil {
+		log.Fatalf("Failed to ping DB: %v", err)
+	}
+
 	// Initialize layers
-	repo := repository.NewInMemorySessionRepo()
+	repo := postgres.NewUsageSessionRepo(db)
 	// Mock EmailSender for now
 	uc := usecase.NewTelemetryUsecase(repo, nil)
 

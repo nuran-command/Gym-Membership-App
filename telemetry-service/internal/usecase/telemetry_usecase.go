@@ -24,6 +24,7 @@ func (u *TelemetryUsecase) HandleBookingCreated(ctx context.Context, userID, ass
 		UserID:    userID,
 		AssetID:   assetID,
 		StartedAt: time.Now(),
+		// EndedAt is implicitly nil
 	}
 	return u.repo.Create(ctx, session)
 }
@@ -43,7 +44,19 @@ func (u *TelemetryUsecase) HandleBookingReturned(ctx context.Context, userID, as
 		return err
 	}
 
-	// For now, let's assume we have the user email or can get it. 
-	// The requirement mentioned EmailSender implementation later.
+	// Send email if configured
+	if u.emailSender != nil {
+		// Replace with actual email lookup if needed later
+		userEmail := "user_" + userID + "@example.com"
+		err = u.emailSender.SendThankYouEmail(ctx, userEmail, session)
+		if err != nil {
+			// Log error but do not fail the transaction since booking is returned
+			return err
+		}
+		
+		session.EmailSent = true
+		_ = u.repo.Update(ctx, session)
+	}
+
 	return nil
 }

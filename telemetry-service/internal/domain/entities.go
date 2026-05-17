@@ -10,4 +10,5 @@ type UsageSession struct {
 	StartedAt       time.Time  `json:"started_at"`
 	EndedAt         *time.Time `json:"ended_at,omitempty"`
 	DurationMinutes int        `json:"duration_minutes"`
+	EmailSent       bool       `json:"email_sent"`
 }
