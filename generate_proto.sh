@@ -4,6 +4,8 @@
 export PATH=$PATH:$(go env GOPATH)/bin
 
 # Generate Protos
-protoc --go_out=. --go-grpc_out=. proto/asset.proto
-protoc --go_out=. --go-grpc_out=. proto/membership.proto
-protoc --go_out=. --go-grpc_out=. proto/telemetry.proto
+cd proto
+protoc --go_out=. --go-grpc_out=. asset.proto
+protoc --go_out=. --go-grpc_out=. membership.proto
+protoc --go_out=. --go-grpc_out=. telemetry.proto
+cd ..

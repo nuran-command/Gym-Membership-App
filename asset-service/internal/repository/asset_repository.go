@@ -59,3 +59,19 @@ func (r *inMemoryAssetRepo) CheckAvailability(id string, startTime, endTime stri
 	}
 	return asset.Status == "available", nil
 }
+func (r *inMemoryAssetRepo) UpdateHealth(id string, healthDelta int) (*domain.Asset, error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	asset, ok := r.assets[id]
+	if !ok {
+		return nil, errors.New("asset not found")
+	}
+	asset.HealthScore += healthDelta
+	if asset.HealthScore < 0 {
+		asset.HealthScore = 0
+	}
+	if asset.HealthScore > 100 {
+		asset.HealthScore = 100
+	}
+	return asset, nil
+}

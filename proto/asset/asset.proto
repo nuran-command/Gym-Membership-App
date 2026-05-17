@@ -9,6 +9,7 @@ service AssetService {
   rpc ListAvailableAssets(ListRequest) returns (AssetList);
   rpc UpdateAssetStatus(UpdateStatusRequest) returns (Asset);
   rpc CheckAvailability(CheckRequest) returns (AvailabilityResponse);
+  rpc GetHealthScore(GetAssetRequest) returns (HealthResponse);
 }
 
 message Asset {
@@ -16,6 +17,7 @@ message Asset {
   string name = 2;
   string type = 3;
   string status = 4;
+  int32 health_score = 5;
 }
 
 message GetAssetRequest {
@@ -43,4 +45,8 @@ message CheckRequest {
 
 message AvailabilityResponse {
   bool available = 1;
+}
+
+message HealthResponse {
+  int32 health_score = 1;
 }
