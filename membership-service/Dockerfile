@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
@@ -8,8 +8,8 @@ COPY proto/ /proto/
 # Copy membership-service module
 COPY membership-service/ /app/
 
-# Update go.mod to use local proto
-RUN go mod edit -replace gym-membership/proto=/proto
+# Update go.mod to use local proto relative to the container build path
+RUN go mod edit -replace github.com/ilnur/gym-membership-app/proto=/proto
 
 RUN go mod tidy
 RUN go build -o main cmd/main.go
