@@ -13,6 +13,7 @@ import (
 
 	pb "gym-membership/proto/asset"
 	membership "gym-membership/proto/membership"
+	telemetry "gym-membership/proto/telemetry"
 )
 
 func getContextWithMetadata(c *gin.Context) context.Context {
@@ -54,6 +55,19 @@ func main() {
 	}
 	defer mConn.Close()
 	membershipClient := membership.NewMembershipServiceClient(mConn)
+
+	telemetryServiceAddr := os.Getenv("TELEMETRY_SERVICE_ADDR")
+	if telemetryServiceAddr == "" {
+		telemetryServiceAddr = "localhost:50053"
+	}
+
+	// Connect to Telemetry Service
+	tConn, err := grpc.Dial(telemetryServiceAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("did not connect to telemetry-service: %v", err)
+	}
+	defer tConn.Close()
+	telemetryClient := telemetry.NewTelemetryServiceClient(tConn)
 
 	r := gin.Default()
 
@@ -503,6 +517,190 @@ func main() {
 			return
 		}
 		c.JSON(http.StatusOK, resp.Transactions)
+	})
+
+	// === Service C: Telemetry Service Endpoints (12 Strict Endpoints) ===
+
+	// 1. GET /telemetry/sessions/:booking_id -> GetUsageSession
+	r.GET("/telemetry/sessions/:booking_id", func(c *gin.Context) {
+		bookingId := c.Param("booking_id")
+		resp, err := telemetryClient.GetUsageSession(getContextWithMetadata(c), &telemetry.GetUsageSessionRequest{
+			BookingId: bookingId,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 2. GET /telemetry/users/:id/sessions -> ListUserSessions
+	r.GET("/telemetry/users/:id/sessions", func(c *gin.Context) {
+		userId := c.Param("id")
+		resp, err := telemetryClient.ListUserSessions(getContextWithMetadata(c), &telemetry.ListUserSessionsRequest{
+			UserId: userId,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp.Sessions)
+	})
+
+	// 3. GET /telemetry/users/:id/stats -> GetUsageStats
+	r.GET("/telemetry/users/:id/stats", func(c *gin.Context) {
+		userId := c.Param("id")
+		resp, err := telemetryClient.GetUsageStats(getContextWithMetadata(c), &telemetry.GetUsageStatsRequest{
+			UserId: userId,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 4. GET /telemetry/assets/:id/history -> GetAssetUsageHistory
+	r.GET("/telemetry/assets/:id/history", func(c *gin.Context) {
+		assetId := c.Param("id")
+		resp, err := telemetryClient.GetAssetUsageHistory(getContextWithMetadata(c), &telemetry.GetAssetUsageHistoryRequest{
+			AssetId: assetId,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp.Sessions)
+	})
+
+	// 5. GET /telemetry/stats -> GetSystemUsageStats
+	r.GET("/telemetry/stats", func(c *gin.Context) {
+		resp, err := telemetryClient.GetSystemUsageStats(getContextWithMetadata(c), &telemetry.GetSystemUsageStatsRequest{})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp.AssetStats)
+	})
+
+	// 6. POST /telemetry/sessions -> CreateUsageSession
+	r.POST("/telemetry/sessions", func(c *gin.Context) {
+		var input struct {
+			BookingID string `json:"booking_id" binding:"required"`
+			UserID    string `json:"user_id" binding:"required"`
+			AssetID   string `json:"asset_id" binding:"required"`
+		}
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		resp, err := telemetryClient.CreateUsageSession(getContextWithMetadata(c), &telemetry.CreateUsageSessionRequest{
+			BookingId: input.BookingID,
+			UserId:    input.UserID,
+			AssetId:   input.AssetID,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusCreated, resp)
+	})
+
+	// 7. PUT /telemetry/sessions/:booking_id -> UpdateUsageSession
+	r.PUT("/telemetry/sessions/:booking_id", func(c *gin.Context) {
+		bookingId := c.Param("booking_id")
+		var input struct {
+			EndedAt         string `json:"ended_at" binding:"required"`
+			DurationMinutes int32  `json:"duration_minutes" binding:"required"`
+			EmailSent       bool   `json:"email_sent"`
+		}
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		resp, err := telemetryClient.UpdateUsageSession(getContextWithMetadata(c), &telemetry.UpdateUsageSessionRequest{
+			BookingId:       bookingId,
+			EndedAt:         input.EndedAt,
+			DurationMinutes: input.DurationMinutes,
+			EmailSent:       input.EmailSent,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 8. DELETE /telemetry/sessions/:booking_id -> DeleteUsageSession
+	r.DELETE("/telemetry/sessions/:booking_id", func(c *gin.Context) {
+		bookingId := c.Param("booking_id")
+		resp, err := telemetryClient.DeleteUsageSession(getContextWithMetadata(c), &telemetry.DeleteUsageSessionRequest{
+			BookingId: bookingId,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 9. GET /telemetry/users/:id/active -> GetUserActiveSession
+	r.GET("/telemetry/users/:id/active", func(c *gin.Context) {
+		userId := c.Param("id")
+		resp, err := telemetryClient.GetUserActiveSession(getContextWithMetadata(c), &telemetry.GetUserActiveSessionRequest{
+			UserId: userId,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 10. GET /telemetry/assets/:id/active -> GetAssetActiveSession
+	r.GET("/telemetry/assets/:id/active", func(c *gin.Context) {
+		assetId := c.Param("id")
+		resp, err := telemetryClient.GetAssetActiveSession(getContextWithMetadata(c), &telemetry.GetAssetActiveSessionRequest{
+			AssetId: assetId,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 11. GET /telemetry/heartbeat -> Heartbeat
+	r.GET("/telemetry/heartbeat", func(c *gin.Context) {
+		resp, err := telemetryClient.Heartbeat(getContextWithMetadata(c), &telemetry.HeartbeatRequest{})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 12. POST /telemetry/log -> LogEvent
+	r.POST("/telemetry/log", func(c *gin.Context) {
+		var input struct {
+			EventType string `json:"event_type" binding:"required"`
+			Message   string `json:"message" binding:"required"`
+			Payload   string `json:"payload"`
+		}
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		resp, err := telemetryClient.LogEvent(getContextWithMetadata(c), &telemetry.LogEventRequest{
+			EventType: input.EventType,
+			Message:   input.Message,
+			Payload:   input.Payload,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
 	})
 
 	port := os.Getenv("PORT")

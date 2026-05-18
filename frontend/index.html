@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stunning high-fidelity SRE Telemetry & Gym Membership Management Control Center. Monitor assets, check-ins, credits, and live active workouts in real-time.">
+    <title>GymPulse // SRE Telemetry & Membership Command Center</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/neon/96/dumbbell.png">
+</head>
+<body>
+    <div id="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" aria-label="Main Navigation">
+            <div class="brand-section">
+                <div class="brand-logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M20.57 14.86L22 13.43c.78-.78.78-2.05 0-2.83L20.57 9.17c-.5-.5-1.28-.56-1.85-.15l-3.21-3.21c.41-.57.36-1.35-.15-1.85L13.93 2c-.78-.78-2.05-.78-2.83 0L9.67 1.43c-.5.5-.56 1.28-.15 1.85L6.31 6.49c-.57-.41-1.35-.36-1.85.15L3 8c-.78.78-.78 2.05 0 2.83l1.43 1.43c.5.5 1.28.56 1.85.15l3.21 3.21c-.41.57-.36 1.35.15 1.85l1.43 1.43c.78.78 2.05.78 2.83 0l1.43-1.43c.5-.5.56-1.28.15-1.85l3.21-3.21c.57.41 1.35.36 1.85-.15zM7.7 7.7L9.8 9.8c-.3.4-.3 1 0 1.4s1 .4 1.4 0l2.1-2.1c.4-.4.4-1 0-1.4s-1-.4-1.4 0L9.8 9.8c-.4.4-1 .4-1.4 0s-.4-1 0-1.4L10.5 6.3c.4-.4.4-1 0-1.4s-1-.4-1.4 0L7 7z" />
+                    </svg>
+                </div>
+                <span class="brand-name">GymPulse</span>
+            </div>
+
+            <nav class="nav-menu">
+                <li class="nav-item active" id="nav-dashboard">
+                    <button type="button" onclick="switchSection('sec-dashboard', 'nav-dashboard')">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                        Command Center
+                    </button>
+                </li>
+                <li class="nav-item" id="nav-assets">
+                    <button type="button" onclick="switchSection('sec-assets', 'nav-assets')">
+                        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        Gym Equipment
+                    </button>
+                </li>
+                <li class="nav-item" id="nav-bookings">
+                    <button type="button" onclick="switchSection('sec-bookings', 'nav-bookings')">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        Bookings & Sessions
+                    </button>
+                </li>
+                <li class="nav-item" id="nav-members">
+                    <button type="button" onclick="switchSection('sec-members', 'nav-members')">
+                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Members & Credits
+                    </button>
+                </li>
+                <li class="nav-item" id="nav-telemetry">
+                    <button type="button" onclick="switchSection('sec-telemetry', 'nav-telemetry')">
+                        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        SRE Diagnostics
+                    </button>
+                </li>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="admin-toggle-card">
+                    <div class="admin-toggle-info">
+                        <span class="admin-label">Admin Controls</span>
+                        <span class="admin-desc" id="role-indicator">Role: User</span>
+                    </div>
+                    <label class="switch" for="role-toggle">
+                        <input type="checkbox" id="role-toggle" onchange="toggleAdminRole()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Container -->
+        <main id="main-content" aria-label="Control Panel Content">
+            
+            <!-- Top Status Bar Header -->
+            <header class="top-header">
+                <div class="header-title-area">
+                    <h1 id="main-section-title">Telemetry Command Center</h1>
+                    <span class="header-subtitle" id="timezone-indicator">UTC+5 // ASTANA</span>
+                </div>
+                <div class="system-status">
+                    <button class="heartbeat-badge" id="btn-heartbeat-check" onclick="checkServiceHeartbeat()">
+                        <span class="pulse-dot"></span>
+                        <span id="txt-heartbeat-status">Telemetry Server: Online</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 1. SECTION: COMMAND CENTER -->
+            <section id="sec-dashboard" class="dashboard-section-content">
+                <!-- Stats Row -->
+                <div class="dashboard-grid">
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <span>Active Gym Members</span>
+                            <div class="stats-icon-wrapper">
+                                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                        </div>
+                        <div class="stats-value" id="stat-active-members">0</div>
+                        <div class="stats-change positive">
+                            <span>★ Live active workout sessions</span>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <span>Occupied Equipment</span>
+                            <div class="stats-icon-wrapper">
+                                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                            </div>
+                        </div>
+                        <div class="stats-value" id="stat-occupied-assets">0 / 0</div>
+                        <div class="stats-change neutral" id="stat-occupied-percentage">
+                            <span>0% occupancy rate</span>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <span>Equipment Health Score</span>
+                            <div class="stats-icon-wrapper">
+                                <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            </div>
+                        </div>
+                        <div class="stats-value" id="stat-avg-health">100%</div>
+                        <div class="stats-change positive" id="stat-health-status">
+                            <span>✔ All systems operational</span>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <span>Telemetry Events</span>
+                            <div class="stats-icon-wrapper">
+                                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </div>
+                        </div>
+                        <div class="stats-value" id="stat-event-count">0</div>
+                        <div class="stats-change positive">
+                            <span>⚡ Live gRPC streams</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mid row: Usage Chart + Live occupants list -->
+                <div class="dashboard-row-mid" style="margin-top: 1.5rem;">
+                    <!-- Aggregate Usage statistics -->
+                    <div class="glass-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">
+                                <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                System Equipment Usage Chart (Total Sessions)
+                            </span>
+                            <div class="panel-action">
+                                <button type="button" class="btn-secondary" onclick="loadSystemStats()" style="padding: 6px 12px; font-size: 0.8rem;">Refresh Stats</button>
+                            </div>
+                        </div>
+                        <div class="bar-chart-container" id="system-bar-chart">
+                            <!-- Populated dynamically by JS -->
+                            <div style="color: var(--color-text-muted); text-align: center; width: 100%; padding-bottom: 2rem;">No system usage data recorded. Start checking in!</div>
+                        </div>
+                    </div>
+
+                    <!-- Live workout sessions list -->
+                    <div class="glass-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                Ongoing Gym Workouts
+                            </span>
+                        </div>
+                        <div class="active-users-list" id="active-workouts-list">
+                            <div style="color: var(--color-text-muted); text-align: center; padding: 2rem 0;">No active gym sessions right now.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. SECTION: GYM EQUIPMENT -->
+            <section id="sec-assets" class="dashboard-section-content hidden">
+                <div class="filter-tabs">
+                    <button type="button" class="tab-btn active" id="tab-asset-all" onclick="filterAssets('all')">All Equipment</button>
+                    <button type="button" class="tab-btn" id="tab-asset-treadmill" onclick="filterAssets('treadmill')">Treadmills</button>
+                    <button type="button" class="tab-btn" id="tab-asset-bike" onclick="filterAssets('bike')">Spin Bikes</button>
+                    <button type="button" class="tab-btn" id="tab-asset-locker" onclick="filterAssets('locker')">Lockers</button>
+                    <button type="button" class="tab-btn" id="tab-asset-weights" onclick="filterAssets('weights')">Weights / Strength</button>
+                </div>
+
+                <div class="grid-cols-2">
+                    <!-- Create Asset (Admin ONLY block) -->
+                    <div class="glass-panel admin-only-block hidden" id="admin-create-asset-panel">
+                        <span class="panel-title">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                            Add New Equipment (Admin)
+                        </span>
+                        <form id="form-create-asset" onsubmit="createAsset(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="asset-name">Equipment Name</label>
+                                    <input type="text" id="asset-name" placeholder="e.g. Treadmill Max-2" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="asset-type">Equipment Type</label>
+                                    <select id="asset-type" required>
+                                        <option value="treadmill">Treadmill</option>
+                                        <option value="bike">Spin Bike</option>
+                                        <option value="locker">Locker</option>
+                                        <option value="weights">Weights / Strength</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="asset-location">Locker/Gym Zone</label>
+                                    <input type="text" id="asset-location" placeholder="e.g. Zone B3" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="asset-health">Initial Health Score (0-100)</label>
+                                    <input type="number" id="asset-health" value="100" min="0" max="100" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <button type="submit" class="btn-primary">Register Equipment</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Equipment Availability Check -->
+                    <div class="glass-panel">
+                        <span class="panel-title">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            Check Equipment Availability
+                        </span>
+                        <form id="form-check-availability" onsubmit="checkAvailability(event)">
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label for="check-asset-select">Select Equipment</label>
+                                    <select id="check-asset-select" required>
+                                        <option value="">-- Choose an Equipment --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="check-start-time">Proposed Start Time</label>
+                                    <input type="datetime-local" id="check-start-time" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="check-end-time">Proposed End Time</label>
+                                    <input type="datetime-local" id="check-end-time" required>
+                                </div>
+                                <div class="form-group full-width" style="margin-top: 8px;">
+                                    <button type="submit" class="btn-secondary">Query Scheduler Availability</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="availability-result" class="info-banner hidden" style="margin-top: 10px; font-weight: 700;"></div>
+                    </div>
+                </div>
+
+                <div class="glass-panel" style="margin-top: 1.5rem;">
+                    <span class="panel-title">
+                        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        Gym Equipment Catalog
+                    </span>
+                    <div class="equipment-grid" id="gym-equipment-grid">
+                        <!-- Populated by JS -->
+                        <div style="color: var(--color-text-muted); text-align: center; width:100%; padding: 3rem;">No equipment registered yet. Toggle Admin Role and add some!</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. SECTION: BOOKINGS & SESSIONS -->
+            <section id="sec-bookings" class="dashboard-section-content hidden">
+                <div class="grid-cols-2">
+                    <!-- Reserve Equipment -->
+                    <div class="glass-panel">
+                        <span class="panel-title">
+                            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            Create Booking Reservation (Deducts 50 Credits)
+                        </span>
+                        <form id="form-create-booking" onsubmit="createBooking(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="booking-user-select">Member User Account</label>
+                                    <select id="booking-user-select" required onchange="onBookingUserSelected()">
+                                        <option value="">-- Choose Member --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="booking-asset-select">Equipment to Reserve</label>
+                                    <select id="booking-asset-select" required>
+                                        <option value="">-- Choose Equipment --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="booking-start-time">Booking Start Time</label>
+                                    <input type="datetime-local" id="booking-start-time" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="booking-end-time">Booking End Time</label>
+                                    <input type="datetime-local" id="booking-end-time" required>
+                                </div>
+                                <div class="form-group full-width" style="margin-top: 8px;">
+                                    <button type="submit" class="btn-primary">Confirm Booking & Lock Credits</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- User Active Bookings Section -->
+                    <div class="glass-panel">
+                        <span class="panel-title">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            Active Reservations & Workouts
+                        </span>
+                        <div class="form-group">
+                            <label for="booking-lookup-user">Select Member to View Bookings</label>
+                            <select id="booking-lookup-user" onchange="loadUserBookings()" required>
+                                <option value="">-- Choose Member --</option>
+                            </select>
+                        </div>
+                        <div style="margin-top: 1rem; max-height: 250px; overflow-y: auto;">
+                            <table id="table-user-bookings">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment</th>
+                                        <th>Period</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-bookings-tbody">
+                                    <tr>
+                                        <td colspan="4" style="color: var(--color-text-muted); text-align: center; padding: 2rem 0;">Choose a member above to inspect bookings.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. SECTION: MEMBERS & CREDITS -->
+            <section id="sec-members" class="dashboard-section-content hidden">
+                <div class="grid-cols-2">
+                    <!-- Create Member -->
+                    <div class="glass-panel">
+                        <span class="panel-title">
+                            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                            Register New Gym Member
+                        </span>
+                        <form id="form-create-member" onsubmit="createMember(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="member-name">Full Name</label>
+                                    <input type="text" id="member-name" placeholder="e.g. John Doe" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="member-email">Email Address</label>
+                                    <input type="email" id="member-email" placeholder="e.g. john@example.com" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="member-credits">Starting Credits Balance</label>
+                                    <input type="number" id="member-credits" value="500" min="0" required>
+                                </div>
+                                <div class="form-group full-width" style="margin-top: 8px;">
+                                    <button type="submit" class="btn-primary">Register Account</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Manage Account Credits -->
+                    <div class="glass-panel">
+                        <span class="panel-title">
+                            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            Manage Credits Balance
+                        </span>
+                        <form id="form-manage-credits" onsubmit="manageCredits(event)">
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label for="credit-user-select">Select Member Account</label>
+                                    <select id="credit-user-select" required onchange="onCreditUserSelected()">
+                                        <option value="">-- Choose Member --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="credit-action">Action</label>
+                                    <select id="credit-action" required>
+                                        <option value="add">Add Credits</option>
+                                        <option value="deduct">Deduct Credits</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="credit-amount">Amount</label>
+                                    <input type="number" id="credit-amount" min="1" value="100" required>
+                                </div>
+                                <div class="form-group full-width" style="margin-top: 8px;">
+                                    <button type="submit" class="btn-secondary">Update Credit Ledger</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Profile Lookup Details -->
+                <div class="glass-panel" style="margin-top: 1.5rem;">
+                    <span class="panel-title">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        Detailed Member Registry & Profile Lookup
+                    </span>
+                    <div class="profile-lookup-area">
+                        <select id="profile-lookup-select" style="flex-grow: 1;" onchange="lookupUserProfile()">
+                            <option value="">-- Select Member to Inspect Profile details --</option>
+                        </select>
+                        <button type="button" class="btn-secondary" onclick="loadAllUsers()">Reload Users</button>
+                    </div>
+
+                    <div class="user-profile-layout hidden" id="user-profile-card">
+                        <!-- Profile Card Left -->
+                        <div class="user-info-sidebar">
+                            <div class="avatar-large" id="profile-avatar">?</div>
+                            <div>
+                                <div class="profile-name" id="profile-lbl-name">N/A</div>
+                                <div class="profile-email" id="profile-lbl-email">N/A</div>
+                            </div>
+                            <div class="credits-highlight-card">
+                                <div class="credits-h-title">Available Balance</div>
+                                <div class="credits-h-value" id="profile-lbl-balance">0 Credits</div>
+                            </div>
+                            <div style="text-align: left; width: 100%;">
+                                <div style="font-size: 0.8rem; color: var(--color-text-muted); font-weight: 700; text-transform: uppercase;">Membership:</div>
+                                <div style="font-size: 0.95rem; font-weight: bold; margin-top: 4px;" id="profile-lbl-tier">N/A</div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Logs Right -->
+                        <div class="glass-panel" style="background: rgba(8,11,17,0.3); border-color: rgba(255,255,255,0.04);">
+                            <span class="panel-title" style="font-size: 1rem;">Credit Transaction History Ledger</span>
+                            <div class="data-table-container" style="max-height: 250px;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Transaction ID</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Reason</th>
+                                            <th>Timestamp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="profile-tx-tbody">
+                                        <tr>
+                                            <td colspan="5" style="color: var(--color-text-muted); text-align: center;">No transaction history.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. SECTION: SRE DIAGNOSTICS & TELEMETRY -->
+            <section id="sec-telemetry" class="dashboard-section-content hidden">
+                <div class="grid-cols-2">
+                    <!-- Live Logger Panel -->
+                    <div class="glass-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">
+                                <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 12 13 18 7"/><polyline points="14 7 18 7 18 11"/></svg>
+                                Real-Time gRPC Telemetry Stream
+                            </span>
+                            <div class="panel-action">
+                                <button type="button" class="btn-secondary" onclick="clearTelemetryLogs()" style="padding: 6px 12px; font-size: 0.8rem;">Clear Console</button>
+                            </div>
+                        </div>
+                        <div class="terminal-card" id="telemetry-logs-console">
+                            <div class="terminal-line info"><span class="terminal-line timestamp">[16:28:21]</span> [SYSTEM] Telemetry console online. Awaiting gRPC logs...</div>
+                        </div>
+                    </div>
+
+                    <!-- Custom telemetry event injector -->
+                    <div class="glass-panel">
+                        <span class="panel-title">
+                            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            Inject Custom Telemetry Log Event
+                        </span>
+                        <form id="form-inject-log" onsubmit="injectTelemetryLog(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="inject-event-type">Event Type (Category)</label>
+                                    <select id="inject-event-type" required>
+                                        <option value="CHECK_IN">CHECK_IN (User entered gym)</option>
+                                        <option value="CHECK_OUT">CHECK_OUT (User completed session)</option>
+                                        <option value="DAMAGE_REPORT">DAMAGE_REPORT (Equipment broken)</option>
+                                        <option value="METRIC_TICK">METRIC_TICK (Heartbeat signal)</option>
+                                        <option value="MAINTENANCE">MAINTENANCE (Equipment restored)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inject-message">Log Message Detail</label>
+                                    <input type="text" id="inject-message" placeholder="e.g. Treadmill occupancy high" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="inject-payload">Metadata Payload (JSON string)</label>
+                                    <textarea id="inject-payload" rows="2" placeholder='e.g. { "asset_id": "locker-1", "user_id": "user-2" }'></textarea>
+                                </div>
+                                <div class="form-group full-width" style="margin-top: 8px;">
+                                    <button type="submit" class="btn-primary">Emit LogEvent gRPC Stream</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div id="notification-toast" role="alert" aria-live="assertive">
+        <span class="toast-icon success" id="toast-icon-success">✔</span>
+        <span class="toast-icon error hidden" id="toast-icon-error">✖</span>
+        <span class="toast-icon info hidden" id="toast-icon-info">ℹ</span>
+        <span class="toast-message" id="toast-message-text">System Initialized Successfully!</span>
+    </div>
+
+    <!-- Modal Form (For Reporting Damage) -->
+    <div class="modal-overlay" id="modal-damage">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-damage-title">Report Equipment Damage</h3>
+                <button type="button" class="modal-close" onclick="closeDamageModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-report-damage" onsubmit="submitDamageReport(event)">
+                    <input type="hidden" id="damage-asset-id">
+                    <div class="form-group">
+                        <label for="damage-amount">Damage Amount / Impact Score (1-100)</label>
+                        <input type="number" id="damage-amount" min="1" max="100" value="30" required>
+                        <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 4px;">Deducts health points. Scores below 40 automatically flag equipment for maintenance!</p>
+                    </div>
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <button type="submit" class="btn-primary">Submit Report</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Entry Point -->
+    <script src="app.js"></script>
+</body>
+</html>

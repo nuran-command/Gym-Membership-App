@@ -116,10 +116,13 @@ services:
       - PORT=8080
       - ASSET_SERVICE_ADDR=asset-service:50051
       - MEMBERSHIP_SERVICE_ADDR=membership-service:50052
+      - TELEMETRY_SERVICE_ADDR=telemetry-service:50053
     depends_on:
       asset-service:
         condition: service_started
       membership-service:
+        condition: service_started
+      telemetry-service:
         condition: service_started
     restart: on-failure
 
