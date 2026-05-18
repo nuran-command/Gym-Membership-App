@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package telemetry;
+
+option go_package = "github.com/ilnur/gym-membership-app/telemetry-service/proto;telemetry";
+
+service TelemetryService {
+    // Existing 5 endpoints
+    rpc GetUsageSession(GetUsageSessionRequest) returns (UsageSessionResponse);
+    rpc ListUserSessions(ListUserSessionsRequest) returns (ListUserSessionsResponse);
+    rpc GetUsageStats(GetUsageStatsRequest) returns (UsageStatsResponse);
+    rpc GetAssetUsageHistory(GetAssetUsageHistoryRequest) returns (GetAssetUsageHistoryResponse);
+    rpc GetSystemUsageStats(GetSystemUsageStatsRequest) returns (SystemUsageStatsResponse);
+
+    // New 7 endpoints
+    rpc CreateUsageSession(CreateUsageSessionRequest) returns (UsageSessionResponse);
+    rpc UpdateUsageSession(UpdateUsageSessionRequest) returns (UsageSessionResponse);
+    rpc DeleteUsageSession(DeleteUsageSessionRequest) returns (DeleteUsageSessionResponse);
+    rpc GetUserActiveSession(GetUserActiveSessionRequest) returns (UsageSessionResponse);
+    rpc GetAssetActiveSession(GetAssetActiveSessionRequest) returns (UsageSessionResponse);
+    rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+    rpc LogEvent(LogEventRequest) returns (LogEventResponse);
+}
+
+message GetUsageSessionRequest {
+    string booking_id = 1;
+}
+
+message ListUserSessionsRequest {
+    string user_id = 1;
+}
+
+message ListUserSessionsResponse {
+    repeated UsageSessionResponse sessions = 1;
+}
+
+message GetSystemUsageStatsRequest {}
+
+message SystemUsageStatsResponse {
+    repeated AssetUsageStats asset_stats = 1;
+}
+
+message AssetUsageStats {
+    string asset_id = 1;
+    int32 total_sessions = 2;
+    int32 avg_duration_minutes = 3;
+}
+
+message GetUsageStatsRequest {
+    string user_id = 1;
+}
+
+message UsageStatsResponse {
+    int32 total_sessions = 1;
+    int32 total_duration_minutes = 2;
+}
+
+message GetAssetUsageHistoryRequest {
+    string asset_id = 1;
+}
+
+message GetAssetUsageHistoryResponse {
+    repeated UsageSessionResponse sessions = 1;
+}
+
+message UsageSessionResponse {
+    string booking_id = 1;
+    string user_id = 2;
+    string asset_id = 3;
+    string started_at = 4;
+    string ended_at = 5;
+    int32 duration_minutes = 6;
+}
+
+// New message definitions
+message CreateUsageSessionRequest {
+    string booking_id = 1;
+    string user_id = 2;
+    string asset_id = 3;
+}
+
+message UpdateUsageSessionRequest {
+    string booking_id = 1;
+    string ended_at = 2; // ISO 8601 string
+    int32 duration_minutes = 3;
+    bool email_sent = 4;
+}
+
+message DeleteUsageSessionRequest {
+    string booking_id = 1;
+}
+
+message DeleteUsageSessionResponse {
+    bool success = 1;
+}
+
+message GetUserActiveSessionRequest {
+    string user_id = 1;
+}
+
+message GetAssetActiveSessionRequest {
+    string asset_id = 1;
+}
+
+message HeartbeatRequest {}
+
+message HeartbeatResponse {
+    string status = 1;
+    string timestamp = 2;
+}
+
+message LogEventRequest {
+    string event_type = 1;
+    string message = 2;
+    string payload = 3;
+}
+
+message LogEventResponse {
+    bool success = 1;
+}
