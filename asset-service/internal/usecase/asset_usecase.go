@@ -52,7 +52,6 @@ func (u *assetUsecase) UpdateAssetStatus(id string, status string) (*domain.Asse
 	}
 
 	// Phase 6: Update Prometheus metrics
-	// In a real app, we'd do this more efficiently, but for the task:
 	u.updateStatusMetrics()
 
 	// Phase 2: Invalidate cache on status update
@@ -66,7 +65,7 @@ func (u *assetUsecase) UpdateAssetStatus(id string, status string) (*domain.Asse
 }
 
 func (u *assetUsecase) updateStatusMetrics() {
-	assets, err := u.repo.ListByType("")
+	assets, err := u.repo.ListAll("")
 	if err != nil {
 		return
 	}
@@ -158,4 +157,183 @@ func (u *assetUsecase) HandleBookingCancelled(assetID string) error {
 	log.Printf("[NATS] Booking cancelled for asset %s, returning to available", assetID)
 	_, err := u.UpdateAssetStatus(assetID, "available")
 	return err
+}
+
+// New Usecase Methods
+
+func (u *assetUsecase) CreateAsset(name, assetType, status, location string, health int) (*domain.Asset, error) {
+	if status == "" {
+		status = "available"
+	}
+	if health <= 0 {
+		health = 100
+	}
+	asset := &domain.Asset{
+		Name:        name,
+		Type:        assetType,
+		Status:      status,
+		HealthScore: health,
+		Location:    location,
+	}
+	newAsset, err := u.repo.Create(asset)
+	if err != nil {
+		return nil, err
+	}
+
+	if observability.Logger != nil {
+		observability.Logger.Info("Asset created",
+			zap.String("asset_id", newAsset.ID),
+			zap.String("name", name),
+			zap.String("type", assetType),
+		)
+	}
+
+	u.updateStatusMetrics()
+	return newAsset, nil
+}
+
+func (u *assetUsecase) UpdateAsset(id, name, assetType, location string) (*domain.Asset, error) {
+	asset := &domain.Asset{
+		ID:       id,
+		Name:     name,
+		Type:     assetType,
+		Location: location,
+	}
+	updatedAsset, err := u.repo.Update(asset)
+	if err != nil {
+		return nil, err
+	}
+
+	if observability.Logger != nil {
+		observability.Logger.Info("Asset updated",
+			zap.String("asset_id", id),
+			zap.String("name", name),
+			zap.String("type", assetType),
+		)
+	}
+
+	// Invalidate cache
+	if u.redis != nil {
+		ctx := context.Background()
+		cacheKey := fmt.Sprintf("availability:%s", id)
+		u.redis.Del(ctx, cacheKey)
+	}
+
+	return updatedAsset, nil
+}
+
+func (u *assetUsecase) DeleteAsset(id string) error {
+	err := u.repo.Delete(id)
+	if err != nil {
+		return err
+	}
+
+	if observability.Logger != nil {
+		observability.Logger.Info("Asset deleted",
+			zap.String("asset_id", id),
+		)
+	}
+
+	u.updateStatusMetrics()
+
+	// Invalidate cache
+	if u.redis != nil {
+		ctx := context.Background()
+		cacheKey := fmt.Sprintf("availability:%s", id)
+		u.redis.Del(ctx, cacheKey)
+	}
+
+	return nil
+}
+
+func (u *assetUsecase) ReportDamage(id string, damageAmount int) (*domain.Asset, error) {
+	asset, err := u.repo.UpdateHealth(id, -damageAmount)
+	if err != nil {
+		return nil, err
+	}
+
+	if observability.Logger != nil {
+		observability.Logger.Info("Asset damage reported",
+			zap.String("asset_id", id),
+			zap.Int("damage_amount", damageAmount),
+			zap.Int("new_health", asset.HealthScore),
+		)
+	}
+
+	// If health < 30, trigger maintenance
+	if asset.HealthScore < 30 && asset.Status != "maintenance" {
+		asset, err = u.UpdateAssetStatus(id, "maintenance")
+		if err != nil {
+			return nil, err
+		}
+
+		// Publish maintenance event
+		if u.nats != nil {
+			event := map[string]interface{}{
+				"asset_id":     id,
+				"health_score": asset.HealthScore,
+				"timestamp":    time.Now().Format(time.RFC3339),
+			}
+			data, _ := json.Marshal(event)
+			u.nats.Publish("asset.needs_maintenance", data)
+		}
+	}
+
+	return asset, nil
+}
+
+func (u *assetUsecase) ResolveMaintenance(id string) (*domain.Asset, error) {
+	existing, err := u.repo.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	delta := 100 - existing.HealthScore
+	asset, err := u.repo.UpdateHealth(id, delta)
+	if err != nil {
+		return nil, err
+	}
+
+	asset, err = u.UpdateAssetStatus(id, "available")
+	if err != nil {
+		return nil, err
+	}
+
+	if observability.Logger != nil {
+		observability.Logger.Info("Asset maintenance resolved",
+			zap.String("asset_id", id),
+		)
+	}
+
+	return asset, nil
+}
+
+func (u *assetUsecase) ListAllAssets(assetType string) ([]*domain.Asset, error) {
+	return u.repo.ListAll(assetType)
+}
+
+func (u *assetUsecase) BatchCreateAssets(assets []*domain.Asset) ([]*domain.Asset, error) {
+	var created []*domain.Asset
+	for _, a := range assets {
+		if a.Status == "" {
+			a.Status = "available"
+		}
+		if a.HealthScore <= 0 {
+			a.HealthScore = 100
+		}
+		newAsset, err := u.repo.Create(a)
+		if err != nil {
+			return nil, err
+		}
+		created = append(created, newAsset)
+	}
+
+	if observability.Logger != nil {
+		observability.Logger.Info("Batch assets created",
+			zap.Int("count", len(created)),
+		)
+	}
+
+	u.updateStatusMetrics()
+	return created, nil
 }

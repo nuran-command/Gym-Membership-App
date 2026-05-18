@@ -47,6 +47,35 @@ func (m *MockAssetRepository) CheckAvailability(id string, startTime, endTime st
 	return args.Bool(0), args.Error(1)
 }
 
+func (m *MockAssetRepository) Create(asset *domain.Asset) (*domain.Asset, error) {
+	args := m.Called(asset)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*domain.Asset), args.Error(1)
+}
+
+func (m *MockAssetRepository) Update(asset *domain.Asset) (*domain.Asset, error) {
+	args := m.Called(asset)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*domain.Asset), args.Error(1)
+}
+
+func (m *MockAssetRepository) Delete(id string) error {
+	args := m.Called(id)
+	return args.Error(0)
+}
+
+func (m *MockAssetRepository) ListAll(assetType string) ([]*domain.Asset, error) {
+	args := m.Called(assetType)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).([]*domain.Asset), args.Error(1)
+}
+
 func TestCheckAvailability_AssetInUse(t *testing.T) {
 	mockRepo := new(MockAssetRepository)
 	uc := &assetUsecase{repo: mockRepo}
@@ -66,6 +95,7 @@ func TestUpdateHealthScore_TriggersMaintenance(t *testing.T) {
 	asset := &domain.Asset{ID: "asset-1", HealthScore: 25}
 	mockRepo.On("UpdateHealth", "asset-1", -5).Return(asset, nil)
 	mockRepo.On("UpdateStatus", "asset-1", "maintenance").Return(asset, nil)
+	mockRepo.On("ListAll", "").Return([]*domain.Asset{asset}, nil)
 
 	err := uc.HandleBookingReturned("asset-1", 3.0)
 	assert.NoError(t, err)

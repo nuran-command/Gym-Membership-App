@@ -19,6 +19,12 @@ type AssetRepository interface {
 	UpdateStatus(id string, status string) (*Asset, error)
 	UpdateHealth(id string, healthDelta int) (*Asset, error)
 	CheckAvailability(id string, startTime, endTime string) (bool, error)
+	
+	// New methods
+	Create(asset *Asset) (*Asset, error)
+	Update(asset *Asset) (*Asset, error)
+	Delete(id string) error
+	ListAll(assetType string) ([]*Asset, error)
 }
 
 type AssetUsecase interface {
@@ -31,4 +37,13 @@ type AssetUsecase interface {
 	HandleBookingCreated(assetID string) error
 	HandleBookingReturned(assetID string, durationHours float64) error
 	HandleBookingCancelled(assetID string) error
+
+	// New usecase methods
+	CreateAsset(name, assetType, status, location string, health int) (*Asset, error)
+	UpdateAsset(id, name, assetType, location string) (*Asset, error)
+	DeleteAsset(id string) error
+	ReportDamage(id string, damageAmount int) (*Asset, error)
+	ResolveMaintenance(id string) (*Asset, error)
+	ListAllAssets(assetType string) ([]*Asset, error)
+	BatchCreateAssets(assets []*Asset) ([]*Asset, error)
 }

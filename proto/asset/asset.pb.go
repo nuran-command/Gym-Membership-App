@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.20.3
-// source: asset.proto
+// source: asset/asset.proto
 
 package asset
 
@@ -22,19 +22,22 @@ const (
 )
 
 type Asset struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
-	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
-	HealthScore   int32                  `protobuf:"varint,5,opt,name=health_score,json=healthScore,proto3" json:"health_score,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name             string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Type             string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Status           string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	HealthScore      int32                  `protobuf:"varint,5,opt,name=health_score,json=healthScore,proto3" json:"health_score,omitempty"`
+	Location         string                 `protobuf:"bytes,6,opt,name=location,proto3" json:"location,omitempty"`
+	CreatedAt        string                 `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	LastMaintainedAt string                 `protobuf:"bytes,8,opt,name=last_maintained_at,json=lastMaintainedAt,proto3" json:"last_maintained_at,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Asset) Reset() {
 	*x = Asset{}
-	mi := &file_asset_proto_msgTypes[0]
+	mi := &file_asset_asset_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -46,7 +49,7 @@ func (x *Asset) String() string {
 func (*Asset) ProtoMessage() {}
 
 func (x *Asset) ProtoReflect() protoreflect.Message {
-	mi := &file_asset_proto_msgTypes[0]
+	mi := &file_asset_asset_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +62,7 @@ func (x *Asset) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Asset.ProtoReflect.Descriptor instead.
 func (*Asset) Descriptor() ([]byte, []int) {
-	return file_asset_proto_rawDescGZIP(), []int{0}
+	return file_asset_asset_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Asset) GetId() string {
@@ -97,6 +100,27 @@ func (x *Asset) GetHealthScore() int32 {
 	return 0
 }
 
+func (x *Asset) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+func (x *Asset) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+func (x *Asset) GetLastMaintainedAt() string {
+	if x != nil {
+		return x.LastMaintainedAt
+	}
+	return ""
+}
+
 type GetAssetRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -106,7 +130,7 @@ type GetAssetRequest struct {
 
 func (x *GetAssetRequest) Reset() {
 	*x = GetAssetRequest{}
-	mi := &file_asset_proto_msgTypes[1]
+	mi := &file_asset_asset_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -118,7 +142,7 @@ func (x *GetAssetRequest) String() string {
 func (*GetAssetRequest) ProtoMessage() {}
 
 func (x *GetAssetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_asset_proto_msgTypes[1]
+	mi := &file_asset_asset_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -131,7 +155,7 @@ func (x *GetAssetRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAssetRequest.ProtoReflect.Descriptor instead.
 func (*GetAssetRequest) Descriptor() ([]byte, []int) {
-	return file_asset_proto_rawDescGZIP(), []int{1}
+	return file_asset_asset_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetAssetRequest) GetId() string {
@@ -150,7 +174,7 @@ type ListRequest struct {
 
 func (x *ListRequest) Reset() {
 	*x = ListRequest{}
-	mi := &file_asset_proto_msgTypes[2]
+	mi := &file_asset_asset_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -162,7 +186,7 @@ func (x *ListRequest) String() string {
 func (*ListRequest) ProtoMessage() {}
 
 func (x *ListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_asset_proto_msgTypes[2]
+	mi := &file_asset_asset_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -175,7 +199,7 @@ func (x *ListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRequest.ProtoReflect.Descriptor instead.
 func (*ListRequest) Descriptor() ([]byte, []int) {
-	return file_asset_proto_rawDescGZIP(), []int{2}
+	return file_asset_asset_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListRequest) GetType() string {
@@ -194,7 +218,7 @@ type AssetList struct {
 
 func (x *AssetList) Reset() {
 	*x = AssetList{}
-	mi := &file_asset_proto_msgTypes[3]
+	mi := &file_asset_asset_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -206,7 +230,7 @@ func (x *AssetList) String() string {
 func (*AssetList) ProtoMessage() {}
 
 func (x *AssetList) ProtoReflect() protoreflect.Message {
-	mi := &file_asset_proto_msgTypes[3]
+	mi := &file_asset_asset_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -219,7 +243,7 @@ func (x *AssetList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssetList.ProtoReflect.Descriptor instead.
 func (*AssetList) Descriptor() ([]byte, []int) {
-	return file_asset_proto_rawDescGZIP(), []int{3}
+	return file_asset_asset_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *AssetList) GetAssets() []*Asset {
@@ -239,7 +263,7 @@ type UpdateStatusRequest struct {
 
 func (x *UpdateStatusRequest) Reset() {
 	*x = UpdateStatusRequest{}
-	mi := &file_asset_proto_msgTypes[4]
+	mi := &file_asset_asset_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -251,7 +275,7 @@ func (x *UpdateStatusRequest) String() string {
 func (*UpdateStatusRequest) ProtoMessage() {}
 
 func (x *UpdateStatusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_asset_proto_msgTypes[4]
+	mi := &file_asset_asset_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -264,7 +288,7 @@ func (x *UpdateStatusRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateStatusRequest.ProtoReflect.Descriptor instead.
 func (*UpdateStatusRequest) Descriptor() ([]byte, []int) {
-	return file_asset_proto_rawDescGZIP(), []int{4}
+	return file_asset_asset_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UpdateStatusRequest) GetId() string {
@@ -292,7 +316,7 @@ type CheckRequest struct {
 
 func (x *CheckRequest) Reset() {
 	*x = CheckRequest{}
-	mi := &file_asset_proto_msgTypes[5]
+	mi := &file_asset_asset_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -304,7 +328,7 @@ func (x *CheckRequest) String() string {
 func (*CheckRequest) ProtoMessage() {}
 
 func (x *CheckRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_asset_proto_msgTypes[5]
+	mi := &file_asset_asset_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -317,7 +341,7 @@ func (x *CheckRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckRequest.ProtoReflect.Descriptor instead.
 func (*CheckRequest) Descriptor() ([]byte, []int) {
-	return file_asset_proto_rawDescGZIP(), []int{5}
+	return file_asset_asset_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CheckRequest) GetId() string {
@@ -350,7 +374,7 @@ type AvailabilityResponse struct {
 
 func (x *AvailabilityResponse) Reset() {
 	*x = AvailabilityResponse{}
-	mi := &file_asset_proto_msgTypes[6]
+	mi := &file_asset_asset_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -362,7 +386,7 @@ func (x *AvailabilityResponse) String() string {
 func (*AvailabilityResponse) ProtoMessage() {}
 
 func (x *AvailabilityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_asset_proto_msgTypes[6]
+	mi := &file_asset_asset_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -375,7 +399,7 @@ func (x *AvailabilityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AvailabilityResponse.ProtoReflect.Descriptor instead.
 func (*AvailabilityResponse) Descriptor() ([]byte, []int) {
-	return file_asset_proto_rawDescGZIP(), []int{6}
+	return file_asset_asset_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *AvailabilityResponse) GetAvailable() bool {
@@ -394,7 +418,7 @@ type HealthResponse struct {
 
 func (x *HealthResponse) Reset() {
 	*x = HealthResponse{}
-	mi := &file_asset_proto_msgTypes[7]
+	mi := &file_asset_asset_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -406,7 +430,7 @@ func (x *HealthResponse) String() string {
 func (*HealthResponse) ProtoMessage() {}
 
 func (x *HealthResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_asset_proto_msgTypes[7]
+	mi := &file_asset_asset_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -419,7 +443,7 @@ func (x *HealthResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HealthResponse.ProtoReflect.Descriptor instead.
 func (*HealthResponse) Descriptor() ([]byte, []int) {
-	return file_asset_proto_rawDescGZIP(), []int{7}
+	return file_asset_asset_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *HealthResponse) GetHealthScore() int32 {
@@ -429,17 +453,445 @@ func (x *HealthResponse) GetHealthScore() int32 {
 	return 0
 }
 
-var File_asset_proto protoreflect.FileDescriptor
+type CreateAssetRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
+	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	HealthScore   int32                  `protobuf:"varint,4,opt,name=health_score,json=healthScore,proto3" json:"health_score,omitempty"`
+	Location      string                 `protobuf:"bytes,5,opt,name=location,proto3" json:"location,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_asset_proto_rawDesc = "" +
+func (x *CreateAssetRequest) Reset() {
+	*x = CreateAssetRequest{}
+	mi := &file_asset_asset_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateAssetRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateAssetRequest) ProtoMessage() {}
+
+func (x *CreateAssetRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_asset_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateAssetRequest.ProtoReflect.Descriptor instead.
+func (*CreateAssetRequest) Descriptor() ([]byte, []int) {
+	return file_asset_asset_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CreateAssetRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateAssetRequest) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *CreateAssetRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *CreateAssetRequest) GetHealthScore() int32 {
+	if x != nil {
+		return x.HealthScore
+	}
+	return 0
+}
+
+func (x *CreateAssetRequest) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+type UpdateAssetRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Location      string                 `protobuf:"bytes,4,opt,name=location,proto3" json:"location,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateAssetRequest) Reset() {
+	*x = UpdateAssetRequest{}
+	mi := &file_asset_asset_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateAssetRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAssetRequest) ProtoMessage() {}
+
+func (x *UpdateAssetRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_asset_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAssetRequest.ProtoReflect.Descriptor instead.
+func (*UpdateAssetRequest) Descriptor() ([]byte, []int) {
+	return file_asset_asset_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateAssetRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UpdateAssetRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateAssetRequest) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *UpdateAssetRequest) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+type DeleteAssetRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAssetRequest) Reset() {
+	*x = DeleteAssetRequest{}
+	mi := &file_asset_asset_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAssetRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAssetRequest) ProtoMessage() {}
+
+func (x *DeleteAssetRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_asset_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAssetRequest.ProtoReflect.Descriptor instead.
+func (*DeleteAssetRequest) Descriptor() ([]byte, []int) {
+	return file_asset_asset_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteAssetRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteAssetResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Success       bool                   `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAssetResponse) Reset() {
+	*x = DeleteAssetResponse{}
+	mi := &file_asset_asset_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAssetResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAssetResponse) ProtoMessage() {}
+
+func (x *DeleteAssetResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_asset_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAssetResponse.ProtoReflect.Descriptor instead.
+func (*DeleteAssetResponse) Descriptor() ([]byte, []int) {
+	return file_asset_asset_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteAssetResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *DeleteAssetResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type ReportDamageRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	DamageAmount  int32                  `protobuf:"varint,2,opt,name=damage_amount,json=damageAmount,proto3" json:"damage_amount,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReportDamageRequest) Reset() {
+	*x = ReportDamageRequest{}
+	mi := &file_asset_asset_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReportDamageRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReportDamageRequest) ProtoMessage() {}
+
+func (x *ReportDamageRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_asset_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReportDamageRequest.ProtoReflect.Descriptor instead.
+func (*ReportDamageRequest) Descriptor() ([]byte, []int) {
+	return file_asset_asset_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ReportDamageRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ReportDamageRequest) GetDamageAmount() int32 {
+	if x != nil {
+		return x.DamageAmount
+	}
+	return 0
+}
+
+type ListAllRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListAllRequest) Reset() {
+	*x = ListAllRequest{}
+	mi := &file_asset_asset_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListAllRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListAllRequest) ProtoMessage() {}
+
+func (x *ListAllRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_asset_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListAllRequest.ProtoReflect.Descriptor instead.
+func (*ListAllRequest) Descriptor() ([]byte, []int) {
+	return file_asset_asset_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ListAllRequest) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+type BatchCreateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Assets        []*CreateAssetRequest  `protobuf:"bytes,1,rep,name=assets,proto3" json:"assets,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BatchCreateRequest) Reset() {
+	*x = BatchCreateRequest{}
+	mi := &file_asset_asset_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BatchCreateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchCreateRequest) ProtoMessage() {}
+
+func (x *BatchCreateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_asset_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchCreateRequest.ProtoReflect.Descriptor instead.
+func (*BatchCreateRequest) Descriptor() ([]byte, []int) {
+	return file_asset_asset_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *BatchCreateRequest) GetAssets() []*CreateAssetRequest {
+	if x != nil {
+		return x.Assets
+	}
+	return nil
+}
+
+type BatchCreateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Assets        []*Asset               `protobuf:"bytes,1,rep,name=assets,proto3" json:"assets,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BatchCreateResponse) Reset() {
+	*x = BatchCreateResponse{}
+	mi := &file_asset_asset_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BatchCreateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchCreateResponse) ProtoMessage() {}
+
+func (x *BatchCreateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_asset_asset_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchCreateResponse.ProtoReflect.Descriptor instead.
+func (*BatchCreateResponse) Descriptor() ([]byte, []int) {
+	return file_asset_asset_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *BatchCreateResponse) GetAssets() []*Asset {
+	if x != nil {
+		return x.Assets
+	}
+	return nil
+}
+
+var File_asset_asset_proto protoreflect.FileDescriptor
+
+const file_asset_asset_proto_rawDesc = "" +
 	"\n" +
-	"\vasset.proto\x12\x05asset\"z\n" +
+	"\x11asset/asset.proto\x12\x05asset\"\xe3\x01\n" +
 	"\x05Asset\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
 	"\x04type\x18\x03 \x01(\tR\x04type\x12\x16\n" +
 	"\x06status\x18\x04 \x01(\tR\x06status\x12!\n" +
-	"\fhealth_score\x18\x05 \x01(\x05R\vhealthScore\"!\n" +
+	"\fhealth_score\x18\x05 \x01(\x05R\vhealthScore\x12\x1a\n" +
+	"\blocation\x18\x06 \x01(\tR\blocation\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\a \x01(\tR\tcreatedAt\x12,\n" +
+	"\x12last_maintained_at\x18\b \x01(\tR\x10lastMaintainedAt\"!\n" +
 	"\x0fGetAssetRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"!\n" +
 	"\vListRequest\x12\x12\n" +
@@ -457,28 +909,60 @@ const file_asset_proto_rawDesc = "" +
 	"\x14AvailabilityResponse\x12\x1c\n" +
 	"\tavailable\x18\x01 \x01(\bR\tavailable\"3\n" +
 	"\x0eHealthResponse\x12!\n" +
-	"\fhealth_score\x18\x01 \x01(\x05R\vhealthScore2\xc4\x02\n" +
+	"\fhealth_score\x18\x01 \x01(\x05R\vhealthScore\"\x93\x01\n" +
+	"\x12CreateAssetRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12!\n" +
+	"\fhealth_score\x18\x04 \x01(\x05R\vhealthScore\x12\x1a\n" +
+	"\blocation\x18\x05 \x01(\tR\blocation\"h\n" +
+	"\x12UpdateAssetRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04type\x18\x03 \x01(\tR\x04type\x12\x1a\n" +
+	"\blocation\x18\x04 \x01(\tR\blocation\"$\n" +
+	"\x12DeleteAssetRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"?\n" +
+	"\x13DeleteAssetResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
+	"\asuccess\x18\x02 \x01(\bR\asuccess\"J\n" +
+	"\x13ReportDamageRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12#\n" +
+	"\rdamage_amount\x18\x02 \x01(\x05R\fdamageAmount\"$\n" +
+	"\x0eListAllRequest\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\"G\n" +
+	"\x12BatchCreateRequest\x121\n" +
+	"\x06assets\x18\x01 \x03(\v2\x19.asset.CreateAssetRequestR\x06assets\";\n" +
+	"\x13BatchCreateResponse\x12$\n" +
+	"\x06assets\x18\x01 \x03(\v2\f.asset.AssetR\x06assets2\xf6\x05\n" +
 	"\fAssetService\x120\n" +
 	"\bGetAsset\x12\x16.asset.GetAssetRequest\x1a\f.asset.Asset\x12;\n" +
 	"\x13ListAvailableAssets\x12\x12.asset.ListRequest\x1a\x10.asset.AssetList\x12=\n" +
 	"\x11UpdateAssetStatus\x12\x1a.asset.UpdateStatusRequest\x1a\f.asset.Asset\x12E\n" +
 	"\x11CheckAvailability\x12\x13.asset.CheckRequest\x1a\x1b.asset.AvailabilityResponse\x12?\n" +
-	"\x0eGetHealthScore\x12\x16.asset.GetAssetRequest\x1a\x15.asset.HealthResponseB\tZ\a./assetb\x06proto3"
+	"\x0eGetHealthScore\x12\x16.asset.GetAssetRequest\x1a\x15.asset.HealthResponse\x126\n" +
+	"\vCreateAsset\x12\x19.asset.CreateAssetRequest\x1a\f.asset.Asset\x126\n" +
+	"\vUpdateAsset\x12\x19.asset.UpdateAssetRequest\x1a\f.asset.Asset\x12D\n" +
+	"\vDeleteAsset\x12\x19.asset.DeleteAssetRequest\x1a\x1a.asset.DeleteAssetResponse\x128\n" +
+	"\fReportDamage\x12\x1a.asset.ReportDamageRequest\x1a\f.asset.Asset\x12:\n" +
+	"\x12ResolveMaintenance\x12\x16.asset.GetAssetRequest\x1a\f.asset.Asset\x128\n" +
+	"\rListAllAssets\x12\x15.asset.ListAllRequest\x1a\x10.asset.AssetList\x12J\n" +
+	"\x11BatchCreateAssets\x12\x19.asset.BatchCreateRequest\x1a\x1a.asset.BatchCreateResponseB\tZ\a./assetb\x06proto3"
 
 var (
-	file_asset_proto_rawDescOnce sync.Once
-	file_asset_proto_rawDescData []byte
+	file_asset_asset_proto_rawDescOnce sync.Once
+	file_asset_asset_proto_rawDescData []byte
 )
 
-func file_asset_proto_rawDescGZIP() []byte {
-	file_asset_proto_rawDescOnce.Do(func() {
-		file_asset_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_asset_proto_rawDesc), len(file_asset_proto_rawDesc)))
+func file_asset_asset_proto_rawDescGZIP() []byte {
+	file_asset_asset_proto_rawDescOnce.Do(func() {
+		file_asset_asset_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_asset_asset_proto_rawDesc), len(file_asset_asset_proto_rawDesc)))
 	})
-	return file_asset_proto_rawDescData
+	return file_asset_asset_proto_rawDescData
 }
 
-var file_asset_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
-var file_asset_proto_goTypes = []any{
+var file_asset_asset_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_asset_asset_proto_goTypes = []any{
 	(*Asset)(nil),                // 0: asset.Asset
 	(*GetAssetRequest)(nil),      // 1: asset.GetAssetRequest
 	(*ListRequest)(nil),          // 2: asset.ListRequest
@@ -487,46 +971,70 @@ var file_asset_proto_goTypes = []any{
 	(*CheckRequest)(nil),         // 5: asset.CheckRequest
 	(*AvailabilityResponse)(nil), // 6: asset.AvailabilityResponse
 	(*HealthResponse)(nil),       // 7: asset.HealthResponse
+	(*CreateAssetRequest)(nil),   // 8: asset.CreateAssetRequest
+	(*UpdateAssetRequest)(nil),   // 9: asset.UpdateAssetRequest
+	(*DeleteAssetRequest)(nil),   // 10: asset.DeleteAssetRequest
+	(*DeleteAssetResponse)(nil),  // 11: asset.DeleteAssetResponse
+	(*ReportDamageRequest)(nil),  // 12: asset.ReportDamageRequest
+	(*ListAllRequest)(nil),       // 13: asset.ListAllRequest
+	(*BatchCreateRequest)(nil),   // 14: asset.BatchCreateRequest
+	(*BatchCreateResponse)(nil),  // 15: asset.BatchCreateResponse
 }
-var file_asset_proto_depIdxs = []int32{
-	0, // 0: asset.AssetList.assets:type_name -> asset.Asset
-	1, // 1: asset.AssetService.GetAsset:input_type -> asset.GetAssetRequest
-	2, // 2: asset.AssetService.ListAvailableAssets:input_type -> asset.ListRequest
-	4, // 3: asset.AssetService.UpdateAssetStatus:input_type -> asset.UpdateStatusRequest
-	5, // 4: asset.AssetService.CheckAvailability:input_type -> asset.CheckRequest
-	1, // 5: asset.AssetService.GetHealthScore:input_type -> asset.GetAssetRequest
-	0, // 6: asset.AssetService.GetAsset:output_type -> asset.Asset
-	3, // 7: asset.AssetService.ListAvailableAssets:output_type -> asset.AssetList
-	0, // 8: asset.AssetService.UpdateAssetStatus:output_type -> asset.Asset
-	6, // 9: asset.AssetService.CheckAvailability:output_type -> asset.AvailabilityResponse
-	7, // 10: asset.AssetService.GetHealthScore:output_type -> asset.HealthResponse
-	6, // [6:11] is the sub-list for method output_type
-	1, // [1:6] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+var file_asset_asset_proto_depIdxs = []int32{
+	0,  // 0: asset.AssetList.assets:type_name -> asset.Asset
+	8,  // 1: asset.BatchCreateRequest.assets:type_name -> asset.CreateAssetRequest
+	0,  // 2: asset.BatchCreateResponse.assets:type_name -> asset.Asset
+	1,  // 3: asset.AssetService.GetAsset:input_type -> asset.GetAssetRequest
+	2,  // 4: asset.AssetService.ListAvailableAssets:input_type -> asset.ListRequest
+	4,  // 5: asset.AssetService.UpdateAssetStatus:input_type -> asset.UpdateStatusRequest
+	5,  // 6: asset.AssetService.CheckAvailability:input_type -> asset.CheckRequest
+	1,  // 7: asset.AssetService.GetHealthScore:input_type -> asset.GetAssetRequest
+	8,  // 8: asset.AssetService.CreateAsset:input_type -> asset.CreateAssetRequest
+	9,  // 9: asset.AssetService.UpdateAsset:input_type -> asset.UpdateAssetRequest
+	10, // 10: asset.AssetService.DeleteAsset:input_type -> asset.DeleteAssetRequest
+	12, // 11: asset.AssetService.ReportDamage:input_type -> asset.ReportDamageRequest
+	1,  // 12: asset.AssetService.ResolveMaintenance:input_type -> asset.GetAssetRequest
+	13, // 13: asset.AssetService.ListAllAssets:input_type -> asset.ListAllRequest
+	14, // 14: asset.AssetService.BatchCreateAssets:input_type -> asset.BatchCreateRequest
+	0,  // 15: asset.AssetService.GetAsset:output_type -> asset.Asset
+	3,  // 16: asset.AssetService.ListAvailableAssets:output_type -> asset.AssetList
+	0,  // 17: asset.AssetService.UpdateAssetStatus:output_type -> asset.Asset
+	6,  // 18: asset.AssetService.CheckAvailability:output_type -> asset.AvailabilityResponse
+	7,  // 19: asset.AssetService.GetHealthScore:output_type -> asset.HealthResponse
+	0,  // 20: asset.AssetService.CreateAsset:output_type -> asset.Asset
+	0,  // 21: asset.AssetService.UpdateAsset:output_type -> asset.Asset
+	11, // 22: asset.AssetService.DeleteAsset:output_type -> asset.DeleteAssetResponse
+	0,  // 23: asset.AssetService.ReportDamage:output_type -> asset.Asset
+	0,  // 24: asset.AssetService.ResolveMaintenance:output_type -> asset.Asset
+	3,  // 25: asset.AssetService.ListAllAssets:output_type -> asset.AssetList
+	15, // 26: asset.AssetService.BatchCreateAssets:output_type -> asset.BatchCreateResponse
+	15, // [15:27] is the sub-list for method output_type
+	3,  // [3:15] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_asset_proto_init() }
-func file_asset_proto_init() {
-	if File_asset_proto != nil {
+func init() { file_asset_asset_proto_init() }
+func file_asset_asset_proto_init() {
+	if File_asset_asset_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_asset_proto_rawDesc), len(file_asset_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_asset_asset_proto_rawDesc), len(file_asset_asset_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_asset_proto_goTypes,
-		DependencyIndexes: file_asset_proto_depIdxs,
-		MessageInfos:      file_asset_proto_msgTypes,
+		GoTypes:           file_asset_asset_proto_goTypes,
+		DependencyIndexes: file_asset_asset_proto_depIdxs,
+		MessageInfos:      file_asset_asset_proto_msgTypes,
 	}.Build()
-	File_asset_proto = out.File
-	file_asset_proto_goTypes = nil
-	file_asset_proto_depIdxs = nil
+	File_asset_asset_proto = out.File
+	file_asset_asset_proto_goTypes = nil
+	file_asset_asset_proto_depIdxs = nil
 }

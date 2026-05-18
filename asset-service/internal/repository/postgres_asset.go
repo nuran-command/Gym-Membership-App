@@ -38,11 +38,11 @@ func (r *postgresAssetRepo) GetByID(id string) (*domain.Asset, error) {
 
 func (r *postgresAssetRepo) ListByType(assetType string) ([]*domain.Asset, error) {
 	ctx := context.Background()
-	query := `SELECT id, name, type, status, health_score, location, created_at, last_maintained_at FROM assets`
+	query := `SELECT id, name, type, status, health_score, location, created_at, last_maintained_at FROM assets WHERE status = 'available'`
 	var args []interface{}
 	
 	if assetType != "" {
-		query += " WHERE type = $1"
+		query += " AND type = $1"
 		args = append(args, assetType)
 	}
 
@@ -119,6 +119,7 @@ func (r *postgresAssetRepo) CheckAvailability(id string, startTime, endTime stri
 	
 	return status == "available", nil
 }
+
 func (r *postgresAssetRepo) UpdateHealth(id string, healthDelta int) (*domain.Asset, error) {
 	ctx := context.Background()
 	
@@ -161,4 +162,79 @@ func (r *postgresAssetRepo) UpdateHealth(id string, healthDelta int) (*domain.As
 	}
 
 	return &a, nil
+}
+
+func (r *postgresAssetRepo) Create(asset *domain.Asset) (*domain.Asset, error) {
+	ctx := context.Background()
+	query := `INSERT INTO assets (name, type, status, health_score, location) 
+              VALUES ($1, $2, $3, $4, $5) 
+              RETURNING id, created_at, last_maintained_at`
+	err := r.pool.QueryRow(ctx, query, asset.Name, asset.Type, asset.Status, asset.HealthScore, asset.Location).Scan(
+		&asset.ID, &asset.CreatedAt, &asset.LastMaintainedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return asset, nil
+}
+
+func (r *postgresAssetRepo) Update(asset *domain.Asset) (*domain.Asset, error) {
+	ctx := context.Background()
+	query := `UPDATE assets 
+              SET name = $1, type = $2, location = $3, last_maintained_at = CURRENT_TIMESTAMP 
+              WHERE id = $4 
+              RETURNING status, health_score, created_at, last_maintained_at`
+	err := r.pool.QueryRow(ctx, query, asset.Name, asset.Type, asset.Location, asset.ID).Scan(
+		&asset.Status, &asset.HealthScore, &asset.CreatedAt, &asset.LastMaintainedAt,
+	)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, fmt.Errorf("asset not found")
+		}
+		return nil, err
+	}
+	return asset, nil
+}
+
+func (r *postgresAssetRepo) Delete(id string) error {
+	ctx := context.Background()
+	query := `DELETE FROM assets WHERE id = $1`
+	cmdTag, err := r.pool.Exec(ctx, query, id)
+	if err != nil {
+		return err
+	}
+	if cmdTag.RowsAffected() == 0 {
+		return fmt.Errorf("asset not found")
+	}
+	return nil
+}
+
+func (r *postgresAssetRepo) ListAll(assetType string) ([]*domain.Asset, error) {
+	ctx := context.Background()
+	query := `SELECT id, name, type, status, health_score, location, created_at, last_maintained_at FROM assets`
+	var args []interface{}
+	
+	if assetType != "" {
+		query += " WHERE type = $1"
+		args = append(args, assetType)
+	}
+
+	rows, err := r.pool.Query(ctx, query, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var assets []*domain.Asset
+	for rows.Next() {
+		var a domain.Asset
+		err := rows.Scan(
+			&a.ID, &a.Name, &a.Type, &a.Status, &a.HealthScore, &a.Location, &a.CreatedAt, &a.LastMaintainedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+		assets = append(assets, &a)
+	}
+	return assets, nil
 }

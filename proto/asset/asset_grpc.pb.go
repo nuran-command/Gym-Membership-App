@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.20.3
-// source: asset.proto
+// source: asset/asset.proto
 
 package asset
 
@@ -24,17 +24,33 @@ const (
 	AssetService_UpdateAssetStatus_FullMethodName   = "/asset.AssetService/UpdateAssetStatus"
 	AssetService_CheckAvailability_FullMethodName   = "/asset.AssetService/CheckAvailability"
 	AssetService_GetHealthScore_FullMethodName      = "/asset.AssetService/GetHealthScore"
+	AssetService_CreateAsset_FullMethodName         = "/asset.AssetService/CreateAsset"
+	AssetService_UpdateAsset_FullMethodName         = "/asset.AssetService/UpdateAsset"
+	AssetService_DeleteAsset_FullMethodName         = "/asset.AssetService/DeleteAsset"
+	AssetService_ReportDamage_FullMethodName        = "/asset.AssetService/ReportDamage"
+	AssetService_ResolveMaintenance_FullMethodName  = "/asset.AssetService/ResolveMaintenance"
+	AssetService_ListAllAssets_FullMethodName       = "/asset.AssetService/ListAllAssets"
+	AssetService_BatchCreateAssets_FullMethodName   = "/asset.AssetService/BatchCreateAssets"
 )
 
 // AssetServiceClient is the client API for AssetService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AssetServiceClient interface {
+	// Existing 5 endpoints
 	GetAsset(ctx context.Context, in *GetAssetRequest, opts ...grpc.CallOption) (*Asset, error)
 	ListAvailableAssets(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*AssetList, error)
 	UpdateAssetStatus(ctx context.Context, in *UpdateStatusRequest, opts ...grpc.CallOption) (*Asset, error)
 	CheckAvailability(ctx context.Context, in *CheckRequest, opts ...grpc.CallOption) (*AvailabilityResponse, error)
 	GetHealthScore(ctx context.Context, in *GetAssetRequest, opts ...grpc.CallOption) (*HealthResponse, error)
+	// New 7 endpoints to reach exactly 12 endpoints
+	CreateAsset(ctx context.Context, in *CreateAssetRequest, opts ...grpc.CallOption) (*Asset, error)
+	UpdateAsset(ctx context.Context, in *UpdateAssetRequest, opts ...grpc.CallOption) (*Asset, error)
+	DeleteAsset(ctx context.Context, in *DeleteAssetRequest, opts ...grpc.CallOption) (*DeleteAssetResponse, error)
+	ReportDamage(ctx context.Context, in *ReportDamageRequest, opts ...grpc.CallOption) (*Asset, error)
+	ResolveMaintenance(ctx context.Context, in *GetAssetRequest, opts ...grpc.CallOption) (*Asset, error)
+	ListAllAssets(ctx context.Context, in *ListAllRequest, opts ...grpc.CallOption) (*AssetList, error)
+	BatchCreateAssets(ctx context.Context, in *BatchCreateRequest, opts ...grpc.CallOption) (*BatchCreateResponse, error)
 }
 
 type assetServiceClient struct {
@@ -95,15 +111,94 @@ func (c *assetServiceClient) GetHealthScore(ctx context.Context, in *GetAssetReq
 	return out, nil
 }
 
+func (c *assetServiceClient) CreateAsset(ctx context.Context, in *CreateAssetRequest, opts ...grpc.CallOption) (*Asset, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Asset)
+	err := c.cc.Invoke(ctx, AssetService_CreateAsset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) UpdateAsset(ctx context.Context, in *UpdateAssetRequest, opts ...grpc.CallOption) (*Asset, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Asset)
+	err := c.cc.Invoke(ctx, AssetService_UpdateAsset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) DeleteAsset(ctx context.Context, in *DeleteAssetRequest, opts ...grpc.CallOption) (*DeleteAssetResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteAssetResponse)
+	err := c.cc.Invoke(ctx, AssetService_DeleteAsset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) ReportDamage(ctx context.Context, in *ReportDamageRequest, opts ...grpc.CallOption) (*Asset, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Asset)
+	err := c.cc.Invoke(ctx, AssetService_ReportDamage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) ResolveMaintenance(ctx context.Context, in *GetAssetRequest, opts ...grpc.CallOption) (*Asset, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Asset)
+	err := c.cc.Invoke(ctx, AssetService_ResolveMaintenance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) ListAllAssets(ctx context.Context, in *ListAllRequest, opts ...grpc.CallOption) (*AssetList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AssetList)
+	err := c.cc.Invoke(ctx, AssetService_ListAllAssets_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *assetServiceClient) BatchCreateAssets(ctx context.Context, in *BatchCreateRequest, opts ...grpc.CallOption) (*BatchCreateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchCreateResponse)
+	err := c.cc.Invoke(ctx, AssetService_BatchCreateAssets_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AssetServiceServer is the server API for AssetService service.
 // All implementations must embed UnimplementedAssetServiceServer
 // for forward compatibility.
 type AssetServiceServer interface {
+	// Existing 5 endpoints
 	GetAsset(context.Context, *GetAssetRequest) (*Asset, error)
 	ListAvailableAssets(context.Context, *ListRequest) (*AssetList, error)
 	UpdateAssetStatus(context.Context, *UpdateStatusRequest) (*Asset, error)
 	CheckAvailability(context.Context, *CheckRequest) (*AvailabilityResponse, error)
 	GetHealthScore(context.Context, *GetAssetRequest) (*HealthResponse, error)
+	// New 7 endpoints to reach exactly 12 endpoints
+	CreateAsset(context.Context, *CreateAssetRequest) (*Asset, error)
+	UpdateAsset(context.Context, *UpdateAssetRequest) (*Asset, error)
+	DeleteAsset(context.Context, *DeleteAssetRequest) (*DeleteAssetResponse, error)
+	ReportDamage(context.Context, *ReportDamageRequest) (*Asset, error)
+	ResolveMaintenance(context.Context, *GetAssetRequest) (*Asset, error)
+	ListAllAssets(context.Context, *ListAllRequest) (*AssetList, error)
+	BatchCreateAssets(context.Context, *BatchCreateRequest) (*BatchCreateResponse, error)
 	mustEmbedUnimplementedAssetServiceServer()
 }
 
@@ -128,6 +223,27 @@ func (UnimplementedAssetServiceServer) CheckAvailability(context.Context, *Check
 }
 func (UnimplementedAssetServiceServer) GetHealthScore(context.Context, *GetAssetRequest) (*HealthResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetHealthScore not implemented")
+}
+func (UnimplementedAssetServiceServer) CreateAsset(context.Context, *CreateAssetRequest) (*Asset, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateAsset not implemented")
+}
+func (UnimplementedAssetServiceServer) UpdateAsset(context.Context, *UpdateAssetRequest) (*Asset, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateAsset not implemented")
+}
+func (UnimplementedAssetServiceServer) DeleteAsset(context.Context, *DeleteAssetRequest) (*DeleteAssetResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteAsset not implemented")
+}
+func (UnimplementedAssetServiceServer) ReportDamage(context.Context, *ReportDamageRequest) (*Asset, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReportDamage not implemented")
+}
+func (UnimplementedAssetServiceServer) ResolveMaintenance(context.Context, *GetAssetRequest) (*Asset, error) {
+	return nil, status.Error(codes.Unimplemented, "method ResolveMaintenance not implemented")
+}
+func (UnimplementedAssetServiceServer) ListAllAssets(context.Context, *ListAllRequest) (*AssetList, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListAllAssets not implemented")
+}
+func (UnimplementedAssetServiceServer) BatchCreateAssets(context.Context, *BatchCreateRequest) (*BatchCreateResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method BatchCreateAssets not implemented")
 }
 func (UnimplementedAssetServiceServer) mustEmbedUnimplementedAssetServiceServer() {}
 func (UnimplementedAssetServiceServer) testEmbeddedByValue()                      {}
@@ -240,6 +356,132 @@ func _AssetService_GetHealthScore_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssetService_CreateAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAssetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).CreateAsset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_CreateAsset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).CreateAsset(ctx, req.(*CreateAssetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_UpdateAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAssetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).UpdateAsset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_UpdateAsset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).UpdateAsset(ctx, req.(*UpdateAssetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_DeleteAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAssetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).DeleteAsset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_DeleteAsset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).DeleteAsset(ctx, req.(*DeleteAssetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_ReportDamage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReportDamageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).ReportDamage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_ReportDamage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).ReportDamage(ctx, req.(*ReportDamageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_ResolveMaintenance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).ResolveMaintenance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_ResolveMaintenance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).ResolveMaintenance(ctx, req.(*GetAssetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_ListAllAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAllRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).ListAllAssets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_ListAllAssets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).ListAllAssets(ctx, req.(*ListAllRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssetService_BatchCreateAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssetServiceServer).BatchCreateAssets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssetService_BatchCreateAssets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssetServiceServer).BatchCreateAssets(ctx, req.(*BatchCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AssetService_ServiceDesc is the grpc.ServiceDesc for AssetService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,7 +509,35 @@ var AssetService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetHealthScore",
 			Handler:    _AssetService_GetHealthScore_Handler,
 		},
+		{
+			MethodName: "CreateAsset",
+			Handler:    _AssetService_CreateAsset_Handler,
+		},
+		{
+			MethodName: "UpdateAsset",
+			Handler:    _AssetService_UpdateAsset_Handler,
+		},
+		{
+			MethodName: "DeleteAsset",
+			Handler:    _AssetService_DeleteAsset_Handler,
+		},
+		{
+			MethodName: "ReportDamage",
+			Handler:    _AssetService_ReportDamage_Handler,
+		},
+		{
+			MethodName: "ResolveMaintenance",
+			Handler:    _AssetService_ResolveMaintenance_Handler,
+		},
+		{
+			MethodName: "ListAllAssets",
+			Handler:    _AssetService_ListAllAssets_Handler,
+		},
+		{
+			MethodName: "BatchCreateAssets",
+			Handler:    _AssetService_BatchCreateAssets_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "asset.proto",
+	Metadata: "asset/asset.proto",
 }

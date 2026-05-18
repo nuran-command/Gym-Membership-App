@@ -71,7 +71,7 @@ func main() {
 		c.Next()
 	})
 
-	// === Service A: Asset Service Endpoints ===
+	// === Service A: Asset Service Endpoints (12 Strict Endpoints) ===
 
 	// 1. GET /assets -> ListAvailableAssets
 	r.GET("/assets", func(c *gin.Context) {
@@ -126,6 +126,172 @@ func main() {
 			return
 		}
 		c.JSON(http.StatusOK, resp)
+	})
+
+	// 5. GET /assets/check -> CheckAvailability
+	r.GET("/assets/check", func(c *gin.Context) {
+		id := c.Query("id")
+		startTime := c.Query("start_time")
+		endTime := c.Query("end_time")
+		if id == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "id is required"})
+			return
+		}
+		resp, err := assetClient.CheckAvailability(getContextWithMetadata(c), &pb.CheckRequest{
+			Id:        id,
+			StartTime: startTime,
+			EndTime:   endTime,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"available": resp.Available})
+	})
+
+	// 6. POST /assets -> CreateAsset (admin only)
+	r.POST("/assets", adminOnly(), func(c *gin.Context) {
+		var input struct {
+			Name        string `json:"name" binding:"required"`
+			Type        string `json:"type" binding:"required"`
+			Status      string `json:"status"`
+			HealthScore int32  `json:"health_score"`
+			Location    string `json:"location"`
+		}
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		resp, err := assetClient.CreateAsset(getContextWithMetadata(c), &pb.CreateAssetRequest{
+			Name:        input.Name,
+			Type:        input.Type,
+			Status:      input.Status,
+			HealthScore: input.HealthScore,
+			Location:    input.Location,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusCreated, resp)
+	})
+
+	// 7. PUT /assets/:id -> UpdateAsset (admin only)
+	r.PUT("/assets/:id", adminOnly(), func(c *gin.Context) {
+		id := c.Param("id")
+		var input struct {
+			Name     string `json:"name" binding:"required"`
+			Type     string `json:"type" binding:"required"`
+			Location string `json:"location"`
+		}
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		resp, err := assetClient.UpdateAsset(getContextWithMetadata(c), &pb.UpdateAssetRequest{
+			Id:       id,
+			Name:     input.Name,
+			Type:     input.Type,
+			Location: input.Location,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 8. DELETE /assets/:id -> DeleteAsset (admin only)
+	r.DELETE("/assets/:id", adminOnly(), func(c *gin.Context) {
+		id := c.Param("id")
+		resp, err := assetClient.DeleteAsset(getContextWithMetadata(c), &pb.DeleteAssetRequest{
+			Id: id,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 9. POST /assets/:id/damage -> ReportDamage
+	r.POST("/assets/:id/damage", func(c *gin.Context) {
+		id := c.Param("id")
+		var input struct {
+			Amount int32 `json:"amount" binding:"required"`
+		}
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "amount is required"})
+			return
+		}
+		resp, err := assetClient.ReportDamage(getContextWithMetadata(c), &pb.ReportDamageRequest{
+			Id:           id,
+			DamageAmount: input.Amount,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 10. POST /assets/:id/maintenance/resolve -> ResolveMaintenance (admin only)
+	r.POST("/assets/:id/maintenance/resolve", adminOnly(), func(c *gin.Context) {
+		id := c.Param("id")
+		resp, err := assetClient.ResolveMaintenance(getContextWithMetadata(c), &pb.GetAssetRequest{
+			Id: id,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	})
+
+	// 11. GET /assets/all -> ListAllAssets
+	r.GET("/assets/all", func(c *gin.Context) {
+		assetType := c.Query("type")
+		resp, err := assetClient.ListAllAssets(getContextWithMetadata(c), &pb.ListAllRequest{Type: assetType})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, resp.Assets)
+	})
+
+	// 12. POST /assets/batch -> BatchCreateAssets (admin only)
+	r.POST("/assets/batch", adminOnly(), func(c *gin.Context) {
+		var input struct {
+			Assets []struct {
+				Name        string `json:"name" binding:"required"`
+				Type        string `json:"type" binding:"required"`
+				Status      string `json:"status"`
+				HealthScore int32  `json:"health_score"`
+				Location    string `json:"location"`
+			} `json:"assets" binding:"required"`
+		}
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		var protoAssets []*pb.CreateAssetRequest
+		for _, a := range input.Assets {
+			protoAssets = append(protoAssets, &pb.CreateAssetRequest{
+				Name:        a.Name,
+				Type:        a.Type,
+				Status:      a.Status,
+				HealthScore: a.HealthScore,
+				Location:    a.Location,
+			})
+		}
+		resp, err := assetClient.BatchCreateAssets(getContextWithMetadata(c), &pb.BatchCreateRequest{
+			Assets: protoAssets,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusCreated, resp.Assets)
 	})
 
 	// === Service B: Membership/Credit Service Endpoints (12 Strict Endpoints) ===
