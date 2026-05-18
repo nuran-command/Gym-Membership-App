@@ -55,6 +55,62 @@ func (m *MockAssetServiceClient) GetHealthScore(ctx context.Context, in *asset.G
 	return args.Get(0).(*asset.HealthResponse), args.Error(1)
 }
 
+func (m *MockAssetServiceClient) BatchCreateAssets(ctx context.Context, in *asset.BatchCreateRequest, opts ...googlegrpc.CallOption) (*asset.BatchCreateResponse, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.BatchCreateResponse), args.Error(1)
+}
+
+func (m *MockAssetServiceClient) CreateAsset(ctx context.Context, in *asset.CreateAssetRequest, opts ...googlegrpc.CallOption) (*asset.Asset, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.Asset), args.Error(1)
+}
+
+func (m *MockAssetServiceClient) UpdateAsset(ctx context.Context, in *asset.UpdateAssetRequest, opts ...googlegrpc.CallOption) (*asset.Asset, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.Asset), args.Error(1)
+}
+
+func (m *MockAssetServiceClient) DeleteAsset(ctx context.Context, in *asset.DeleteAssetRequest, opts ...googlegrpc.CallOption) (*asset.DeleteAssetResponse, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.DeleteAssetResponse), args.Error(1)
+}
+
+func (m *MockAssetServiceClient) ReportDamage(ctx context.Context, in *asset.ReportDamageRequest, opts ...googlegrpc.CallOption) (*asset.Asset, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.Asset), args.Error(1)
+}
+
+func (m *MockAssetServiceClient) ResolveMaintenance(ctx context.Context, in *asset.GetAssetRequest, opts ...googlegrpc.CallOption) (*asset.Asset, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.Asset), args.Error(1)
+}
+
+func (m *MockAssetServiceClient) ListAllAssets(ctx context.Context, in *asset.ListAllRequest, opts ...googlegrpc.CallOption) (*asset.AssetList, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.AssetList), args.Error(1)
+}
+
 type MockMessagePublisher struct {
 	mock.Mock
 }
