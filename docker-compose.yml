@@ -28,8 +28,10 @@ services:
       dockerfile: telemetry-service/Dockerfile
     ports:
       - "50053:50053"
+      - "2112:2112"
     environment:
       - PORT=50053
+      - METRICS_PORT=2112
       - NATS_URL=nats://nats:4222
     depends_on:
       - nats

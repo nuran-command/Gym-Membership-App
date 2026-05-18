@@ -1,28 +1,61 @@
 package main
 
 import (
+	"context"
 	"database/sql"
-	"fmt"
-	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
 	"syscall"
+	"log/slog"
 
 	_ "github.com/lib/pq"
 	"github.com/nats-io/nats.go"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
 	"gym-membership/telemetry-service/internal/delivery/email"
 	telemetryGrpc "gym-membership/telemetry-service/internal/delivery/grpc"
 	"gym-membership/telemetry-service/internal/delivery/subscriber"
 	"gym-membership/telemetry-service/internal/repository/postgres"
 	"gym-membership/telemetry-service/internal/usecase"
+	"gym-membership/telemetry-service/internal/observability"
 	telemetry "gym-membership/telemetry-service/proto"
 )
 
-
 func main() {
+	// Initialize structured JSON logging globally as default
+	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})))
+	slog.Info("Starting telemetry service...")
+
+	// Initialize OpenTelemetry Tracer
+	_, cleanup, err := observability.InitTracer(context.Background(), "telemetry-service")
+	if err != nil {
+		slog.Error("Failed to initialize OpenTelemetry tracer", slog.String("error", err.Error()))
+	} else {
+		defer func() {
+			if err := cleanup(context.Background()); err != nil {
+				slog.Error("Failed to shutdown OpenTelemetry tracer", slog.String("error", err.Error()))
+			}
+		}()
+		slog.Info("OpenTelemetry tracer initialized successfully")
+	}
+
+	// Start Prometheus HTTP metrics server in a goroutine
+	go func() {
+		metricsPort := os.Getenv("METRICS_PORT")
+		if metricsPort == "" {
+			metricsPort = "2112"
+		}
+		slog.Info("Starting Prometheus metrics HTTP server", slog.String("port", metricsPort))
+		http.Handle("/metrics", promhttp.Handler())
+		if err := http.ListenAndServe(":"+metricsPort, nil); err != nil {
+			slog.Error("Failed to serve Prometheus metrics", slog.String("error", err.Error()))
+			os.Exit(1)
+		}
+	}()
+
 	// NATS connection
 	natsURL := os.Getenv("NATS_URL")
 	if natsURL == "" {
@@ -31,11 +64,12 @@ func main() {
 
 	nc, err := nats.Connect(natsURL)
 	if err != nil {
-		log.Fatalf("Error connecting to NATS: %v", err)
+		slog.Error("Error connecting to NATS", slog.String("error", err.Error()))
+		os.Exit(1)
 	}
 	defer nc.Close()
 
-	fmt.Printf("Connected to NATS at %s\n", natsURL)
+	slog.Info("Connected to NATS", slog.String("url", natsURL))
 
 	// Initialize DB
 	dbURL := os.Getenv("DATABASE_URL")
@@ -44,12 +78,14 @@ func main() {
 	}
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
-		log.Fatalf("Failed to open DB: %v", err)
+		slog.Error("Failed to open DB", slog.String("error", err.Error()))
+		os.Exit(1)
 	}
 	defer db.Close()
 
 	if err := db.Ping(); err != nil {
-		log.Fatalf("Failed to ping DB: %v", err)
+		slog.Error("Failed to ping DB", slog.String("error", err.Error()))
+		os.Exit(1)
 	}
 
 	// Initialize Email Sender
@@ -66,14 +102,21 @@ func main() {
 	repo := postgres.NewUsageSessionRepo(db)
 	uc := usecase.NewTelemetryUsecase(repo, emailSender)
 
+	var natsHandler *subscriber.NatsHandler
 
 	// Start NATS subscriber in a goroutine
 	go func() {
-		natsHandler := subscriber.NewNatsHandler(nc, uc)
+		natsHandler = subscriber.NewNatsHandler(nc, uc)
 		if err := natsHandler.Subscribe(); err != nil {
-			log.Fatalf("Error subscribing to NATS: %v", err)
+			slog.Error("Error subscribing to NATS", slog.String("error", err.Error()))
+			os.Exit(1)
 		}
-		fmt.Println("NATS subscriber is running...")
+		slog.Info("NATS subscriber is running...")
+	}()
+	defer func() {
+		if natsHandler != nil {
+			natsHandler.Close()
+		}
 	}()
 
 	// Start gRPC server in a goroutine
@@ -84,26 +127,28 @@ func main() {
 		}
 		lis, err := net.Listen("tcp", ":"+port)
 		if err != nil {
-			log.Fatalf("failed to listen: %v", err)
+			slog.Error("failed to listen", slog.String("error", err.Error()))
+			os.Exit(1)
 		}
 
 		s := grpc.NewServer()
 		grpcHandler := telemetryGrpc.NewTelemetryHandler(uc)
 		telemetry.RegisterTelemetryServiceServer(s, grpcHandler)
 
-		fmt.Printf("gRPC server listening at %v\n", lis.Addr())
+		slog.Info("gRPC server listening", slog.String("address", lis.Addr().String()))
 
 		if err := s.Serve(lis); err != nil {
-			log.Fatalf("failed to serve: %v", err)
+			slog.Error("failed to serve", slog.String("error", err.Error()))
+			os.Exit(1)
 		}
 	}()
 
-	fmt.Println("Telemetry service is running (NATS + gRPC)...")
+	slog.Info("Telemetry service is running (NATS + gRPC + Metrics)...")
 
 	// Wait for termination signal
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	<-sigChan
 
-	fmt.Println("Shutting down telemetry service...")
+	slog.Info("Shutting down telemetry service...")
 }

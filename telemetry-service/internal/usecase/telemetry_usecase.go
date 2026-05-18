@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 	"gym-membership/telemetry-service/internal/domain"
+	"gym-membership/telemetry-service/internal/observability"
+	"log/slog"
 	"time"
 )
 
@@ -48,11 +50,30 @@ func (u *TelemetryUsecase) HandleBookingReturned(ctx context.Context, userID, as
 	if u.emailSender != nil {
 		// Replace with actual email lookup if needed later
 		userEmail := "user_" + userID + "@example.com"
+		
+		slog.Info("Sending thank-you email",
+			slog.String("booking_id", bookingID),
+			slog.String("user_id", userID),
+			slog.String("email", userEmail),
+		)
+
 		err = u.emailSender.SendThankYouEmail(ctx, userEmail, session)
 		if err != nil {
+			slog.Error("Failed to send thank-you email",
+				slog.String("error", err.Error()),
+				slog.String("booking_id", bookingID),
+				slog.String("user_id", userID),
+			)
+			observability.EmailsSent.WithLabelValues("error").Inc()
 			// Log error but do not fail the transaction since booking is returned
 			return err
 		}
+		
+		slog.Info("Successfully sent thank-you email",
+			slog.String("booking_id", bookingID),
+			slog.String("user_id", userID),
+		)
+		observability.EmailsSent.WithLabelValues("success").Inc()
 		
 		session.EmailSent = true
 		_ = u.repo.Update(ctx, session)
