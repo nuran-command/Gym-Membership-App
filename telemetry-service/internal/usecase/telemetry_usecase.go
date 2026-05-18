@@ -101,3 +101,45 @@ func (u *TelemetryUsecase) GetAssetUsageHistory(ctx context.Context, assetID str
 func (u *TelemetryUsecase) GetSystemUsageStats(ctx context.Context) ([]*domain.AssetUsageStats, error) {
 	return u.repo.GetSystemUsageStats(ctx)
 }
+
+func (u *TelemetryUsecase) CreateUsageSession(ctx context.Context, bookingID, userID, assetID string) (*domain.UsageSession, error) {
+	session := &domain.UsageSession{
+		BookingID: bookingID,
+		UserID:    userID,
+		AssetID:   assetID,
+		StartedAt: time.Now(),
+	}
+	err := u.repo.Create(ctx, session)
+	if err != nil {
+		return nil, err
+	}
+	return session, nil
+}
+
+func (u *TelemetryUsecase) UpdateUsageSession(ctx context.Context, bookingID string, endedAt time.Time, duration int, emailSent bool) (*domain.UsageSession, error) {
+	session, err := u.repo.GetByBookingID(ctx, bookingID)
+	if err != nil {
+		return nil, err
+	}
+	session.EndedAt = &endedAt
+	session.DurationMinutes = duration
+	session.EmailSent = emailSent
+
+	err = u.repo.Update(ctx, session)
+	if err != nil {
+		return nil, err
+	}
+	return session, nil
+}
+
+func (u *TelemetryUsecase) DeleteUsageSession(ctx context.Context, bookingID string) error {
+	return u.repo.Delete(ctx, bookingID)
+}
+
+func (u *TelemetryUsecase) GetUserActiveSession(ctx context.Context, userID string) (*domain.UsageSession, error) {
+	return u.repo.GetActiveByUserID(ctx, userID)
+}
+
+func (u *TelemetryUsecase) GetAssetActiveSession(ctx context.Context, assetID string) (*domain.UsageSession, error) {
+	return u.repo.GetActiveByAssetID(ctx, assetID)
+}

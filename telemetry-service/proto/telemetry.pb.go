@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v7.34.1
-// source: proto/telemetry.proto
+// source: telemetry-service/proto/telemetry.proto
 
 package telemetry
 
@@ -30,7 +30,7 @@ type GetUsageSessionRequest struct {
 
 func (x *GetUsageSessionRequest) Reset() {
 	*x = GetUsageSessionRequest{}
-	mi := &file_proto_telemetry_proto_msgTypes[0]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *GetUsageSessionRequest) String() string {
 func (*GetUsageSessionRequest) ProtoMessage() {}
 
 func (x *GetUsageSessionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[0]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *GetUsageSessionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsageSessionRequest.ProtoReflect.Descriptor instead.
 func (*GetUsageSessionRequest) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{0}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *GetUsageSessionRequest) GetBookingId() string {
@@ -74,7 +74,7 @@ type ListUserSessionsRequest struct {
 
 func (x *ListUserSessionsRequest) Reset() {
 	*x = ListUserSessionsRequest{}
-	mi := &file_proto_telemetry_proto_msgTypes[1]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -86,7 +86,7 @@ func (x *ListUserSessionsRequest) String() string {
 func (*ListUserSessionsRequest) ProtoMessage() {}
 
 func (x *ListUserSessionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[1]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -99,7 +99,7 @@ func (x *ListUserSessionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserSessionsRequest.ProtoReflect.Descriptor instead.
 func (*ListUserSessionsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{1}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListUserSessionsRequest) GetUserId() string {
@@ -118,7 +118,7 @@ type ListUserSessionsResponse struct {
 
 func (x *ListUserSessionsResponse) Reset() {
 	*x = ListUserSessionsResponse{}
-	mi := &file_proto_telemetry_proto_msgTypes[2]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -130,7 +130,7 @@ func (x *ListUserSessionsResponse) String() string {
 func (*ListUserSessionsResponse) ProtoMessage() {}
 
 func (x *ListUserSessionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[2]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -143,7 +143,7 @@ func (x *ListUserSessionsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserSessionsResponse.ProtoReflect.Descriptor instead.
 func (*ListUserSessionsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{2}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListUserSessionsResponse) GetSessions() []*UsageSessionResponse {
@@ -161,7 +161,7 @@ type GetSystemUsageStatsRequest struct {
 
 func (x *GetSystemUsageStatsRequest) Reset() {
 	*x = GetSystemUsageStatsRequest{}
-	mi := &file_proto_telemetry_proto_msgTypes[3]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -173,7 +173,7 @@ func (x *GetSystemUsageStatsRequest) String() string {
 func (*GetSystemUsageStatsRequest) ProtoMessage() {}
 
 func (x *GetSystemUsageStatsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[3]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -186,7 +186,7 @@ func (x *GetSystemUsageStatsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSystemUsageStatsRequest.ProtoReflect.Descriptor instead.
 func (*GetSystemUsageStatsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{3}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{3}
 }
 
 type SystemUsageStatsResponse struct {
@@ -198,7 +198,7 @@ type SystemUsageStatsResponse struct {
 
 func (x *SystemUsageStatsResponse) Reset() {
 	*x = SystemUsageStatsResponse{}
-	mi := &file_proto_telemetry_proto_msgTypes[4]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -210,7 +210,7 @@ func (x *SystemUsageStatsResponse) String() string {
 func (*SystemUsageStatsResponse) ProtoMessage() {}
 
 func (x *SystemUsageStatsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[4]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -223,7 +223,7 @@ func (x *SystemUsageStatsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SystemUsageStatsResponse.ProtoReflect.Descriptor instead.
 func (*SystemUsageStatsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{4}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *SystemUsageStatsResponse) GetAssetStats() []*AssetUsageStats {
@@ -244,7 +244,7 @@ type AssetUsageStats struct {
 
 func (x *AssetUsageStats) Reset() {
 	*x = AssetUsageStats{}
-	mi := &file_proto_telemetry_proto_msgTypes[5]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -256,7 +256,7 @@ func (x *AssetUsageStats) String() string {
 func (*AssetUsageStats) ProtoMessage() {}
 
 func (x *AssetUsageStats) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[5]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -269,7 +269,7 @@ func (x *AssetUsageStats) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssetUsageStats.ProtoReflect.Descriptor instead.
 func (*AssetUsageStats) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{5}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *AssetUsageStats) GetAssetId() string {
@@ -302,7 +302,7 @@ type GetUsageStatsRequest struct {
 
 func (x *GetUsageStatsRequest) Reset() {
 	*x = GetUsageStatsRequest{}
-	mi := &file_proto_telemetry_proto_msgTypes[6]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -314,7 +314,7 @@ func (x *GetUsageStatsRequest) String() string {
 func (*GetUsageStatsRequest) ProtoMessage() {}
 
 func (x *GetUsageStatsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[6]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,7 +327,7 @@ func (x *GetUsageStatsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsageStatsRequest.ProtoReflect.Descriptor instead.
 func (*GetUsageStatsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{6}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetUsageStatsRequest) GetUserId() string {
@@ -347,7 +347,7 @@ type UsageStatsResponse struct {
 
 func (x *UsageStatsResponse) Reset() {
 	*x = UsageStatsResponse{}
-	mi := &file_proto_telemetry_proto_msgTypes[7]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -359,7 +359,7 @@ func (x *UsageStatsResponse) String() string {
 func (*UsageStatsResponse) ProtoMessage() {}
 
 func (x *UsageStatsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[7]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -372,7 +372,7 @@ func (x *UsageStatsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UsageStatsResponse.ProtoReflect.Descriptor instead.
 func (*UsageStatsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{7}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UsageStatsResponse) GetTotalSessions() int32 {
@@ -398,7 +398,7 @@ type GetAssetUsageHistoryRequest struct {
 
 func (x *GetAssetUsageHistoryRequest) Reset() {
 	*x = GetAssetUsageHistoryRequest{}
-	mi := &file_proto_telemetry_proto_msgTypes[8]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -410,7 +410,7 @@ func (x *GetAssetUsageHistoryRequest) String() string {
 func (*GetAssetUsageHistoryRequest) ProtoMessage() {}
 
 func (x *GetAssetUsageHistoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[8]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -423,7 +423,7 @@ func (x *GetAssetUsageHistoryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAssetUsageHistoryRequest.ProtoReflect.Descriptor instead.
 func (*GetAssetUsageHistoryRequest) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{8}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetAssetUsageHistoryRequest) GetAssetId() string {
@@ -442,7 +442,7 @@ type GetAssetUsageHistoryResponse struct {
 
 func (x *GetAssetUsageHistoryResponse) Reset() {
 	*x = GetAssetUsageHistoryResponse{}
-	mi := &file_proto_telemetry_proto_msgTypes[9]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -454,7 +454,7 @@ func (x *GetAssetUsageHistoryResponse) String() string {
 func (*GetAssetUsageHistoryResponse) ProtoMessage() {}
 
 func (x *GetAssetUsageHistoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[9]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -467,7 +467,7 @@ func (x *GetAssetUsageHistoryResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAssetUsageHistoryResponse.ProtoReflect.Descriptor instead.
 func (*GetAssetUsageHistoryResponse) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{9}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetAssetUsageHistoryResponse) GetSessions() []*UsageSessionResponse {
@@ -491,7 +491,7 @@ type UsageSessionResponse struct {
 
 func (x *UsageSessionResponse) Reset() {
 	*x = UsageSessionResponse{}
-	mi := &file_proto_telemetry_proto_msgTypes[10]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -503,7 +503,7 @@ func (x *UsageSessionResponse) String() string {
 func (*UsageSessionResponse) ProtoMessage() {}
 
 func (x *UsageSessionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_telemetry_proto_msgTypes[10]
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -516,7 +516,7 @@ func (x *UsageSessionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UsageSessionResponse.ProtoReflect.Descriptor instead.
 func (*UsageSessionResponse) Descriptor() ([]byte, []int) {
-	return file_proto_telemetry_proto_rawDescGZIP(), []int{10}
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UsageSessionResponse) GetBookingId() string {
@@ -561,11 +561,508 @@ func (x *UsageSessionResponse) GetDurationMinutes() int32 {
 	return 0
 }
 
-var File_proto_telemetry_proto protoreflect.FileDescriptor
+// New message definitions
+type CreateUsageSessionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BookingId     string                 `protobuf:"bytes,1,opt,name=booking_id,json=bookingId,proto3" json:"booking_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	AssetId       string                 `protobuf:"bytes,3,opt,name=asset_id,json=assetId,proto3" json:"asset_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_proto_telemetry_proto_rawDesc = "" +
+func (x *CreateUsageSessionRequest) Reset() {
+	*x = CreateUsageSessionRequest{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateUsageSessionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUsageSessionRequest) ProtoMessage() {}
+
+func (x *CreateUsageSessionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUsageSessionRequest.ProtoReflect.Descriptor instead.
+func (*CreateUsageSessionRequest) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *CreateUsageSessionRequest) GetBookingId() string {
+	if x != nil {
+		return x.BookingId
+	}
+	return ""
+}
+
+func (x *CreateUsageSessionRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *CreateUsageSessionRequest) GetAssetId() string {
+	if x != nil {
+		return x.AssetId
+	}
+	return ""
+}
+
+type UpdateUsageSessionRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	BookingId       string                 `protobuf:"bytes,1,opt,name=booking_id,json=bookingId,proto3" json:"booking_id,omitempty"`
+	EndedAt         string                 `protobuf:"bytes,2,opt,name=ended_at,json=endedAt,proto3" json:"ended_at,omitempty"` // ISO 8601 string
+	DurationMinutes int32                  `protobuf:"varint,3,opt,name=duration_minutes,json=durationMinutes,proto3" json:"duration_minutes,omitempty"`
+	EmailSent       bool                   `protobuf:"varint,4,opt,name=email_sent,json=emailSent,proto3" json:"email_sent,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *UpdateUsageSessionRequest) Reset() {
+	*x = UpdateUsageSessionRequest{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUsageSessionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUsageSessionRequest) ProtoMessage() {}
+
+func (x *UpdateUsageSessionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUsageSessionRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUsageSessionRequest) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpdateUsageSessionRequest) GetBookingId() string {
+	if x != nil {
+		return x.BookingId
+	}
+	return ""
+}
+
+func (x *UpdateUsageSessionRequest) GetEndedAt() string {
+	if x != nil {
+		return x.EndedAt
+	}
+	return ""
+}
+
+func (x *UpdateUsageSessionRequest) GetDurationMinutes() int32 {
+	if x != nil {
+		return x.DurationMinutes
+	}
+	return 0
+}
+
+func (x *UpdateUsageSessionRequest) GetEmailSent() bool {
+	if x != nil {
+		return x.EmailSent
+	}
+	return false
+}
+
+type DeleteUsageSessionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BookingId     string                 `protobuf:"bytes,1,opt,name=booking_id,json=bookingId,proto3" json:"booking_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUsageSessionRequest) Reset() {
+	*x = DeleteUsageSessionRequest{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUsageSessionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUsageSessionRequest) ProtoMessage() {}
+
+func (x *DeleteUsageSessionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUsageSessionRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUsageSessionRequest) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DeleteUsageSessionRequest) GetBookingId() string {
+	if x != nil {
+		return x.BookingId
+	}
+	return ""
+}
+
+type DeleteUsageSessionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUsageSessionResponse) Reset() {
+	*x = DeleteUsageSessionResponse{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUsageSessionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUsageSessionResponse) ProtoMessage() {}
+
+func (x *DeleteUsageSessionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUsageSessionResponse.ProtoReflect.Descriptor instead.
+func (*DeleteUsageSessionResponse) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DeleteUsageSessionResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type GetUserActiveSessionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserActiveSessionRequest) Reset() {
+	*x = GetUserActiveSessionRequest{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserActiveSessionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserActiveSessionRequest) ProtoMessage() {}
+
+func (x *GetUserActiveSessionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserActiveSessionRequest.ProtoReflect.Descriptor instead.
+func (*GetUserActiveSessionRequest) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetUserActiveSessionRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type GetAssetActiveSessionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AssetId       string                 `protobuf:"bytes,1,opt,name=asset_id,json=assetId,proto3" json:"asset_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAssetActiveSessionRequest) Reset() {
+	*x = GetAssetActiveSessionRequest{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetActiveSessionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetActiveSessionRequest) ProtoMessage() {}
+
+func (x *GetAssetActiveSessionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetActiveSessionRequest.ProtoReflect.Descriptor instead.
+func (*GetAssetActiveSessionRequest) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetAssetActiveSessionRequest) GetAssetId() string {
+	if x != nil {
+		return x.AssetId
+	}
+	return ""
+}
+
+type HeartbeatRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HeartbeatRequest) Reset() {
+	*x = HeartbeatRequest{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HeartbeatRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HeartbeatRequest) ProtoMessage() {}
+
+func (x *HeartbeatRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HeartbeatRequest.ProtoReflect.Descriptor instead.
+func (*HeartbeatRequest) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{17}
+}
+
+type HeartbeatResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	Timestamp     string                 `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HeartbeatResponse) Reset() {
+	*x = HeartbeatResponse{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HeartbeatResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HeartbeatResponse) ProtoMessage() {}
+
+func (x *HeartbeatResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HeartbeatResponse.ProtoReflect.Descriptor instead.
+func (*HeartbeatResponse) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *HeartbeatResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *HeartbeatResponse) GetTimestamp() string {
+	if x != nil {
+		return x.Timestamp
+	}
+	return ""
+}
+
+type LogEventRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EventType     string                 `protobuf:"bytes,1,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Payload       string                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogEventRequest) Reset() {
+	*x = LogEventRequest{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogEventRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogEventRequest) ProtoMessage() {}
+
+func (x *LogEventRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogEventRequest.ProtoReflect.Descriptor instead.
+func (*LogEventRequest) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *LogEventRequest) GetEventType() string {
+	if x != nil {
+		return x.EventType
+	}
+	return ""
+}
+
+func (x *LogEventRequest) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *LogEventRequest) GetPayload() string {
+	if x != nil {
+		return x.Payload
+	}
+	return ""
+}
+
+type LogEventResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogEventResponse) Reset() {
+	*x = LogEventResponse{}
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogEventResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogEventResponse) ProtoMessage() {}
+
+func (x *LogEventResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_telemetry_service_proto_telemetry_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogEventResponse.ProtoReflect.Descriptor instead.
+func (*LogEventResponse) Descriptor() ([]byte, []int) {
+	return file_telemetry_service_proto_telemetry_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *LogEventResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+var File_telemetry_service_proto_telemetry_proto protoreflect.FileDescriptor
+
+const file_telemetry_service_proto_telemetry_proto_rawDesc = "" +
 	"\n" +
-	"\x15proto/telemetry.proto\x12\ttelemetry\"7\n" +
+	"'telemetry-service/proto/telemetry.proto\x12\ttelemetry\"7\n" +
 	"\x16GetUsageSessionRequest\x12\x1d\n" +
 	"\n" +
 	"booking_id\x18\x01 \x01(\tR\tbookingId\"2\n" +
@@ -598,28 +1095,67 @@ const file_proto_telemetry_proto_rawDesc = "" +
 	"\n" +
 	"started_at\x18\x04 \x01(\tR\tstartedAt\x12\x19\n" +
 	"\bended_at\x18\x05 \x01(\tR\aendedAt\x12)\n" +
-	"\x10duration_minutes\x18\x06 \x01(\x05R\x0fdurationMinutes2\xe3\x03\n" +
+	"\x10duration_minutes\x18\x06 \x01(\x05R\x0fdurationMinutes\"n\n" +
+	"\x19CreateUsageSessionRequest\x12\x1d\n" +
+	"\n" +
+	"booking_id\x18\x01 \x01(\tR\tbookingId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x19\n" +
+	"\basset_id\x18\x03 \x01(\tR\aassetId\"\x9f\x01\n" +
+	"\x19UpdateUsageSessionRequest\x12\x1d\n" +
+	"\n" +
+	"booking_id\x18\x01 \x01(\tR\tbookingId\x12\x19\n" +
+	"\bended_at\x18\x02 \x01(\tR\aendedAt\x12)\n" +
+	"\x10duration_minutes\x18\x03 \x01(\x05R\x0fdurationMinutes\x12\x1d\n" +
+	"\n" +
+	"email_sent\x18\x04 \x01(\bR\temailSent\":\n" +
+	"\x19DeleteUsageSessionRequest\x12\x1d\n" +
+	"\n" +
+	"booking_id\x18\x01 \x01(\tR\tbookingId\"6\n" +
+	"\x1aDeleteUsageSessionResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"6\n" +
+	"\x1bGetUserActiveSessionRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"9\n" +
+	"\x1cGetAssetActiveSessionRequest\x12\x19\n" +
+	"\basset_id\x18\x01 \x01(\tR\aassetId\"\x12\n" +
+	"\x10HeartbeatRequest\"I\n" +
+	"\x11HeartbeatResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\x12\x1c\n" +
+	"\ttimestamp\x18\x02 \x01(\tR\ttimestamp\"d\n" +
+	"\x0fLogEventRequest\x12\x1d\n" +
+	"\n" +
+	"event_type\x18\x01 \x01(\tR\teventType\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x18\n" +
+	"\apayload\x18\x03 \x01(\tR\apayload\",\n" +
+	"\x10LogEventResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xd1\b\n" +
 	"\x10TelemetryService\x12U\n" +
 	"\x0fGetUsageSession\x12!.telemetry.GetUsageSessionRequest\x1a\x1f.telemetry.UsageSessionResponse\x12[\n" +
 	"\x10ListUserSessions\x12\".telemetry.ListUserSessionsRequest\x1a#.telemetry.ListUserSessionsResponse\x12O\n" +
 	"\rGetUsageStats\x12\x1f.telemetry.GetUsageStatsRequest\x1a\x1d.telemetry.UsageStatsResponse\x12g\n" +
 	"\x14GetAssetUsageHistory\x12&.telemetry.GetAssetUsageHistoryRequest\x1a'.telemetry.GetAssetUsageHistoryResponse\x12a\n" +
-	"\x13GetSystemUsageStats\x12%.telemetry.GetSystemUsageStatsRequest\x1a#.telemetry.SystemUsageStatsResponseB2Z0gym-membership/telemetry-service/proto;telemetryb\x06proto3"
+	"\x13GetSystemUsageStats\x12%.telemetry.GetSystemUsageStatsRequest\x1a#.telemetry.SystemUsageStatsResponse\x12[\n" +
+	"\x12CreateUsageSession\x12$.telemetry.CreateUsageSessionRequest\x1a\x1f.telemetry.UsageSessionResponse\x12[\n" +
+	"\x12UpdateUsageSession\x12$.telemetry.UpdateUsageSessionRequest\x1a\x1f.telemetry.UsageSessionResponse\x12a\n" +
+	"\x12DeleteUsageSession\x12$.telemetry.DeleteUsageSessionRequest\x1a%.telemetry.DeleteUsageSessionResponse\x12_\n" +
+	"\x14GetUserActiveSession\x12&.telemetry.GetUserActiveSessionRequest\x1a\x1f.telemetry.UsageSessionResponse\x12a\n" +
+	"\x15GetAssetActiveSession\x12'.telemetry.GetAssetActiveSessionRequest\x1a\x1f.telemetry.UsageSessionResponse\x12F\n" +
+	"\tHeartbeat\x12\x1b.telemetry.HeartbeatRequest\x1a\x1c.telemetry.HeartbeatResponse\x12C\n" +
+	"\bLogEvent\x12\x1a.telemetry.LogEventRequest\x1a\x1b.telemetry.LogEventResponseB2Z0gym-membership/telemetry-service/proto;telemetryb\x06proto3"
 
 var (
-	file_proto_telemetry_proto_rawDescOnce sync.Once
-	file_proto_telemetry_proto_rawDescData []byte
+	file_telemetry_service_proto_telemetry_proto_rawDescOnce sync.Once
+	file_telemetry_service_proto_telemetry_proto_rawDescData []byte
 )
 
-func file_proto_telemetry_proto_rawDescGZIP() []byte {
-	file_proto_telemetry_proto_rawDescOnce.Do(func() {
-		file_proto_telemetry_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_telemetry_proto_rawDesc), len(file_proto_telemetry_proto_rawDesc)))
+func file_telemetry_service_proto_telemetry_proto_rawDescGZIP() []byte {
+	file_telemetry_service_proto_telemetry_proto_rawDescOnce.Do(func() {
+		file_telemetry_service_proto_telemetry_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_telemetry_service_proto_telemetry_proto_rawDesc), len(file_telemetry_service_proto_telemetry_proto_rawDesc)))
 	})
-	return file_proto_telemetry_proto_rawDescData
+	return file_telemetry_service_proto_telemetry_proto_rawDescData
 }
 
-var file_proto_telemetry_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
-var file_proto_telemetry_proto_goTypes = []any{
+var file_telemetry_service_proto_telemetry_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_telemetry_service_proto_telemetry_proto_goTypes = []any{
 	(*GetUsageSessionRequest)(nil),       // 0: telemetry.GetUsageSessionRequest
 	(*ListUserSessionsRequest)(nil),      // 1: telemetry.ListUserSessionsRequest
 	(*ListUserSessionsResponse)(nil),     // 2: telemetry.ListUserSessionsResponse
@@ -631,8 +1167,18 @@ var file_proto_telemetry_proto_goTypes = []any{
 	(*GetAssetUsageHistoryRequest)(nil),  // 8: telemetry.GetAssetUsageHistoryRequest
 	(*GetAssetUsageHistoryResponse)(nil), // 9: telemetry.GetAssetUsageHistoryResponse
 	(*UsageSessionResponse)(nil),         // 10: telemetry.UsageSessionResponse
+	(*CreateUsageSessionRequest)(nil),    // 11: telemetry.CreateUsageSessionRequest
+	(*UpdateUsageSessionRequest)(nil),    // 12: telemetry.UpdateUsageSessionRequest
+	(*DeleteUsageSessionRequest)(nil),    // 13: telemetry.DeleteUsageSessionRequest
+	(*DeleteUsageSessionResponse)(nil),   // 14: telemetry.DeleteUsageSessionResponse
+	(*GetUserActiveSessionRequest)(nil),  // 15: telemetry.GetUserActiveSessionRequest
+	(*GetAssetActiveSessionRequest)(nil), // 16: telemetry.GetAssetActiveSessionRequest
+	(*HeartbeatRequest)(nil),             // 17: telemetry.HeartbeatRequest
+	(*HeartbeatResponse)(nil),            // 18: telemetry.HeartbeatResponse
+	(*LogEventRequest)(nil),              // 19: telemetry.LogEventRequest
+	(*LogEventResponse)(nil),             // 20: telemetry.LogEventResponse
 }
-var file_proto_telemetry_proto_depIdxs = []int32{
+var file_telemetry_service_proto_telemetry_proto_depIdxs = []int32{
 	10, // 0: telemetry.ListUserSessionsResponse.sessions:type_name -> telemetry.UsageSessionResponse
 	5,  // 1: telemetry.SystemUsageStatsResponse.asset_stats:type_name -> telemetry.AssetUsageStats
 	10, // 2: telemetry.GetAssetUsageHistoryResponse.sessions:type_name -> telemetry.UsageSessionResponse
@@ -641,38 +1187,52 @@ var file_proto_telemetry_proto_depIdxs = []int32{
 	6,  // 5: telemetry.TelemetryService.GetUsageStats:input_type -> telemetry.GetUsageStatsRequest
 	8,  // 6: telemetry.TelemetryService.GetAssetUsageHistory:input_type -> telemetry.GetAssetUsageHistoryRequest
 	3,  // 7: telemetry.TelemetryService.GetSystemUsageStats:input_type -> telemetry.GetSystemUsageStatsRequest
-	10, // 8: telemetry.TelemetryService.GetUsageSession:output_type -> telemetry.UsageSessionResponse
-	2,  // 9: telemetry.TelemetryService.ListUserSessions:output_type -> telemetry.ListUserSessionsResponse
-	7,  // 10: telemetry.TelemetryService.GetUsageStats:output_type -> telemetry.UsageStatsResponse
-	9,  // 11: telemetry.TelemetryService.GetAssetUsageHistory:output_type -> telemetry.GetAssetUsageHistoryResponse
-	4,  // 12: telemetry.TelemetryService.GetSystemUsageStats:output_type -> telemetry.SystemUsageStatsResponse
-	8,  // [8:13] is the sub-list for method output_type
-	3,  // [3:8] is the sub-list for method input_type
+	11, // 8: telemetry.TelemetryService.CreateUsageSession:input_type -> telemetry.CreateUsageSessionRequest
+	12, // 9: telemetry.TelemetryService.UpdateUsageSession:input_type -> telemetry.UpdateUsageSessionRequest
+	13, // 10: telemetry.TelemetryService.DeleteUsageSession:input_type -> telemetry.DeleteUsageSessionRequest
+	15, // 11: telemetry.TelemetryService.GetUserActiveSession:input_type -> telemetry.GetUserActiveSessionRequest
+	16, // 12: telemetry.TelemetryService.GetAssetActiveSession:input_type -> telemetry.GetAssetActiveSessionRequest
+	17, // 13: telemetry.TelemetryService.Heartbeat:input_type -> telemetry.HeartbeatRequest
+	19, // 14: telemetry.TelemetryService.LogEvent:input_type -> telemetry.LogEventRequest
+	10, // 15: telemetry.TelemetryService.GetUsageSession:output_type -> telemetry.UsageSessionResponse
+	2,  // 16: telemetry.TelemetryService.ListUserSessions:output_type -> telemetry.ListUserSessionsResponse
+	7,  // 17: telemetry.TelemetryService.GetUsageStats:output_type -> telemetry.UsageStatsResponse
+	9,  // 18: telemetry.TelemetryService.GetAssetUsageHistory:output_type -> telemetry.GetAssetUsageHistoryResponse
+	4,  // 19: telemetry.TelemetryService.GetSystemUsageStats:output_type -> telemetry.SystemUsageStatsResponse
+	10, // 20: telemetry.TelemetryService.CreateUsageSession:output_type -> telemetry.UsageSessionResponse
+	10, // 21: telemetry.TelemetryService.UpdateUsageSession:output_type -> telemetry.UsageSessionResponse
+	14, // 22: telemetry.TelemetryService.DeleteUsageSession:output_type -> telemetry.DeleteUsageSessionResponse
+	10, // 23: telemetry.TelemetryService.GetUserActiveSession:output_type -> telemetry.UsageSessionResponse
+	10, // 24: telemetry.TelemetryService.GetAssetActiveSession:output_type -> telemetry.UsageSessionResponse
+	18, // 25: telemetry.TelemetryService.Heartbeat:output_type -> telemetry.HeartbeatResponse
+	20, // 26: telemetry.TelemetryService.LogEvent:output_type -> telemetry.LogEventResponse
+	15, // [15:27] is the sub-list for method output_type
+	3,  // [3:15] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_proto_telemetry_proto_init() }
-func file_proto_telemetry_proto_init() {
-	if File_proto_telemetry_proto != nil {
+func init() { file_telemetry_service_proto_telemetry_proto_init() }
+func file_telemetry_service_proto_telemetry_proto_init() {
+	if File_telemetry_service_proto_telemetry_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_telemetry_proto_rawDesc), len(file_proto_telemetry_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_telemetry_service_proto_telemetry_proto_rawDesc), len(file_telemetry_service_proto_telemetry_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_telemetry_proto_goTypes,
-		DependencyIndexes: file_proto_telemetry_proto_depIdxs,
-		MessageInfos:      file_proto_telemetry_proto_msgTypes,
+		GoTypes:           file_telemetry_service_proto_telemetry_proto_goTypes,
+		DependencyIndexes: file_telemetry_service_proto_telemetry_proto_depIdxs,
+		MessageInfos:      file_telemetry_service_proto_telemetry_proto_msgTypes,
 	}.Build()
-	File_proto_telemetry_proto = out.File
-	file_proto_telemetry_proto_goTypes = nil
-	file_proto_telemetry_proto_depIdxs = nil
+	File_telemetry_service_proto_telemetry_proto = out.File
+	file_telemetry_service_proto_telemetry_proto_goTypes = nil
+	file_telemetry_service_proto_telemetry_proto_depIdxs = nil
 }

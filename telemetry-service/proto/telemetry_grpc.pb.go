@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v7.34.1
-// source: proto/telemetry.proto
+// source: telemetry-service/proto/telemetry.proto
 
 package telemetry
 
@@ -19,22 +19,38 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TelemetryService_GetUsageSession_FullMethodName      = "/telemetry.TelemetryService/GetUsageSession"
-	TelemetryService_ListUserSessions_FullMethodName     = "/telemetry.TelemetryService/ListUserSessions"
-	TelemetryService_GetUsageStats_FullMethodName        = "/telemetry.TelemetryService/GetUsageStats"
-	TelemetryService_GetAssetUsageHistory_FullMethodName = "/telemetry.TelemetryService/GetAssetUsageHistory"
-	TelemetryService_GetSystemUsageStats_FullMethodName  = "/telemetry.TelemetryService/GetSystemUsageStats"
+	TelemetryService_GetUsageSession_FullMethodName       = "/telemetry.TelemetryService/GetUsageSession"
+	TelemetryService_ListUserSessions_FullMethodName      = "/telemetry.TelemetryService/ListUserSessions"
+	TelemetryService_GetUsageStats_FullMethodName         = "/telemetry.TelemetryService/GetUsageStats"
+	TelemetryService_GetAssetUsageHistory_FullMethodName  = "/telemetry.TelemetryService/GetAssetUsageHistory"
+	TelemetryService_GetSystemUsageStats_FullMethodName   = "/telemetry.TelemetryService/GetSystemUsageStats"
+	TelemetryService_CreateUsageSession_FullMethodName    = "/telemetry.TelemetryService/CreateUsageSession"
+	TelemetryService_UpdateUsageSession_FullMethodName    = "/telemetry.TelemetryService/UpdateUsageSession"
+	TelemetryService_DeleteUsageSession_FullMethodName    = "/telemetry.TelemetryService/DeleteUsageSession"
+	TelemetryService_GetUserActiveSession_FullMethodName  = "/telemetry.TelemetryService/GetUserActiveSession"
+	TelemetryService_GetAssetActiveSession_FullMethodName = "/telemetry.TelemetryService/GetAssetActiveSession"
+	TelemetryService_Heartbeat_FullMethodName             = "/telemetry.TelemetryService/Heartbeat"
+	TelemetryService_LogEvent_FullMethodName              = "/telemetry.TelemetryService/LogEvent"
 )
 
 // TelemetryServiceClient is the client API for TelemetryService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TelemetryServiceClient interface {
+	// Existing 5 endpoints
 	GetUsageSession(ctx context.Context, in *GetUsageSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error)
 	ListUserSessions(ctx context.Context, in *ListUserSessionsRequest, opts ...grpc.CallOption) (*ListUserSessionsResponse, error)
 	GetUsageStats(ctx context.Context, in *GetUsageStatsRequest, opts ...grpc.CallOption) (*UsageStatsResponse, error)
 	GetAssetUsageHistory(ctx context.Context, in *GetAssetUsageHistoryRequest, opts ...grpc.CallOption) (*GetAssetUsageHistoryResponse, error)
 	GetSystemUsageStats(ctx context.Context, in *GetSystemUsageStatsRequest, opts ...grpc.CallOption) (*SystemUsageStatsResponse, error)
+	// New 7 endpoints
+	CreateUsageSession(ctx context.Context, in *CreateUsageSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error)
+	UpdateUsageSession(ctx context.Context, in *UpdateUsageSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error)
+	DeleteUsageSession(ctx context.Context, in *DeleteUsageSessionRequest, opts ...grpc.CallOption) (*DeleteUsageSessionResponse, error)
+	GetUserActiveSession(ctx context.Context, in *GetUserActiveSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error)
+	GetAssetActiveSession(ctx context.Context, in *GetAssetActiveSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error)
+	Heartbeat(ctx context.Context, in *HeartbeatRequest, opts ...grpc.CallOption) (*HeartbeatResponse, error)
+	LogEvent(ctx context.Context, in *LogEventRequest, opts ...grpc.CallOption) (*LogEventResponse, error)
 }
 
 type telemetryServiceClient struct {
@@ -95,15 +111,94 @@ func (c *telemetryServiceClient) GetSystemUsageStats(ctx context.Context, in *Ge
 	return out, nil
 }
 
+func (c *telemetryServiceClient) CreateUsageSession(ctx context.Context, in *CreateUsageSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UsageSessionResponse)
+	err := c.cc.Invoke(ctx, TelemetryService_CreateUsageSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *telemetryServiceClient) UpdateUsageSession(ctx context.Context, in *UpdateUsageSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UsageSessionResponse)
+	err := c.cc.Invoke(ctx, TelemetryService_UpdateUsageSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *telemetryServiceClient) DeleteUsageSession(ctx context.Context, in *DeleteUsageSessionRequest, opts ...grpc.CallOption) (*DeleteUsageSessionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteUsageSessionResponse)
+	err := c.cc.Invoke(ctx, TelemetryService_DeleteUsageSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *telemetryServiceClient) GetUserActiveSession(ctx context.Context, in *GetUserActiveSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UsageSessionResponse)
+	err := c.cc.Invoke(ctx, TelemetryService_GetUserActiveSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *telemetryServiceClient) GetAssetActiveSession(ctx context.Context, in *GetAssetActiveSessionRequest, opts ...grpc.CallOption) (*UsageSessionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UsageSessionResponse)
+	err := c.cc.Invoke(ctx, TelemetryService_GetAssetActiveSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *telemetryServiceClient) Heartbeat(ctx context.Context, in *HeartbeatRequest, opts ...grpc.CallOption) (*HeartbeatResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HeartbeatResponse)
+	err := c.cc.Invoke(ctx, TelemetryService_Heartbeat_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *telemetryServiceClient) LogEvent(ctx context.Context, in *LogEventRequest, opts ...grpc.CallOption) (*LogEventResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LogEventResponse)
+	err := c.cc.Invoke(ctx, TelemetryService_LogEvent_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TelemetryServiceServer is the server API for TelemetryService service.
 // All implementations must embed UnimplementedTelemetryServiceServer
 // for forward compatibility.
 type TelemetryServiceServer interface {
+	// Existing 5 endpoints
 	GetUsageSession(context.Context, *GetUsageSessionRequest) (*UsageSessionResponse, error)
 	ListUserSessions(context.Context, *ListUserSessionsRequest) (*ListUserSessionsResponse, error)
 	GetUsageStats(context.Context, *GetUsageStatsRequest) (*UsageStatsResponse, error)
 	GetAssetUsageHistory(context.Context, *GetAssetUsageHistoryRequest) (*GetAssetUsageHistoryResponse, error)
 	GetSystemUsageStats(context.Context, *GetSystemUsageStatsRequest) (*SystemUsageStatsResponse, error)
+	// New 7 endpoints
+	CreateUsageSession(context.Context, *CreateUsageSessionRequest) (*UsageSessionResponse, error)
+	UpdateUsageSession(context.Context, *UpdateUsageSessionRequest) (*UsageSessionResponse, error)
+	DeleteUsageSession(context.Context, *DeleteUsageSessionRequest) (*DeleteUsageSessionResponse, error)
+	GetUserActiveSession(context.Context, *GetUserActiveSessionRequest) (*UsageSessionResponse, error)
+	GetAssetActiveSession(context.Context, *GetAssetActiveSessionRequest) (*UsageSessionResponse, error)
+	Heartbeat(context.Context, *HeartbeatRequest) (*HeartbeatResponse, error)
+	LogEvent(context.Context, *LogEventRequest) (*LogEventResponse, error)
 	mustEmbedUnimplementedTelemetryServiceServer()
 }
 
@@ -128,6 +223,27 @@ func (UnimplementedTelemetryServiceServer) GetAssetUsageHistory(context.Context,
 }
 func (UnimplementedTelemetryServiceServer) GetSystemUsageStats(context.Context, *GetSystemUsageStatsRequest) (*SystemUsageStatsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetSystemUsageStats not implemented")
+}
+func (UnimplementedTelemetryServiceServer) CreateUsageSession(context.Context, *CreateUsageSessionRequest) (*UsageSessionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateUsageSession not implemented")
+}
+func (UnimplementedTelemetryServiceServer) UpdateUsageSession(context.Context, *UpdateUsageSessionRequest) (*UsageSessionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateUsageSession not implemented")
+}
+func (UnimplementedTelemetryServiceServer) DeleteUsageSession(context.Context, *DeleteUsageSessionRequest) (*DeleteUsageSessionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteUsageSession not implemented")
+}
+func (UnimplementedTelemetryServiceServer) GetUserActiveSession(context.Context, *GetUserActiveSessionRequest) (*UsageSessionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetUserActiveSession not implemented")
+}
+func (UnimplementedTelemetryServiceServer) GetAssetActiveSession(context.Context, *GetAssetActiveSessionRequest) (*UsageSessionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAssetActiveSession not implemented")
+}
+func (UnimplementedTelemetryServiceServer) Heartbeat(context.Context, *HeartbeatRequest) (*HeartbeatResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method Heartbeat not implemented")
+}
+func (UnimplementedTelemetryServiceServer) LogEvent(context.Context, *LogEventRequest) (*LogEventResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method LogEvent not implemented")
 }
 func (UnimplementedTelemetryServiceServer) mustEmbedUnimplementedTelemetryServiceServer() {}
 func (UnimplementedTelemetryServiceServer) testEmbeddedByValue()                          {}
@@ -240,6 +356,132 @@ func _TelemetryService_GetSystemUsageStats_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TelemetryService_CreateUsageSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUsageSessionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TelemetryServiceServer).CreateUsageSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TelemetryService_CreateUsageSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TelemetryServiceServer).CreateUsageSession(ctx, req.(*CreateUsageSessionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TelemetryService_UpdateUsageSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUsageSessionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TelemetryServiceServer).UpdateUsageSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TelemetryService_UpdateUsageSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TelemetryServiceServer).UpdateUsageSession(ctx, req.(*UpdateUsageSessionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TelemetryService_DeleteUsageSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUsageSessionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TelemetryServiceServer).DeleteUsageSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TelemetryService_DeleteUsageSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TelemetryServiceServer).DeleteUsageSession(ctx, req.(*DeleteUsageSessionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TelemetryService_GetUserActiveSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserActiveSessionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TelemetryServiceServer).GetUserActiveSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TelemetryService_GetUserActiveSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TelemetryServiceServer).GetUserActiveSession(ctx, req.(*GetUserActiveSessionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TelemetryService_GetAssetActiveSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetActiveSessionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TelemetryServiceServer).GetAssetActiveSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TelemetryService_GetAssetActiveSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TelemetryServiceServer).GetAssetActiveSession(ctx, req.(*GetAssetActiveSessionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TelemetryService_Heartbeat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HeartbeatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TelemetryServiceServer).Heartbeat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TelemetryService_Heartbeat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TelemetryServiceServer).Heartbeat(ctx, req.(*HeartbeatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TelemetryService_LogEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TelemetryServiceServer).LogEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TelemetryService_LogEvent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TelemetryServiceServer).LogEvent(ctx, req.(*LogEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TelemetryService_ServiceDesc is the grpc.ServiceDesc for TelemetryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,7 +509,35 @@ var TelemetryService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetSystemUsageStats",
 			Handler:    _TelemetryService_GetSystemUsageStats_Handler,
 		},
+		{
+			MethodName: "CreateUsageSession",
+			Handler:    _TelemetryService_CreateUsageSession_Handler,
+		},
+		{
+			MethodName: "UpdateUsageSession",
+			Handler:    _TelemetryService_UpdateUsageSession_Handler,
+		},
+		{
+			MethodName: "DeleteUsageSession",
+			Handler:    _TelemetryService_DeleteUsageSession_Handler,
+		},
+		{
+			MethodName: "GetUserActiveSession",
+			Handler:    _TelemetryService_GetUserActiveSession_Handler,
+		},
+		{
+			MethodName: "GetAssetActiveSession",
+			Handler:    _TelemetryService_GetAssetActiveSession_Handler,
+		},
+		{
+			MethodName: "Heartbeat",
+			Handler:    _TelemetryService_Heartbeat_Handler,
+		},
+		{
+			MethodName: "LogEvent",
+			Handler:    _TelemetryService_LogEvent_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/telemetry.proto",
+	Metadata: "telemetry-service/proto/telemetry.proto",
 }

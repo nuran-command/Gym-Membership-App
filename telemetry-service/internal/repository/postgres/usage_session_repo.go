@@ -194,3 +194,65 @@ func (r *UsageSessionRepo) GetSystemUsageStats(ctx context.Context) ([]*domain.A
 	}
 	return stats, rows.Err()
 }
+
+func (r *UsageSessionRepo) Delete(ctx context.Context, bookingID string) error {
+	query := `DELETE FROM usage_sessions WHERE booking_id = $1`
+	_, err := r.db.ExecContext(ctx, query, bookingID)
+	return err
+}
+
+func (r *UsageSessionRepo) GetActiveByUserID(ctx context.Context, userID string) (*domain.UsageSession, error) {
+	query := `
+		SELECT id, booking_id, user_id, asset_id, started_at, ended_at, duration_minutes, email_sent
+		FROM usage_sessions
+		WHERE user_id = $1 AND ended_at IS NULL
+		LIMIT 1
+	`
+	session := &domain.UsageSession{}
+	var endedAt sql.NullTime
+	err := r.db.QueryRowContext(ctx, query, userID).Scan(
+		&session.ID,
+		&session.BookingID,
+		&session.UserID,
+		&session.AssetID,
+		&session.StartedAt,
+		&endedAt,
+		&session.DurationMinutes,
+		&session.EmailSent,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, errors.New("active session not found")
+		}
+		return nil, err
+	}
+	return session, nil
+}
+
+func (r *UsageSessionRepo) GetActiveByAssetID(ctx context.Context, assetID string) (*domain.UsageSession, error) {
+	query := `
+		SELECT id, booking_id, user_id, asset_id, started_at, ended_at, duration_minutes, email_sent
+		FROM usage_sessions
+		WHERE asset_id = $1 AND ended_at IS NULL
+		LIMIT 1
+	`
+	session := &domain.UsageSession{}
+	var endedAt sql.NullTime
+	err := r.db.QueryRowContext(ctx, query, assetID).Scan(
+		&session.ID,
+		&session.BookingID,
+		&session.UserID,
+		&session.AssetID,
+		&session.StartedAt,
+		&endedAt,
+		&session.DurationMinutes,
+		&session.EmailSent,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, errors.New("active session not found")
+		}
+		return nil, err
+	}
+	return session, nil
+}

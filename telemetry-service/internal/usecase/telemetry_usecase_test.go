@@ -56,6 +56,27 @@ func (m *MockUsageSessionRepo) GetSystemUsageStats(ctx context.Context) ([]*doma
 	return args.Get(0).([]*domain.AssetUsageStats), args.Error(1)
 }
 
+func (m *MockUsageSessionRepo) Delete(ctx context.Context, bookingID string) error {
+	args := m.Called(ctx, bookingID)
+	return args.Error(0)
+}
+
+func (m *MockUsageSessionRepo) GetActiveByUserID(ctx context.Context, userID string) (*domain.UsageSession, error) {
+	args := m.Called(ctx, userID)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*domain.UsageSession), args.Error(1)
+}
+
+func (m *MockUsageSessionRepo) GetActiveByAssetID(ctx context.Context, assetID string) (*domain.UsageSession, error) {
+	args := m.Called(ctx, assetID)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*domain.UsageSession), args.Error(1)
+}
+
 type MockEmailSender struct {
 	mock.Mock
 }
