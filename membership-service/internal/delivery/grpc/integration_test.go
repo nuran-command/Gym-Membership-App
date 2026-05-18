@@ -120,13 +120,13 @@ func (m *MockMessagePublisher) PublishBookingCreated(ctx context.Context, bookin
 	return args.Error(0)
 }
 
-func (m *MockMessagePublisher) PublishBookingCancelled(ctx context.Context, bookingID string) error {
-	args := m.Called(ctx, bookingID)
+func (m *MockMessagePublisher) PublishBookingCancelled(ctx context.Context, bookingID, assetID string) error {
+	args := m.Called(ctx, bookingID, assetID)
 	return args.Error(0)
 }
 
-func (m *MockMessagePublisher) PublishBookingReturned(ctx context.Context, bookingID string) error {
-	args := m.Called(ctx, bookingID)
+func (m *MockMessagePublisher) PublishBookingReturned(ctx context.Context, bookingID, assetID string, durationHours float64) error {
+	args := m.Called(ctx, bookingID, assetID, durationHours)
 	return args.Error(0)
 }
 

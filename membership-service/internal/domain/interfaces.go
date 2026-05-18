@@ -33,8 +33,8 @@ type TxManager interface {
 
 type MessagePublisher interface {
 	PublishBookingCreated(ctx context.Context, bookingID, userID, assetID string, startTime, endTime string) error
-	PublishBookingCancelled(ctx context.Context, bookingID string) error
-	PublishBookingReturned(ctx context.Context, bookingID string) error
+	PublishBookingCancelled(ctx context.Context, bookingID, assetID string) error
+	PublishBookingReturned(ctx context.Context, bookingID, assetID string, durationHours float64) error
 }
 
 type MembershipUseCase interface {

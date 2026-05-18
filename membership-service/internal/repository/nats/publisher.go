@@ -27,10 +27,13 @@ type BookingCreatedPayload struct {
 
 type BookingCancelledPayload struct {
 	BookingID string `json:"booking_id"`
+	AssetID   string `json:"asset_id"`
 }
 
 type BookingReturnedPayload struct {
-	BookingID string `json:"booking_id"`
+	BookingID     string  `json:"booking_id"`
+	AssetID       string  `json:"asset_id"`
+	DurationHours float64 `json:"duration_hours"`
 }
 
 func (p *natsPublisher) PublishBookingCreated(ctx context.Context, bookingID, userID, assetID string, startTime, endTime string) error {
@@ -48,9 +51,10 @@ func (p *natsPublisher) PublishBookingCreated(ctx context.Context, bookingID, us
 	return p.nc.Publish("booking.created", data)
 }
 
-func (p *natsPublisher) PublishBookingCancelled(ctx context.Context, bookingID string) error {
+func (p *natsPublisher) PublishBookingCancelled(ctx context.Context, bookingID, assetID string) error {
 	payload := BookingCancelledPayload{
 		BookingID: bookingID,
+		AssetID:   assetID,
 	}
 	data, err := json.Marshal(payload)
 	if err != nil {
@@ -59,9 +63,11 @@ func (p *natsPublisher) PublishBookingCancelled(ctx context.Context, bookingID s
 	return p.nc.Publish("booking.cancelled", data)
 }
 
-func (p *natsPublisher) PublishBookingReturned(ctx context.Context, bookingID string) error {
+func (p *natsPublisher) PublishBookingReturned(ctx context.Context, bookingID, assetID string, durationHours float64) error {
 	payload := BookingReturnedPayload{
-		BookingID: bookingID,
+		BookingID:     bookingID,
+		AssetID:       assetID,
+		DurationHours: durationHours,
 	}
 	data, err := json.Marshal(payload)
 	if err != nil {

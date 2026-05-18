@@ -204,7 +204,7 @@ func (u *membershipUseCase) CancelBooking(ctx context.Context, bookingID string)
 	slog.Info("CancelBooking transaction successful", "booking_id", bookingID)
 
 	// 3. Publish event to NATS
-	if err := u.publisher.PublishBookingCancelled(ctx, bookingID); err != nil {
+	if err := u.publisher.PublishBookingCancelled(ctx, bookingID, booking.AssetID); err != nil {
 		slog.Error("Failed to publish booking.cancelled event to NATS", "error", err)
 	} else {
 		slog.Info("Published booking.cancelled event to NATS", "booking_id", bookingID)
@@ -240,8 +240,13 @@ func (u *membershipUseCase) ReturnBooking(ctx context.Context, bookingID string)
 
 	slog.Info("ReturnBooking transaction successful", "booking_id", bookingID)
 
+	durationHours := time.Since(booking.StartTime).Hours()
+	if durationHours < 0 {
+		durationHours = 0
+	}
+
 	// 3. Publish event to NATS
-	if err := u.publisher.PublishBookingReturned(ctx, bookingID); err != nil {
+	if err := u.publisher.PublishBookingReturned(ctx, bookingID, booking.AssetID, durationHours); err != nil {
 		slog.Error("Failed to publish booking.returned event to NATS", "error", err)
 	} else {
 		slog.Info("Published booking.returned event to NATS", "booking_id", bookingID)
