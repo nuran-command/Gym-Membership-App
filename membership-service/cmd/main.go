@@ -223,10 +223,11 @@ func main() {
 
 	bookingRepo := postgres.NewBookingRepo(db)
 	creditRepo := postgres.NewCreditRepo(db)
+	membershipRepo := postgres.NewMembershipRepo(db)
 	txManager := postgres.NewTxManager(db)
 	natsPub := nats.NewNatsPublisher(nc)
 
-	useCase := usecase.NewMembershipUseCase(cachedUserRepo, bookingRepo, creditRepo, txManager, natsPub, assetClient)
+	useCase := usecase.NewMembershipUseCase(cachedUserRepo, bookingRepo, creditRepo, membershipRepo, txManager, natsPub, assetClient)
 
 	// 7. Start Prometheus HTTP server
 	go func() {

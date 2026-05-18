@@ -47,6 +47,14 @@ func (m *MockAssetServiceClient) UpdateAssetStatus(ctx context.Context, in *asse
 	return args.Get(0).(*asset.Asset), args.Error(1)
 }
 
+func (m *MockAssetServiceClient) GetHealthScore(ctx context.Context, in *asset.GetAssetRequest, opts ...googlegrpc.CallOption) (*asset.HealthResponse, error) {
+	args := m.Called(ctx, in)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*asset.HealthResponse), args.Error(1)
+}
+
 type MockMessagePublisher struct {
 	mock.Mock
 }
@@ -177,12 +185,13 @@ func TestCreateBooking_Integration(t *testing.T) {
 	userRepo := postgres.NewUserRepo(db)
 	bookingRepo := postgres.NewBookingRepo(db)
 	creditRepo := postgres.NewCreditRepo(db)
+	membershipRepo := postgres.NewMembershipRepo(db)
 	txManager := postgres.NewTxManager(db)
 
 	mockAsset := new(MockAssetServiceClient)
 	mockPub := new(MockMessagePublisher)
 
-	useCase := usecase.NewMembershipUseCase(userRepo, bookingRepo, creditRepo, txManager, mockPub, mockAsset)
+	useCase := usecase.NewMembershipUseCase(userRepo, bookingRepo, creditRepo, membershipRepo, txManager, mockPub, mockAsset)
 
 	t.Run("CreateBooking_InsufficientCredits_RollsBackTransaction", func(t *testing.T) {
 		userID := "user-poor"

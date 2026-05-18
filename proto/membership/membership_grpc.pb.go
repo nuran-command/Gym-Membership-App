@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v4.25.3
-// source: proto/membership/membership.proto
+// source: membership/membership.proto
 
 package membership
 
@@ -19,19 +19,25 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	MembershipService_CreateBooking_FullMethodName   = "/membership.MembershipService/CreateBooking"
-	MembershipService_CancelBooking_FullMethodName   = "/membership.MembershipService/CancelBooking"
-	MembershipService_ReturnBooking_FullMethodName   = "/membership.MembershipService/ReturnBooking"
-	MembershipService_GetUserCredits_FullMethodName  = "/membership.MembershipService/GetUserCredits"
-	MembershipService_DeductCredits_FullMethodName   = "/membership.MembershipService/DeductCredits"
-	MembershipService_GetUserBookings_FullMethodName = "/membership.MembershipService/GetUserBookings"
-	MembershipService_AddCredits_FullMethodName      = "/membership.MembershipService/AddCredits"
+	MembershipService_CreateBooking_FullMethodName         = "/membership.MembershipService/CreateBooking"
+	MembershipService_CancelBooking_FullMethodName         = "/membership.MembershipService/CancelBooking"
+	MembershipService_ReturnBooking_FullMethodName         = "/membership.MembershipService/ReturnBooking"
+	MembershipService_GetUserCredits_FullMethodName        = "/membership.MembershipService/GetUserCredits"
+	MembershipService_DeductCredits_FullMethodName         = "/membership.MembershipService/DeductCredits"
+	MembershipService_GetUserBookings_FullMethodName       = "/membership.MembershipService/GetUserBookings"
+	MembershipService_AddCredits_FullMethodName            = "/membership.MembershipService/AddCredits"
+	MembershipService_CreateUser_FullMethodName            = "/membership.MembershipService/CreateUser"
+	MembershipService_GetUser_FullMethodName               = "/membership.MembershipService/GetUser"
+	MembershipService_UpdateUser_FullMethodName            = "/membership.MembershipService/UpdateUser"
+	MembershipService_GetUserMembership_FullMethodName     = "/membership.MembershipService/GetUserMembership"
+	MembershipService_GetCreditTransactions_FullMethodName = "/membership.MembershipService/GetCreditTransactions"
 )
 
 // MembershipServiceClient is the client API for MembershipService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MembershipServiceClient interface {
+	// Existing 7 methods
 	CreateBooking(ctx context.Context, in *CreateBookingRequest, opts ...grpc.CallOption) (*Booking, error)
 	CancelBooking(ctx context.Context, in *CancelBookingRequest, opts ...grpc.CallOption) (*Booking, error)
 	ReturnBooking(ctx context.Context, in *ReturnBookingRequest, opts ...grpc.CallOption) (*Booking, error)
@@ -39,6 +45,12 @@ type MembershipServiceClient interface {
 	DeductCredits(ctx context.Context, in *DeductCreditsRequest, opts ...grpc.CallOption) (*CreditsResponse, error)
 	GetUserBookings(ctx context.Context, in *GetUserBookingsRequest, opts ...grpc.CallOption) (*BookingList, error)
 	AddCredits(ctx context.Context, in *AddCreditsRequest, opts ...grpc.CallOption) (*CreditsResponse, error)
+	// 5 New methods to reach exactly 12 endpoints
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	GetUserMembership(ctx context.Context, in *GetUserMembershipRequest, opts ...grpc.CallOption) (*MembershipResponse, error)
+	GetCreditTransactions(ctx context.Context, in *GetCreditTransactionsRequest, opts ...grpc.CallOption) (*TransactionListResponse, error)
 }
 
 type membershipServiceClient struct {
@@ -119,10 +131,61 @@ func (c *membershipServiceClient) AddCredits(ctx context.Context, in *AddCredits
 	return out, nil
 }
 
+func (c *membershipServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, MembershipService_CreateUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *membershipServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, MembershipService_GetUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *membershipServiceClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, MembershipService_UpdateUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *membershipServiceClient) GetUserMembership(ctx context.Context, in *GetUserMembershipRequest, opts ...grpc.CallOption) (*MembershipResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MembershipResponse)
+	err := c.cc.Invoke(ctx, MembershipService_GetUserMembership_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *membershipServiceClient) GetCreditTransactions(ctx context.Context, in *GetCreditTransactionsRequest, opts ...grpc.CallOption) (*TransactionListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TransactionListResponse)
+	err := c.cc.Invoke(ctx, MembershipService_GetCreditTransactions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MembershipServiceServer is the server API for MembershipService service.
 // All implementations must embed UnimplementedMembershipServiceServer
 // for forward compatibility.
 type MembershipServiceServer interface {
+	// Existing 7 methods
 	CreateBooking(context.Context, *CreateBookingRequest) (*Booking, error)
 	CancelBooking(context.Context, *CancelBookingRequest) (*Booking, error)
 	ReturnBooking(context.Context, *ReturnBookingRequest) (*Booking, error)
@@ -130,6 +193,12 @@ type MembershipServiceServer interface {
 	DeductCredits(context.Context, *DeductCreditsRequest) (*CreditsResponse, error)
 	GetUserBookings(context.Context, *GetUserBookingsRequest) (*BookingList, error)
 	AddCredits(context.Context, *AddCreditsRequest) (*CreditsResponse, error)
+	// 5 New methods to reach exactly 12 endpoints
+	CreateUser(context.Context, *CreateUserRequest) (*UserResponse, error)
+	GetUser(context.Context, *GetUserRequest) (*UserResponse, error)
+	UpdateUser(context.Context, *UpdateUserRequest) (*UserResponse, error)
+	GetUserMembership(context.Context, *GetUserMembershipRequest) (*MembershipResponse, error)
+	GetCreditTransactions(context.Context, *GetCreditTransactionsRequest) (*TransactionListResponse, error)
 	mustEmbedUnimplementedMembershipServiceServer()
 }
 
@@ -160,6 +229,21 @@ func (UnimplementedMembershipServiceServer) GetUserBookings(context.Context, *Ge
 }
 func (UnimplementedMembershipServiceServer) AddCredits(context.Context, *AddCreditsRequest) (*CreditsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method AddCredits not implemented")
+}
+func (UnimplementedMembershipServiceServer) CreateUser(context.Context, *CreateUserRequest) (*UserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedMembershipServiceServer) GetUser(context.Context, *GetUserRequest) (*UserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetUser not implemented")
+}
+func (UnimplementedMembershipServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*UserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedMembershipServiceServer) GetUserMembership(context.Context, *GetUserMembershipRequest) (*MembershipResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetUserMembership not implemented")
+}
+func (UnimplementedMembershipServiceServer) GetCreditTransactions(context.Context, *GetCreditTransactionsRequest) (*TransactionListResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetCreditTransactions not implemented")
 }
 func (UnimplementedMembershipServiceServer) mustEmbedUnimplementedMembershipServiceServer() {}
 func (UnimplementedMembershipServiceServer) testEmbeddedByValue()                           {}
@@ -308,6 +392,96 @@ func _MembershipService_AddCredits_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MembershipService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MembershipServiceServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MembershipService_CreateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MembershipServiceServer).CreateUser(ctx, req.(*CreateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MembershipService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MembershipServiceServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MembershipService_GetUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MembershipServiceServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MembershipService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MembershipServiceServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MembershipService_UpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MembershipServiceServer).UpdateUser(ctx, req.(*UpdateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MembershipService_GetUserMembership_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserMembershipRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MembershipServiceServer).GetUserMembership(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MembershipService_GetUserMembership_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MembershipServiceServer).GetUserMembership(ctx, req.(*GetUserMembershipRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MembershipService_GetCreditTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCreditTransactionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MembershipServiceServer).GetCreditTransactions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MembershipService_GetCreditTransactions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MembershipServiceServer).GetCreditTransactions(ctx, req.(*GetCreditTransactionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MembershipService_ServiceDesc is the grpc.ServiceDesc for MembershipService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -343,7 +517,27 @@ var MembershipService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "AddCredits",
 			Handler:    _MembershipService_AddCredits_Handler,
 		},
+		{
+			MethodName: "CreateUser",
+			Handler:    _MembershipService_CreateUser_Handler,
+		},
+		{
+			MethodName: "GetUser",
+			Handler:    _MembershipService_GetUser_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _MembershipService_UpdateUser_Handler,
+		},
+		{
+			MethodName: "GetUserMembership",
+			Handler:    _MembershipService_GetUserMembership_Handler,
+		},
+		{
+			MethodName: "GetCreditTransactions",
+			Handler:    _MembershipService_GetCreditTransactions_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/membership/membership.proto",
+	Metadata: "membership/membership.proto",
 }

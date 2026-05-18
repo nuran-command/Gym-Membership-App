@@ -5,3 +5,6 @@ scrape_configs:
   - job_name: 'asset-service'
     static_configs:
       - targets: ['asset-service:9090']
+  - job_name: 'membership-service'
+    static_configs:
+      - targets: ['membership-service:2112']

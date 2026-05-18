@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v4.25.3
-// source: proto/membership/membership.proto
+// source: membership/membership.proto
 
 package membership
 
@@ -35,7 +35,7 @@ type Booking struct {
 
 func (x *Booking) Reset() {
 	*x = Booking{}
-	mi := &file_proto_membership_membership_proto_msgTypes[0]
+	mi := &file_membership_membership_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *Booking) String() string {
 func (*Booking) ProtoMessage() {}
 
 func (x *Booking) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[0]
+	mi := &file_membership_membership_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +60,7 @@ func (x *Booking) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Booking.ProtoReflect.Descriptor instead.
 func (*Booking) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{0}
+	return file_membership_membership_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Booking) GetId() string {
@@ -117,7 +117,7 @@ type CreateBookingRequest struct {
 
 func (x *CreateBookingRequest) Reset() {
 	*x = CreateBookingRequest{}
-	mi := &file_proto_membership_membership_proto_msgTypes[1]
+	mi := &file_membership_membership_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -129,7 +129,7 @@ func (x *CreateBookingRequest) String() string {
 func (*CreateBookingRequest) ProtoMessage() {}
 
 func (x *CreateBookingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[1]
+	mi := &file_membership_membership_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -142,7 +142,7 @@ func (x *CreateBookingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateBookingRequest.ProtoReflect.Descriptor instead.
 func (*CreateBookingRequest) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{1}
+	return file_membership_membership_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateBookingRequest) GetUserId() string {
@@ -182,7 +182,7 @@ type CancelBookingRequest struct {
 
 func (x *CancelBookingRequest) Reset() {
 	*x = CancelBookingRequest{}
-	mi := &file_proto_membership_membership_proto_msgTypes[2]
+	mi := &file_membership_membership_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -194,7 +194,7 @@ func (x *CancelBookingRequest) String() string {
 func (*CancelBookingRequest) ProtoMessage() {}
 
 func (x *CancelBookingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[2]
+	mi := &file_membership_membership_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -207,7 +207,7 @@ func (x *CancelBookingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelBookingRequest.ProtoReflect.Descriptor instead.
 func (*CancelBookingRequest) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{2}
+	return file_membership_membership_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CancelBookingRequest) GetBookingId() string {
@@ -226,7 +226,7 @@ type ReturnBookingRequest struct {
 
 func (x *ReturnBookingRequest) Reset() {
 	*x = ReturnBookingRequest{}
-	mi := &file_proto_membership_membership_proto_msgTypes[3]
+	mi := &file_membership_membership_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -238,7 +238,7 @@ func (x *ReturnBookingRequest) String() string {
 func (*ReturnBookingRequest) ProtoMessage() {}
 
 func (x *ReturnBookingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[3]
+	mi := &file_membership_membership_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -251,7 +251,7 @@ func (x *ReturnBookingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReturnBookingRequest.ProtoReflect.Descriptor instead.
 func (*ReturnBookingRequest) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{3}
+	return file_membership_membership_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ReturnBookingRequest) GetBookingId() string {
@@ -270,7 +270,7 @@ type GetUserCreditsRequest struct {
 
 func (x *GetUserCreditsRequest) Reset() {
 	*x = GetUserCreditsRequest{}
-	mi := &file_proto_membership_membership_proto_msgTypes[4]
+	mi := &file_membership_membership_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -282,7 +282,7 @@ func (x *GetUserCreditsRequest) String() string {
 func (*GetUserCreditsRequest) ProtoMessage() {}
 
 func (x *GetUserCreditsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[4]
+	mi := &file_membership_membership_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -295,7 +295,7 @@ func (x *GetUserCreditsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserCreditsRequest.ProtoReflect.Descriptor instead.
 func (*GetUserCreditsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{4}
+	return file_membership_membership_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetUserCreditsRequest) GetUserId() string {
@@ -315,7 +315,7 @@ type DeductCreditsRequest struct {
 
 func (x *DeductCreditsRequest) Reset() {
 	*x = DeductCreditsRequest{}
-	mi := &file_proto_membership_membership_proto_msgTypes[5]
+	mi := &file_membership_membership_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -327,7 +327,7 @@ func (x *DeductCreditsRequest) String() string {
 func (*DeductCreditsRequest) ProtoMessage() {}
 
 func (x *DeductCreditsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[5]
+	mi := &file_membership_membership_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -340,7 +340,7 @@ func (x *DeductCreditsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeductCreditsRequest.ProtoReflect.Descriptor instead.
 func (*DeductCreditsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{5}
+	return file_membership_membership_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeductCreditsRequest) GetUserId() string {
@@ -367,7 +367,7 @@ type AddCreditsRequest struct {
 
 func (x *AddCreditsRequest) Reset() {
 	*x = AddCreditsRequest{}
-	mi := &file_proto_membership_membership_proto_msgTypes[6]
+	mi := &file_membership_membership_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -379,7 +379,7 @@ func (x *AddCreditsRequest) String() string {
 func (*AddCreditsRequest) ProtoMessage() {}
 
 func (x *AddCreditsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[6]
+	mi := &file_membership_membership_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -392,7 +392,7 @@ func (x *AddCreditsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddCreditsRequest.ProtoReflect.Descriptor instead.
 func (*AddCreditsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{6}
+	return file_membership_membership_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *AddCreditsRequest) GetUserId() string {
@@ -419,7 +419,7 @@ type CreditsResponse struct {
 
 func (x *CreditsResponse) Reset() {
 	*x = CreditsResponse{}
-	mi := &file_proto_membership_membership_proto_msgTypes[7]
+	mi := &file_membership_membership_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -431,7 +431,7 @@ func (x *CreditsResponse) String() string {
 func (*CreditsResponse) ProtoMessage() {}
 
 func (x *CreditsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[7]
+	mi := &file_membership_membership_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -444,7 +444,7 @@ func (x *CreditsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreditsResponse.ProtoReflect.Descriptor instead.
 func (*CreditsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{7}
+	return file_membership_membership_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CreditsResponse) GetUserId() string {
@@ -470,7 +470,7 @@ type GetUserBookingsRequest struct {
 
 func (x *GetUserBookingsRequest) Reset() {
 	*x = GetUserBookingsRequest{}
-	mi := &file_proto_membership_membership_proto_msgTypes[8]
+	mi := &file_membership_membership_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -482,7 +482,7 @@ func (x *GetUserBookingsRequest) String() string {
 func (*GetUserBookingsRequest) ProtoMessage() {}
 
 func (x *GetUserBookingsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[8]
+	mi := &file_membership_membership_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -495,7 +495,7 @@ func (x *GetUserBookingsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserBookingsRequest.ProtoReflect.Descriptor instead.
 func (*GetUserBookingsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{8}
+	return file_membership_membership_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetUserBookingsRequest) GetUserId() string {
@@ -514,7 +514,7 @@ type BookingList struct {
 
 func (x *BookingList) Reset() {
 	*x = BookingList{}
-	mi := &file_proto_membership_membership_proto_msgTypes[9]
+	mi := &file_membership_membership_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -526,7 +526,7 @@ func (x *BookingList) String() string {
 func (*BookingList) ProtoMessage() {}
 
 func (x *BookingList) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_membership_membership_proto_msgTypes[9]
+	mi := &file_membership_membership_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -539,7 +539,7 @@ func (x *BookingList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BookingList.ProtoReflect.Descriptor instead.
 func (*BookingList) Descriptor() ([]byte, []int) {
-	return file_proto_membership_membership_proto_rawDescGZIP(), []int{9}
+	return file_membership_membership_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *BookingList) GetBookings() []*Booking {
@@ -549,11 +549,544 @@ func (x *BookingList) GetBookings() []*Booking {
 	return nil
 }
 
-var File_proto_membership_membership_proto protoreflect.FileDescriptor
+// Messages for 5 new endpoints
+type CreateUserRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Name            string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Email           string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	StartingCredits int32                  `protobuf:"varint,3,opt,name=starting_credits,json=startingCredits,proto3" json:"starting_credits,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
 
-const file_proto_membership_membership_proto_rawDesc = "" +
+func (x *CreateUserRequest) Reset() {
+	*x = CreateUserRequest{}
+	mi := &file_membership_membership_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserRequest) ProtoMessage() {}
+
+func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
+func (*CreateUserRequest) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *CreateUserRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateUserRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *CreateUserRequest) GetStartingCredits() int32 {
+	if x != nil {
+		return x.StartingCredits
+	}
+	return 0
+}
+
+type GetUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserRequest) Reset() {
+	*x = GetUserRequest{}
+	mi := &file_membership_membership_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRequest) ProtoMessage() {}
+
+func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRequest) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetUserRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type UpdateUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserRequest) Reset() {
+	*x = UpdateUserRequest{}
+	mi := &file_membership_membership_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserRequest) ProtoMessage() {}
+
+func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpdateUserRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *UpdateUserRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateUserRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type UserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Credits       int32                  `protobuf:"varint,4,opt,name=credits,proto3" json:"credits,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserResponse) Reset() {
+	*x = UserResponse{}
+	mi := &file_membership_membership_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserResponse) ProtoMessage() {}
+
+func (x *UserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserResponse.ProtoReflect.Descriptor instead.
+func (*UserResponse) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UserResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UserResponse) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UserResponse) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UserResponse) GetCredits() int32 {
+	if x != nil {
+		return x.Credits
+	}
+	return 0
+}
+
+func (x *UserResponse) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+type GetUserMembershipRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserMembershipRequest) Reset() {
+	*x = GetUserMembershipRequest{}
+	mi := &file_membership_membership_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserMembershipRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserMembershipRequest) ProtoMessage() {}
+
+func (x *GetUserMembershipRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserMembershipRequest.ProtoReflect.Descriptor instead.
+func (*GetUserMembershipRequest) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetUserMembershipRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type MembershipResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Type          string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	ExpiresAt     string                 `protobuf:"bytes,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MembershipResponse) Reset() {
+	*x = MembershipResponse{}
+	mi := &file_membership_membership_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MembershipResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MembershipResponse) ProtoMessage() {}
+
+func (x *MembershipResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MembershipResponse.ProtoReflect.Descriptor instead.
+func (*MembershipResponse) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *MembershipResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *MembershipResponse) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *MembershipResponse) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *MembershipResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *MembershipResponse) GetExpiresAt() string {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return ""
+}
+
+type GetCreditTransactionsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCreditTransactionsRequest) Reset() {
+	*x = GetCreditTransactionsRequest{}
+	mi := &file_membership_membership_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCreditTransactionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCreditTransactionsRequest) ProtoMessage() {}
+
+func (x *GetCreditTransactionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCreditTransactionsRequest.ProtoReflect.Descriptor instead.
+func (*GetCreditTransactionsRequest) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetCreditTransactionsRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type CreditTransaction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Amount        int32                  `protobuf:"varint,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	Type          string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
+	Reason        string                 `protobuf:"bytes,5,opt,name=reason,proto3" json:"reason,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreditTransaction) Reset() {
+	*x = CreditTransaction{}
+	mi := &file_membership_membership_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreditTransaction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreditTransaction) ProtoMessage() {}
+
+func (x *CreditTransaction) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreditTransaction.ProtoReflect.Descriptor instead.
+func (*CreditTransaction) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *CreditTransaction) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CreditTransaction) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *CreditTransaction) GetAmount() int32 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *CreditTransaction) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *CreditTransaction) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *CreditTransaction) GetCreatedAt() string {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return ""
+}
+
+type TransactionListResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transactions  []*CreditTransaction   `protobuf:"bytes,1,rep,name=transactions,proto3" json:"transactions,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TransactionListResponse) Reset() {
+	*x = TransactionListResponse{}
+	mi := &file_membership_membership_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TransactionListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransactionListResponse) ProtoMessage() {}
+
+func (x *TransactionListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_membership_membership_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransactionListResponse.ProtoReflect.Descriptor instead.
+func (*TransactionListResponse) Descriptor() ([]byte, []int) {
+	return file_membership_membership_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *TransactionListResponse) GetTransactions() []*CreditTransaction {
+	if x != nil {
+		return x.Transactions
+	}
+	return nil
+}
+
+var File_membership_membership_proto protoreflect.FileDescriptor
+
+const file_membership_membership_proto_rawDesc = "" +
 	"\n" +
-	"!proto/membership/membership.proto\x12\n" +
+	"\x1bmembership/membership.proto\x12\n" +
 	"membership\"\x9f\x01\n" +
 	"\aBooking\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
@@ -589,7 +1122,45 @@ const file_proto_membership_membership_proto_rawDesc = "" +
 	"\x16GetUserBookingsRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\">\n" +
 	"\vBookingList\x12/\n" +
-	"\bbookings\x18\x01 \x03(\v2\x13.membership.BookingR\bbookings2\xa7\x04\n" +
+	"\bbookings\x18\x01 \x03(\v2\x13.membership.BookingR\bbookings\"h\n" +
+	"\x11CreateUserRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12)\n" +
+	"\x10starting_credits\x18\x03 \x01(\x05R\x0fstartingCredits\")\n" +
+	"\x0eGetUserRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"V\n" +
+	"\x11UpdateUserRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\"\x81\x01\n" +
+	"\fUserResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12\x18\n" +
+	"\acredits\x18\x04 \x01(\x05R\acredits\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\tR\tcreatedAt\"3\n" +
+	"\x18GetUserMembershipRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x88\x01\n" +
+	"\x12MembershipResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
+	"\x04type\x18\x03 \x01(\tR\x04type\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\x12\x1d\n" +
+	"\n" +
+	"expires_at\x18\x05 \x01(\tR\texpiresAt\"7\n" +
+	"\x1cGetCreditTransactionsRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x9f\x01\n" +
+	"\x11CreditTransaction\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x05R\x06amount\x12\x12\n" +
+	"\x04type\x18\x04 \x01(\tR\x04type\x12\x16\n" +
+	"\x06reason\x18\x05 \x01(\tR\x06reason\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\tR\tcreatedAt\"\\\n" +
+	"\x17TransactionListResponse\x12A\n" +
+	"\ftransactions\x18\x01 \x03(\v2\x1d.membership.CreditTransactionR\ftransactions2\xb9\a\n" +
 	"\x11MembershipService\x12F\n" +
 	"\rCreateBooking\x12 .membership.CreateBookingRequest\x1a\x13.membership.Booking\x12F\n" +
 	"\rCancelBooking\x12 .membership.CancelBookingRequest\x1a\x13.membership.Booking\x12F\n" +
@@ -598,76 +1169,103 @@ const file_proto_membership_membership_proto_rawDesc = "" +
 	"\rDeductCredits\x12 .membership.DeductCreditsRequest\x1a\x1b.membership.CreditsResponse\x12N\n" +
 	"\x0fGetUserBookings\x12\".membership.GetUserBookingsRequest\x1a\x17.membership.BookingList\x12H\n" +
 	"\n" +
-	"AddCredits\x12\x1d.membership.AddCreditsRequest\x1a\x1b.membership.CreditsResponseB\x0eZ\f./membershipb\x06proto3"
+	"AddCredits\x12\x1d.membership.AddCreditsRequest\x1a\x1b.membership.CreditsResponse\x12E\n" +
+	"\n" +
+	"CreateUser\x12\x1d.membership.CreateUserRequest\x1a\x18.membership.UserResponse\x12?\n" +
+	"\aGetUser\x12\x1a.membership.GetUserRequest\x1a\x18.membership.UserResponse\x12E\n" +
+	"\n" +
+	"UpdateUser\x12\x1d.membership.UpdateUserRequest\x1a\x18.membership.UserResponse\x12Y\n" +
+	"\x11GetUserMembership\x12$.membership.GetUserMembershipRequest\x1a\x1e.membership.MembershipResponse\x12f\n" +
+	"\x15GetCreditTransactions\x12(.membership.GetCreditTransactionsRequest\x1a#.membership.TransactionListResponseB\x0eZ\f./membershipb\x06proto3"
 
 var (
-	file_proto_membership_membership_proto_rawDescOnce sync.Once
-	file_proto_membership_membership_proto_rawDescData []byte
+	file_membership_membership_proto_rawDescOnce sync.Once
+	file_membership_membership_proto_rawDescData []byte
 )
 
-func file_proto_membership_membership_proto_rawDescGZIP() []byte {
-	file_proto_membership_membership_proto_rawDescOnce.Do(func() {
-		file_proto_membership_membership_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_membership_membership_proto_rawDesc), len(file_proto_membership_membership_proto_rawDesc)))
+func file_membership_membership_proto_rawDescGZIP() []byte {
+	file_membership_membership_proto_rawDescOnce.Do(func() {
+		file_membership_membership_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_membership_membership_proto_rawDesc), len(file_membership_membership_proto_rawDesc)))
 	})
-	return file_proto_membership_membership_proto_rawDescData
+	return file_membership_membership_proto_rawDescData
 }
 
-var file_proto_membership_membership_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_proto_membership_membership_proto_goTypes = []any{
-	(*Booking)(nil),                // 0: membership.Booking
-	(*CreateBookingRequest)(nil),   // 1: membership.CreateBookingRequest
-	(*CancelBookingRequest)(nil),   // 2: membership.CancelBookingRequest
-	(*ReturnBookingRequest)(nil),   // 3: membership.ReturnBookingRequest
-	(*GetUserCreditsRequest)(nil),  // 4: membership.GetUserCreditsRequest
-	(*DeductCreditsRequest)(nil),   // 5: membership.DeductCreditsRequest
-	(*AddCreditsRequest)(nil),      // 6: membership.AddCreditsRequest
-	(*CreditsResponse)(nil),        // 7: membership.CreditsResponse
-	(*GetUserBookingsRequest)(nil), // 8: membership.GetUserBookingsRequest
-	(*BookingList)(nil),            // 9: membership.BookingList
+var file_membership_membership_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_membership_membership_proto_goTypes = []any{
+	(*Booking)(nil),                      // 0: membership.Booking
+	(*CreateBookingRequest)(nil),         // 1: membership.CreateBookingRequest
+	(*CancelBookingRequest)(nil),         // 2: membership.CancelBookingRequest
+	(*ReturnBookingRequest)(nil),         // 3: membership.ReturnBookingRequest
+	(*GetUserCreditsRequest)(nil),        // 4: membership.GetUserCreditsRequest
+	(*DeductCreditsRequest)(nil),         // 5: membership.DeductCreditsRequest
+	(*AddCreditsRequest)(nil),            // 6: membership.AddCreditsRequest
+	(*CreditsResponse)(nil),              // 7: membership.CreditsResponse
+	(*GetUserBookingsRequest)(nil),       // 8: membership.GetUserBookingsRequest
+	(*BookingList)(nil),                  // 9: membership.BookingList
+	(*CreateUserRequest)(nil),            // 10: membership.CreateUserRequest
+	(*GetUserRequest)(nil),               // 11: membership.GetUserRequest
+	(*UpdateUserRequest)(nil),            // 12: membership.UpdateUserRequest
+	(*UserResponse)(nil),                 // 13: membership.UserResponse
+	(*GetUserMembershipRequest)(nil),     // 14: membership.GetUserMembershipRequest
+	(*MembershipResponse)(nil),           // 15: membership.MembershipResponse
+	(*GetCreditTransactionsRequest)(nil), // 16: membership.GetCreditTransactionsRequest
+	(*CreditTransaction)(nil),            // 17: membership.CreditTransaction
+	(*TransactionListResponse)(nil),      // 18: membership.TransactionListResponse
 }
-var file_proto_membership_membership_proto_depIdxs = []int32{
-	0, // 0: membership.BookingList.bookings:type_name -> membership.Booking
-	1, // 1: membership.MembershipService.CreateBooking:input_type -> membership.CreateBookingRequest
-	2, // 2: membership.MembershipService.CancelBooking:input_type -> membership.CancelBookingRequest
-	3, // 3: membership.MembershipService.ReturnBooking:input_type -> membership.ReturnBookingRequest
-	4, // 4: membership.MembershipService.GetUserCredits:input_type -> membership.GetUserCreditsRequest
-	5, // 5: membership.MembershipService.DeductCredits:input_type -> membership.DeductCreditsRequest
-	8, // 6: membership.MembershipService.GetUserBookings:input_type -> membership.GetUserBookingsRequest
-	6, // 7: membership.MembershipService.AddCredits:input_type -> membership.AddCreditsRequest
-	0, // 8: membership.MembershipService.CreateBooking:output_type -> membership.Booking
-	0, // 9: membership.MembershipService.CancelBooking:output_type -> membership.Booking
-	0, // 10: membership.MembershipService.ReturnBooking:output_type -> membership.Booking
-	7, // 11: membership.MembershipService.GetUserCredits:output_type -> membership.CreditsResponse
-	7, // 12: membership.MembershipService.DeductCredits:output_type -> membership.CreditsResponse
-	9, // 13: membership.MembershipService.GetUserBookings:output_type -> membership.BookingList
-	7, // 14: membership.MembershipService.AddCredits:output_type -> membership.CreditsResponse
-	8, // [8:15] is the sub-list for method output_type
-	1, // [1:8] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+var file_membership_membership_proto_depIdxs = []int32{
+	0,  // 0: membership.BookingList.bookings:type_name -> membership.Booking
+	17, // 1: membership.TransactionListResponse.transactions:type_name -> membership.CreditTransaction
+	1,  // 2: membership.MembershipService.CreateBooking:input_type -> membership.CreateBookingRequest
+	2,  // 3: membership.MembershipService.CancelBooking:input_type -> membership.CancelBookingRequest
+	3,  // 4: membership.MembershipService.ReturnBooking:input_type -> membership.ReturnBookingRequest
+	4,  // 5: membership.MembershipService.GetUserCredits:input_type -> membership.GetUserCreditsRequest
+	5,  // 6: membership.MembershipService.DeductCredits:input_type -> membership.DeductCreditsRequest
+	8,  // 7: membership.MembershipService.GetUserBookings:input_type -> membership.GetUserBookingsRequest
+	6,  // 8: membership.MembershipService.AddCredits:input_type -> membership.AddCreditsRequest
+	10, // 9: membership.MembershipService.CreateUser:input_type -> membership.CreateUserRequest
+	11, // 10: membership.MembershipService.GetUser:input_type -> membership.GetUserRequest
+	12, // 11: membership.MembershipService.UpdateUser:input_type -> membership.UpdateUserRequest
+	14, // 12: membership.MembershipService.GetUserMembership:input_type -> membership.GetUserMembershipRequest
+	16, // 13: membership.MembershipService.GetCreditTransactions:input_type -> membership.GetCreditTransactionsRequest
+	0,  // 14: membership.MembershipService.CreateBooking:output_type -> membership.Booking
+	0,  // 15: membership.MembershipService.CancelBooking:output_type -> membership.Booking
+	0,  // 16: membership.MembershipService.ReturnBooking:output_type -> membership.Booking
+	7,  // 17: membership.MembershipService.GetUserCredits:output_type -> membership.CreditsResponse
+	7,  // 18: membership.MembershipService.DeductCredits:output_type -> membership.CreditsResponse
+	9,  // 19: membership.MembershipService.GetUserBookings:output_type -> membership.BookingList
+	7,  // 20: membership.MembershipService.AddCredits:output_type -> membership.CreditsResponse
+	13, // 21: membership.MembershipService.CreateUser:output_type -> membership.UserResponse
+	13, // 22: membership.MembershipService.GetUser:output_type -> membership.UserResponse
+	13, // 23: membership.MembershipService.UpdateUser:output_type -> membership.UserResponse
+	15, // 24: membership.MembershipService.GetUserMembership:output_type -> membership.MembershipResponse
+	18, // 25: membership.MembershipService.GetCreditTransactions:output_type -> membership.TransactionListResponse
+	14, // [14:26] is the sub-list for method output_type
+	2,  // [2:14] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_proto_membership_membership_proto_init() }
-func file_proto_membership_membership_proto_init() {
-	if File_proto_membership_membership_proto != nil {
+func init() { file_membership_membership_proto_init() }
+func file_membership_membership_proto_init() {
+	if File_membership_membership_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_membership_membership_proto_rawDesc), len(file_proto_membership_membership_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_membership_membership_proto_rawDesc), len(file_membership_membership_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_membership_membership_proto_goTypes,
-		DependencyIndexes: file_proto_membership_membership_proto_depIdxs,
-		MessageInfos:      file_proto_membership_membership_proto_msgTypes,
+		GoTypes:           file_membership_membership_proto_goTypes,
+		DependencyIndexes: file_membership_membership_proto_depIdxs,
+		MessageInfos:      file_membership_membership_proto_msgTypes,
 	}.Build()
-	File_proto_membership_membership_proto = out.File
-	file_proto_membership_membership_proto_goTypes = nil
-	file_proto_membership_membership_proto_depIdxs = nil
+	File_membership_membership_proto = out.File
+	file_membership_membership_proto_goTypes = nil
+	file_membership_membership_proto_depIdxs = nil
 }

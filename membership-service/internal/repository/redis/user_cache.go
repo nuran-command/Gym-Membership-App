@@ -62,3 +62,20 @@ func (r *cachedUserRepo) UpdateCredits(ctx context.Context, userID string, amoun
 
 	return nil
 }
+
+func (r *cachedUserRepo) Create(ctx context.Context, user *domain.User) error {
+	return r.postgresRepo.Create(ctx, user)
+}
+
+func (r *cachedUserRepo) Update(ctx context.Context, user *domain.User) error {
+	err := r.postgresRepo.Update(ctx, user)
+	if err != nil {
+		return err
+	}
+
+	// Invalidate Redis cache
+	key := "user_credits:" + user.ID
+	_ = r.redisClient.Del(ctx, key).Err()
+
+	return nil
+}

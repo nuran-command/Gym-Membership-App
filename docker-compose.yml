@@ -49,6 +49,18 @@ services:
       - "50051:50051"
     environment:
       - PORT=50051
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/assets?sslmode=disable
+      - REDIS_ADDR=redis:6379
+      - NATS_URL=nats://nats:4222
+      - OTEL_EXPORTER_OTLP_ENDPOINT=jaeger:4317
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    restart: on-failure
 
   membership-service:
     build:
@@ -72,6 +84,7 @@ services:
         condition: service_healthy
       asset-service:
         condition: service_started
+    restart: on-failure
 
   telemetry-service:
     build:
@@ -81,6 +94,12 @@ services:
       - "50053:50053"
     environment:
       - PORT=50053
+    depends_on:
+      postgres:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    restart: on-failure
 
   api-gateway:
     build:
@@ -93,8 +112,11 @@ services:
       - ASSET_SERVICE_ADDR=asset-service:50051
       - MEMBERSHIP_SERVICE_ADDR=membership-service:50052
     depends_on:
-      - asset-service
-      - membership-service
+      asset-service:
+        condition: service_started
+      membership-service:
+        condition: service_started
+    restart: on-failure
 
   prometheus:
     image: prom/prometheus:latest
@@ -111,6 +133,13 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: gym-jaeger
+    ports:
+      - "16686:16686"
+      - "4317:4317"
 
 volumes:
   pgdata:

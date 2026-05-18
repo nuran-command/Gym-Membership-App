@@ -13,29 +13,32 @@ import (
 )
 
 type membershipUseCase struct {
-	userRepo    domain.UserRepo
-	bookingRepo domain.BookingRepo
-	creditRepo  domain.CreditRepo
-	txManager   domain.TxManager
-	publisher   domain.MessagePublisher
-	assetClient asset.AssetServiceClient
+	userRepo       domain.UserRepo
+	bookingRepo    domain.BookingRepo
+	creditRepo     domain.CreditRepo
+	membershipRepo domain.MembershipRepo
+	txManager      domain.TxManager
+	publisher      domain.MessagePublisher
+	assetClient    asset.AssetServiceClient
 }
 
 func NewMembershipUseCase(
 	userRepo domain.UserRepo,
 	bookingRepo domain.BookingRepo,
 	creditRepo domain.CreditRepo,
+	membershipRepo domain.MembershipRepo,
 	txManager domain.TxManager,
 	publisher domain.MessagePublisher,
 	assetClient asset.AssetServiceClient,
 ) domain.MembershipUseCase {
 	return &membershipUseCase{
-		userRepo:    userRepo,
-		bookingRepo: bookingRepo,
-		creditRepo:  creditRepo,
-		txManager:   txManager,
-		publisher:   publisher,
-		assetClient: assetClient,
+		userRepo:       userRepo,
+		bookingRepo:    bookingRepo,
+		creditRepo:     creditRepo,
+		membershipRepo: membershipRepo,
+		txManager:      txManager,
+		publisher:      publisher,
+		assetClient:    assetClient,
 	}
 }
 
@@ -299,4 +302,94 @@ func (u *membershipUseCase) AddCredits(ctx context.Context, userID string, amoun
 
 func (u *membershipUseCase) GetUserBookings(ctx context.Context, userID string) ([]*domain.Booking, error) {
 	return u.bookingRepo.GetByUserID(ctx, userID)
+}
+
+func (u *membershipUseCase) CreateUser(ctx context.Context, name, email string, startingCredits int) (*domain.User, error) {
+	slog.Info("CreateUser request received", "name", name, "email", email, "starting_credits", startingCredits)
+
+	user := &domain.User{
+		ID:        uuid.New().String(),
+		Name:      name,
+		Email:     email,
+		Credits:   startingCredits,
+		CreatedAt: time.Now(),
+	}
+
+	err := u.txManager.WithTx(ctx, func(txCtx context.Context) error {
+		err := u.userRepo.Create(txCtx, user)
+		if err != nil {
+			return err
+		}
+
+		// Auto-create a standard active membership for the user
+		membership := &domain.Membership{
+			ID:        uuid.New().String(),
+			UserID:    user.ID,
+			Type:      "Standard",
+			Status:    "Active",
+			ExpiresAt: time.Now().AddDate(1, 0, 0), // 1 year expiration
+		}
+		err = u.membershipRepo.Create(txCtx, membership)
+		if err != nil {
+			return err
+		}
+
+		// Log welcome credits if > 0
+		if startingCredits > 0 {
+			txLog := &domain.CreditTransaction{
+				ID:        uuid.New().String(),
+				UserID:    user.ID,
+				Amount:    startingCredits,
+				Type:      "ADDITION",
+				Reason:    "Welcome Credits",
+				CreatedAt: time.Now(),
+			}
+			err = u.creditRepo.CreateTransaction(txCtx, txLog)
+			if err != nil {
+				return err
+			}
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		slog.Error("CreateUser transaction aborted", "error", err)
+		return nil, err
+	}
+
+	slog.Info("CreateUser successful", "user_id", user.ID)
+	return user, nil
+}
+
+func (u *membershipUseCase) GetUser(ctx context.Context, userID string) (*domain.User, error) {
+	return u.userRepo.GetByID(ctx, userID)
+}
+
+func (u *membershipUseCase) UpdateUser(ctx context.Context, userID, name, email string) (*domain.User, error) {
+	slog.Info("UpdateUser request received", "user_id", userID, "name", name, "email", email)
+
+	user, err := u.userRepo.GetByID(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Name = name
+	user.Email = email
+
+	err = u.userRepo.Update(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	slog.Info("UpdateUser successful", "user_id", userID)
+	return user, nil
+}
+
+func (u *membershipUseCase) GetUserMembership(ctx context.Context, userID string) (*domain.Membership, error) {
+	return u.membershipRepo.GetByUserID(ctx, userID)
+}
+
+func (u *membershipUseCase) GetCreditTransactions(ctx context.Context, userID string) ([]*domain.CreditTransaction, error) {
+	return u.creditRepo.GetByUserID(ctx, userID)
 }
