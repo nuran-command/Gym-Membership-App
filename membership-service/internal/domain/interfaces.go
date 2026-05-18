@@ -5,6 +5,8 @@ import "context"
 type UserRepo interface {
 	GetByID(ctx context.Context, id string) (*User, error)
 	UpdateCredits(ctx context.Context, userID string, amount int) error
+	Create(ctx context.Context, user *User) error
+	Update(ctx context.Context, user *User) error
 }
 
 type BookingRepo interface {
@@ -16,6 +18,13 @@ type BookingRepo interface {
 
 type CreditRepo interface {
 	CreateTransaction(ctx context.Context, tx *CreditTransaction) error
+	GetByUserID(ctx context.Context, userID string) ([]*CreditTransaction, error)
+}
+
+type MembershipRepo interface {
+	Create(ctx context.Context, membership *Membership) error
+	GetByUserID(ctx context.Context, userID string) (*Membership, error)
+	UpdateStatus(ctx context.Context, id string, status string) error
 }
 
 type TxManager interface {
@@ -36,4 +45,11 @@ type MembershipUseCase interface {
 	DeductCredits(ctx context.Context, userID string, amount int) error
 	AddCredits(ctx context.Context, userID string, amount int) error
 	GetUserBookings(ctx context.Context, userID string) ([]*Booking, error)
+
+	// 5 New methods
+	CreateUser(ctx context.Context, name, email string, startingCredits int) (*User, error)
+	GetUser(ctx context.Context, userID string) (*User, error)
+	UpdateUser(ctx context.Context, userID, name, email string) (*User, error)
+	GetUserMembership(ctx context.Context, userID string) (*Membership, error)
+	GetCreditTransactions(ctx context.Context, userID string) ([]*CreditTransaction, error)
 }

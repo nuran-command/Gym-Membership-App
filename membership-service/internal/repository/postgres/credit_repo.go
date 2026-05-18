@@ -23,3 +23,16 @@ func (r *creditRepo) CreateTransaction(ctx context.Context, tx *domain.CreditTra
 	)
 	return err
 }
+
+func (r *creditRepo) GetByUserID(ctx context.Context, userID string) ([]*domain.CreditTransaction, error) {
+	q := getQueryer(ctx, r.db)
+	var transactions []*domain.CreditTransaction
+	err := sqlx.SelectContext(ctx, q, &transactions,
+		"SELECT id, user_id, amount, type, reason, created_at FROM credit_transactions WHERE user_id = $1 ORDER BY created_at DESC",
+		userID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}

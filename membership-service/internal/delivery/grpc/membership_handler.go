@@ -96,3 +96,80 @@ func (h *MembershipHandler) GetUserBookings(ctx context.Context, req *membership
 
 	return &membership.BookingList{Bookings: pbBookings}, nil
 }
+
+func (h *MembershipHandler) CreateUser(ctx context.Context, req *membership.CreateUserRequest) (*membership.UserResponse, error) {
+	user, err := h.useCase.CreateUser(ctx, req.Name, req.Email, int(req.StartingCredits))
+	if err != nil {
+		return nil, err
+	}
+	return &membership.UserResponse{
+		Id:        user.ID,
+		Name:      user.Name,
+		Email:     user.Email,
+		Credits:   int32(user.Credits),
+		CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
+	}, nil
+}
+
+func (h *MembershipHandler) GetUser(ctx context.Context, req *membership.GetUserRequest) (*membership.UserResponse, error) {
+	user, err := h.useCase.GetUser(ctx, req.UserId)
+	if err != nil {
+		return nil, err
+	}
+	return &membership.UserResponse{
+		Id:        user.ID,
+		Name:      user.Name,
+		Email:     user.Email,
+		Credits:   int32(user.Credits),
+		CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
+	}, nil
+}
+
+func (h *MembershipHandler) UpdateUser(ctx context.Context, req *membership.UpdateUserRequest) (*membership.UserResponse, error) {
+	user, err := h.useCase.UpdateUser(ctx, req.UserId, req.Name, req.Email)
+	if err != nil {
+		return nil, err
+	}
+	return &membership.UserResponse{
+		Id:        user.ID,
+		Name:      user.Name,
+		Email:     user.Email,
+		Credits:   int32(user.Credits),
+		CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
+	}, nil
+}
+
+func (h *MembershipHandler) GetUserMembership(ctx context.Context, req *membership.GetUserMembershipRequest) (*membership.MembershipResponse, error) {
+	m, err := h.useCase.GetUserMembership(ctx, req.UserId)
+	if err != nil {
+		return nil, err
+	}
+	return &membership.MembershipResponse{
+		Id:        m.ID,
+		UserId:    m.UserID,
+		Type:      m.Type,
+		Status:    m.Status,
+		ExpiresAt: m.ExpiresAt.Format("2006-01-02 15:04:05"),
+	}, nil
+}
+
+func (h *MembershipHandler) GetCreditTransactions(ctx context.Context, req *membership.GetCreditTransactionsRequest) (*membership.TransactionListResponse, error) {
+	txs, err := h.useCase.GetCreditTransactions(ctx, req.UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pbTxs []*membership.CreditTransaction
+	for _, tx := range txs {
+		pbTxs = append(pbTxs, &membership.CreditTransaction{
+			Id:        tx.ID,
+			UserId:    tx.UserID,
+			Amount:    int32(tx.Amount),
+			Type:      tx.Type,
+			Reason:    tx.Reason,
+			CreatedAt: tx.CreatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+
+	return &membership.TransactionListResponse{Transactions: pbTxs}, nil
+}

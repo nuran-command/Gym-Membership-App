@@ -45,3 +45,31 @@ func (r *userRepo) UpdateCredits(ctx context.Context, userID string, amount int)
 	}
 	return nil
 }
+
+func (r *userRepo) Create(ctx context.Context, user *domain.User) error {
+	q := getQueryer(ctx, r.db)
+	_, err := q.ExecContext(ctx,
+		"INSERT INTO users (id, name, email, credits, created_at) VALUES ($1, $2, $3, $4, $5)",
+		user.ID, user.Name, user.Email, user.Credits, user.CreatedAt,
+	)
+	return err
+}
+
+func (r *userRepo) Update(ctx context.Context, user *domain.User) error {
+	q := getQueryer(ctx, r.db)
+	res, err := q.ExecContext(ctx,
+		"UPDATE users SET name = $1, email = $2 WHERE id = $3",
+		user.Name, user.Email, user.ID,
+	)
+	if err != nil {
+		return err
+	}
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if rowsAffected == 0 {
+		return errors.New("user not found for update")
+	}
+	return nil
+}

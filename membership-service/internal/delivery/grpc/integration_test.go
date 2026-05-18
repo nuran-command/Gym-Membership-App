@@ -185,12 +185,13 @@ func TestCreateBooking_Integration(t *testing.T) {
 	userRepo := postgres.NewUserRepo(db)
 	bookingRepo := postgres.NewBookingRepo(db)
 	creditRepo := postgres.NewCreditRepo(db)
+	membershipRepo := postgres.NewMembershipRepo(db)
 	txManager := postgres.NewTxManager(db)
 
 	mockAsset := new(MockAssetServiceClient)
 	mockPub := new(MockMessagePublisher)
 
-	useCase := usecase.NewMembershipUseCase(userRepo, bookingRepo, creditRepo, txManager, mockPub, mockAsset)
+	useCase := usecase.NewMembershipUseCase(userRepo, bookingRepo, creditRepo, membershipRepo, txManager, mockPub, mockAsset)
 
 	t.Run("CreateBooking_InsufficientCredits_RollsBackTransaction", func(t *testing.T) {
 		userID := "user-poor"

@@ -4,6 +4,7 @@ package membership;
 option go_package = "./membership";
 
 service MembershipService {
+  // Existing 7 methods
   rpc CreateBooking(CreateBookingRequest) returns (Booking);
   rpc CancelBooking(CancelBookingRequest) returns (Booking);
   rpc ReturnBooking(ReturnBookingRequest) returns (Booking);
@@ -11,6 +12,13 @@ service MembershipService {
   rpc DeductCredits(DeductCreditsRequest) returns (CreditsResponse);
   rpc GetUserBookings(GetUserBookingsRequest) returns (BookingList);
   rpc AddCredits(AddCreditsRequest) returns (CreditsResponse);
+
+  // 5 New methods to reach exactly 12 endpoints
+  rpc CreateUser(CreateUserRequest) returns (UserResponse);
+  rpc GetUser(GetUserRequest) returns (UserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
+  rpc GetUserMembership(GetUserMembershipRequest) returns (MembershipResponse);
+  rpc GetCreditTransactions(GetCreditTransactionsRequest) returns (TransactionListResponse);
 }
 
 message Booking {
@@ -62,4 +70,58 @@ message GetUserBookingsRequest {
 
 message BookingList {
   repeated Booking bookings = 1;
+}
+
+// Messages for 5 new endpoints
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  int32 starting_credits = 3;
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message UpdateUserRequest {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message UserResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  int32 credits = 4;
+  string created_at = 5;
+}
+
+message GetUserMembershipRequest {
+  string user_id = 1;
+}
+
+message MembershipResponse {
+  string id = 1;
+  string user_id = 2;
+  string type = 3;
+  string status = 4;
+  string expires_at = 5;
+}
+
+message GetCreditTransactionsRequest {
+  string user_id = 1;
+}
+
+message CreditTransaction {
+  string id = 1;
+  string user_id = 2;
+  int32 amount = 3;
+  string type = 4;
+  string reason = 5;
+  string created_at = 6;
+}
+
+message TransactionListResponse {
+  repeated CreditTransaction transactions = 1;
 }
