@@ -20,6 +20,7 @@ import (
 	"github.com/ilnur/gym-membership-app/telemetry-service/internal/delivery/subscriber"
 	"github.com/ilnur/gym-membership-app/telemetry-service/internal/repository/postgres"
 	"github.com/ilnur/gym-membership-app/telemetry-service/internal/usecase"
+	"github.com/ilnur/gym-membership-app/telemetry-service/internal/domain"
 	"github.com/ilnur/gym-membership-app/telemetry-service/internal/observability"
 	telemetry "github.com/ilnur/gym-membership-app/telemetry-service/proto"
 )
@@ -93,7 +94,7 @@ func main() {
 	smtpPort, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
 	smtpUser := os.Getenv("SMTP_USER")
 	smtpPass := os.Getenv("SMTP_PASS")
-	var emailSender *email.SMTPEmailSender
+	var emailSender domain.EmailSender
 	if smtpHost != "" && smtpUser != "" {
 		emailSender = email.NewSMTPEmailSender(smtpHost, smtpPort, smtpUser, smtpPass)
 	}

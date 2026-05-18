@@ -595,6 +595,8 @@ async function createMember(event) {
             });
             if (response.ok) {
                 newUser = await response.json();
+                // Cache user details locally to populate dropdown lists
+                mockData.users.push(newUser);
                 showToast(`Member ${name} registered successfully!`, 'success');
                 logTelemetryEvent('MEMBERSHIP', 'SUCCESS', `Created live database user ${name}`, newUser);
                 document.getElementById('form-create-member').reset();
@@ -763,6 +765,39 @@ async function lookupUserProfile() {
 async function loadAllUsers() {
     showToast('Reloading member lists from databases...', 'info');
     await loadUsers();
+}
+
+async function lookupCustomUser() {
+    const customId = document.getElementById('custom-user-id-input').value.trim();
+    if (!customId) {
+        showToast('Please enter a User ID first.', 'error');
+        return;
+    }
+    
+    // Check if it already exists in our active user list
+    let exists = mockData.users.find(u => u.id === customId);
+    if (!exists) {
+        showToast('Fetching profile details from live database...', 'info');
+        try {
+            const uRes = await fetch(`${API_BASE_URL}/users/${customId}`);
+            if (uRes.ok) {
+                const user = await uRes.json();
+                mockData.users.push(user);
+                await loadUsers(); // reload select menus so this user appears everywhere
+                showToast(`Successfully loaded user ${user.name} from database!`, 'success');
+            } else {
+                showToast('Member ID not found in live database.', 'error');
+                return;
+            }
+        } catch(e) {
+            showToast('Gateway offline. Unable to lookup this User ID.', 'error');
+            return;
+        }
+    }
+    
+    // Set the select element and trigger standard lookup card render
+    document.getElementById('profile-lookup-select').value = customId;
+    await lookupUserProfile();
 }
 
 // Create Asset / Register Equipment

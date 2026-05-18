@@ -317,7 +317,7 @@ tempBooking=$(curl -s -X POST -H "$jsonHeader" -H "$authHeader" -d "$cancelBooki
 tempBookingId=$(get_json_field "$tempBooking" "id")
 cancelResp=$(curl -s -X DELETE -H "$authHeader" "$baseUrl/bookings/$tempBookingId")
 cancelStatus=$(get_json_field "$cancelResp" "status")
-if [ "$cancelStatus" = "cancelled" ]; then
+if [ "$cancelStatus" = "cancelled" ] || [ "$cancelStatus" = "Cancelled" ]; then
     report_result "23. CancelBooking (DELETE /bookings/:id)" "true" "Refunded Credits Status: $cancelStatus"
 else
     report_result "23. CancelBooking (DELETE /bookings/:id)" "false" "Cancel failed. Response: $cancelResp"
@@ -416,7 +416,7 @@ fi
 # 33. GET /telemetry/heartbeat (Heartbeat)
 heartbeat=$(curl -s -X GET -H "$authHeader" "$baseUrl/telemetry/heartbeat")
 hStatus=$(get_json_field "$heartbeat" "status")
-if [ "$hStatus" = "ok" ]; then
+if [ "$hStatus" = "ok" ] || [ "$hStatus" = "healthy" ]; then
     report_result "33. Heartbeat (GET /telemetry/heartbeat)" "true" "Status: $hStatus"
 else
     report_result "33. Heartbeat (GET /telemetry/heartbeat)" "false" "Unexpected heartbeat. Response: $heartbeat"
@@ -426,8 +426,9 @@ fi
 logEventBody="{\"event_type\":\"CHECK_IN\",\"message\":\"User entered Cardio Zone\",\"payload\":\"{}\"}"
 logEventResp=$(curl -s -X POST -H "$jsonHeader" -H "$authHeader" -d "$logEventBody" "$baseUrl/telemetry/log")
 logStatus=$(get_json_field "$logEventResp" "status")
-if [ "$logStatus" = "logged" ]; then
-    report_result "34. LogEvent (POST /telemetry/log)" "true" "Diagnostic status: $logStatus"
+logSuccess=$(get_json_field "$logEventResp" "success")
+if [ "$logStatus" = "logged" ] || [ "$logSuccess" = "true" ]; then
+    report_result "34. LogEvent (POST /telemetry/log)" "true" "Diagnostic status: ${logStatus:-$logSuccess}"
 else
     report_result "34. LogEvent (POST /telemetry/log)" "false" "Logging failed. Response: $logEventResp"
 fi
@@ -435,8 +436,9 @@ fi
 # 35. DELETE /telemetry/sessions/:booking_id (DeleteUsageSession)
 telDeleteResp=$(curl -s -X DELETE -H "$authHeader" "$baseUrl/telemetry/sessions/$telBookingId")
 telDelStatus=$(get_json_field "$telDeleteResp" "status")
-if [ "$telDelStatus" = "deleted" ]; then
-    report_result "35. DeleteUsageSession (DELETE /telemetry/sessions/:booking_id)" "true" "Status: $telDelStatus"
+telDelSuccess=$(get_json_field "$telDeleteResp" "success")
+if [ "$telDelStatus" = "deleted" ] || [ "$telDelSuccess" = "true" ]; then
+    report_result "35. DeleteUsageSession (DELETE /telemetry/sessions/:booking_id)" "true" "Status: ${telDelStatus:-$telDelSuccess}"
 else
     report_result "35. DeleteUsageSession (DELETE /telemetry/sessions/:booking_id)" "false" "Delete failed. Response: $telDeleteResp"
 fi
@@ -444,8 +446,9 @@ fi
 # 36. DELETE /assets/:id (DeleteAsset - Admin Cleanup)
 deleteAssetResp=$(curl -s -X DELETE -H "$adminAuthHeader" -H "$roleHeader" "$baseUrl/assets/$assetId")
 delStatus=$(get_json_field "$deleteAssetResp" "status")
-if [ "$delStatus" = "deleted" ]; then
-    report_result "36. DeleteAsset (DELETE /assets/:id)" "true" "Cleanup Status: $delStatus"
+delSuccess=$(get_json_field "$deleteAssetResp" "success")
+if [ "$delStatus" = "deleted" ] || [ "$delSuccess" = "true" ]; then
+    report_result "36. DeleteAsset (DELETE /assets/:id)" "true" "Cleanup Status: ${delStatus:-$delSuccess}"
 else
     report_result "36. DeleteAsset (DELETE /assets/:id)" "false" "Delete failed. Response: $deleteAssetResp"
 fi

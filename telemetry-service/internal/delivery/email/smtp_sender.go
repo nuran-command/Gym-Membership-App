@@ -40,6 +40,9 @@ const emailTemplateHTML = `
 `
 
 func (s *SMTPEmailSender) SendThankYouEmail(ctx context.Context, emailAddress string, session *domain.UsageSession) error {
+	if s == nil {
+		return nil
+	}
 	t, err := template.New("email").Parse(emailTemplateHTML)
 	if err != nil {
 		return fmt.Errorf("failed to parse template: %w", err)
